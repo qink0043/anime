@@ -51,5 +51,11 @@ const search = () => {
   padding: 10px;
   border-bottom: 1px solid #7f7f7f;
   z-index: 999;
+
+  .left {
+    .title:hover {
+      cursor: pointer;
+    }
+  }
 }
 </style>
