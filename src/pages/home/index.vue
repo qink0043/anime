@@ -18,21 +18,20 @@
       <div class="left">
         <div class="new">
           <div class="up">
-            <p class="title">标题</p>
+            <p class="title">2025春季热播</p>
             <p class="more">更多</p>
           </div>
           <div class="down">
-
-
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
-              <swiper-slide v-for="i in 10">
-                <div style="width: 140px; height: 180px; background-color: red;"></div>
+              <swiper-slide v-for="item in animeStore.seasonAnimeList">
+                <div class="swiper-content">
+                  <img :src="item.images.jpg.image_url">
+                  <span>{{ item.title_japanese }}</span>
+                </div>
               </swiper-slide>
               <div class="swiper-button-prev" />
               <div class="swiper-button-next" />
             </swiper>
-
-
           </div>
         </div>
       </div>
@@ -147,6 +146,7 @@ const modules = [Navigation]
 
 onMounted(() => {
   animeStore.getTopAnimes()
+  animeStore.getSeasonAnimes(2025, 'spring')
 })
 
 
@@ -244,11 +244,53 @@ onMounted(() => {
             width: 100%;
             height: 180px;
 
+            .swiper-content {
+              position: relative;
+              width: 140px;
+              overflow: hidden;
+              display: inline-block;
+              box-shadow: inset 0 -15px 15px -10px black;
+
+              img {
+                width: 140px;
+                height: 180px;
+              }
+
+              &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 25px;
+                background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.85) 0%,
+                    rgba(0, 0, 0, 0.5) 60%,
+                    rgba(0, 0, 0, 0) 100%);
+                pointer-events: none;
+                filter: blur(1px);
+              }
+
+              span {
+                height: 20px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                color: white;
+                max-width: 120px;
+                font-size: 12px;
+                z-index: 1;
+              }
+            }
+
             .swiper-button-prev,
             .swiper-button-next {
-              opacity: 0; 
-              visibility: hidden; 
-              transition: all 0.3s ease; 
+              opacity: 0;
+              visibility: hidden;
+              transition: all 0.3s ease;
             }
 
             &:hover {
