@@ -2,17 +2,8 @@
   <div class="home">
     <div class="top">
       <img src="@/assets/img/top.png" alt="">
-      <div class="top-nav">
-        <div class="topAndMenu" v-for="(menu, index) in menus" :key="index" @mouseenter="activeMenu = index"
-          @mouseleave="activeMenu = null">
-          <p class="top-p" :class="{ 'active': activeMenu === index }">{{ menu.title }}</p>
-          <div class="menu" v-show="activeMenu === index" @mouseenter="activeMenu = index">
-            <div class="p" v-for="(item, i) in menu.items" :key="i">
-              <p>{{ item }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- 顶部导航占位 -->
+      <Menu />
     </div>
     <div class="content">
       <div class="left">
@@ -114,6 +105,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import Menu from '@/components/menu/index.vue'
 
 const navigation = ref({
   nextEl: ".swiper-button-next",
@@ -121,26 +113,6 @@ const navigation = ref({
 });
 
 const animeStore = useAnimeStore()
-const activeMenu = ref(null)
-
-const menus = [
-  {
-    title: '动漫',
-    items: ['动漫搜索', '热门动漫', '视频', '评论']
-  },
-  {
-    title: '漫画',
-    items: ['兴趣推荐', '论坛', '博客', '用户']
-  },
-  {
-    title: '社区',
-    items: ['动漫搜索', '热门动漫', '视频', '评论']
-  },
-  {
-    title: '帮助',
-    items: ['关于', '支持我们', '更多问题', '开发人员']
-  }
-]
 //定义swpier模块
 const modules = [Navigation]
 
@@ -159,60 +131,6 @@ onMounted(() => {
     flex-direction: column;
     justify-content: center;
     margin-bottom: 10px;
-
-    .top-nav {
-      background-color: #2E51A2;
-      height: 40px;
-      color: white;
-      display: flex;
-      position: relative;
-
-      .topAndMenu {
-        position: relative;
-
-        .menu {
-          background-color: white;
-          position: absolute;
-          top: 40px;
-          left: 0;
-          min-width: 90px;
-          z-index: 100;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
-          .p {
-            padding: 5px;
-
-            p {
-              height: 40px;
-              line-height: 40px;
-              color: black;
-            }
-          }
-
-          .p:hover {
-            cursor: pointer;
-            background-color: #2E51A2;
-
-            p {
-              color: white;
-            }
-          }
-        }
-      }
-
-      .top-p {
-        width: 90px;
-        text-align: center;
-        line-height: 40px;
-
-        &.active,
-        &:hover {
-          background-color: white;
-          color: black;
-          cursor: pointer;
-        }
-      }
-    }
   }
 
   .content {
@@ -241,6 +159,7 @@ onMounted(() => {
         .down {
 
           margin-top: 10px;
+
           .swiper {
             width: 100%;
             height: 180px;
