@@ -3,17 +3,21 @@
     <div class="top">
       <img src="@/assets/img/top.png" alt="">
       <div class="top-nav">
-        <div class="left">
-          <p>动漫</p>
-          <p>漫画</p>
-          <p>社区</p>
-          <p>帮助</p>
+        <div class="topAndMenu" v-for="(menu, index) in menus" :key="index" @mouseenter="activeMenu = index"
+          @mouseleave="activeMenu = null">
+          <p class="top-p" :class="{ 'active': activeMenu === index }">{{ menu.title }}</p>
+          <div class="menu" v-show="activeMenu === index" @mouseenter="activeMenu = index">
+            <div class="p" v-for="(item, i) in menu.items" :key="i">
+              <p>{{ item }}</p>
+            </div>
+          </div>
         </div>
-        <div class="right"></div>
       </div>
     </div>
     <div class="content">
-      <div class="left">左侧</div>
+      <div class="left">
+
+      </div>
       <div class="right">
         <div class="hot topAiring">
           <div class="hot-title">
@@ -82,9 +86,30 @@
 
 <script setup>
 import { useAnimeStore } from '@/store/anime';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const animeStore = useAnimeStore()
+const activeMenu = ref(null)
+
+const menus = [
+  {
+    title: '动漫',
+    items: ['动漫搜索', '热门动漫', '视频', '评论']
+  },
+  {
+    title: '漫画',
+    items: ['兴趣推荐', '论坛', '博客', '用户']
+  },
+  {
+    title: '社区',
+    items: ['动漫搜索', '热门动漫', '视频', '评论']
+  },
+  {
+    title: '帮助',
+    items: ['关于', '支持我们', '更多问题', '开发人员']
+  }
+]
+
 onMounted(() => {
   animeStore.getTopAnimes()
 })
@@ -96,22 +121,55 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 10px;
 
     .top-nav {
       background-color: #2E51A2;
       height: 40px;
       color: white;
+      display: flex;
+      position: relative;
 
-      .left {
-        display: flex;
+      .topAndMenu {
+        position: relative;
 
-        p {
-          width: 90px;
-          text-align: center;
-          line-height: 40px;
+        .menu {
+          background-color: white;
+          position: absolute;
+          top: 40px;
+          left: 0;
+          min-width: 90px;
+          z-index: 100;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+          .p {
+            padding: 5px;
+
+            p {
+              height: 40px;
+              line-height: 40px;
+              color: black;
+            }
+          }
+
+          .p:hover {
+            cursor: pointer;
+            background-color: #2E51A2;
+
+            p {
+              color: white;
+            }
+          }
         }
+      }
 
-        p:hover {
+      .top-p {
+        width: 90px;
+        text-align: center;
+        line-height: 40px;
+
+        &.active,
+        &:hover {
           background-color: white;
           color: black;
           cursor: pointer;
@@ -125,8 +183,8 @@ onMounted(() => {
 
     .left {
       width: 925px;
-      background-color: red;
       padding: 10px;
+      position: relative;
     }
 
     .right {
@@ -136,6 +194,7 @@ onMounted(() => {
       width: 400px;
       padding: 10px;
       gap: 30px;
+      border-left: 1px solid #DDE1EC;
 
       .hot-title {
         display: flex;
@@ -154,6 +213,7 @@ onMounted(() => {
         display: flex;
         justify-content: space-between;
         padding: 5px;
+        background-color: #F8F8F8;
 
         .number {
           width: 40px;
