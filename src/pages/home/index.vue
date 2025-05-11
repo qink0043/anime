@@ -16,7 +16,25 @@
     </div>
     <div class="content">
       <div class="left">
+        <div class="new">
+          <div class="up">
+            <p class="title">标题</p>
+            <p class="more">更多</p>
+          </div>
+          <div class="down">
 
+
+            <swiper :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
+              <swiper-slide v-for="i in 10">
+                <div style="width: 140px; height: 180px; background-color: red;"></div>
+              </swiper-slide>
+              <div class="swiper-button-prev" />
+              <div class="swiper-button-next" />
+            </swiper>
+
+
+          </div>
+        </div>
       </div>
       <div class="right">
         <div class="hot topAiring">
@@ -36,7 +54,9 @@
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
-            <div class="add">收藏</div>
+            <div class="add">
+              <p>收藏</p>
+            </div>
           </div>
         </div>
         <div class="hot topupcoming">
@@ -56,7 +76,9 @@
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
-            <div class="add">收藏</div>
+            <div class="add">
+              <p>收藏</p>
+            </div>
           </div>
         </div>
         <div class="hot popular">
@@ -76,7 +98,9 @@
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
-            <div class="add">收藏</div>
+            <div class="add">
+              <p>收藏</p>
+            </div>
           </div>
         </div>
       </div>
@@ -87,6 +111,15 @@
 <script setup>
 import { useAnimeStore } from '@/store/anime';
 import { onMounted, ref } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+const navigation = ref({
+  nextEl: ".swiper-button-next",
+  prevEl: ".swiper-button-prev",
+});
 
 const animeStore = useAnimeStore()
 const activeMenu = ref(null)
@@ -109,10 +142,14 @@ const menus = [
     items: ['关于', '支持我们', '更多问题', '开发人员']
   }
 ]
+//定义swpier模块
+const modules = [Navigation]
 
 onMounted(() => {
   animeStore.getTopAnimes()
 })
+
+
 </script>
 
 <style scoped lang="scss">
@@ -182,16 +219,65 @@ onMounted(() => {
     display: flex;
 
     .left {
-      width: 925px;
+      min-width: 650px;
+      max-width: 650px;
       padding: 10px;
       position: relative;
+
+      .new {
+        width: 100%;
+
+        .up {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid #BEBEBE;
+          padding: 5px 0;
+
+          .more {
+            color: #1C439B;
+          }
+        }
+
+        .down {
+
+          .swiper {
+            width: 100%;
+            height: 180px;
+
+            .swiper-button-prev,
+            .swiper-button-next {
+              opacity: 0; 
+              visibility: hidden; 
+              transition: all 0.3s ease; 
+            }
+
+            &:hover {
+
+              .swiper-button-prev,
+              .swiper-button-next {
+                opacity: 1;
+                visibility: visible;
+              }
+            }
+          }
+
+          .img {
+            img {
+              height: 270px;
+              width: 200px;
+              border: 1px solid black;
+              margin-right: 5px;
+            }
+          }
+        }
+      }
     }
 
     .right {
+      width: 400px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 400px;
       padding: 10px;
       gap: 30px;
       border-left: 1px solid #DDE1EC;
@@ -202,21 +288,45 @@ onMounted(() => {
         height: 40px;
         line-height: 40px;
         background-color: #DDE1EC;
-        border-bottom: 1px solid black;
+        padding: 0 15px;
 
-        p {
-          margin: 0 5px;
+        p:first-child {
+          font-weight: 900;
+          font-size: 14px;
+        }
+
+        p:last-child {
+          font-weight: 500;
+          font-size: 13px;
+          color: #1C439B;
         }
       }
 
       .hot-content {
         display: flex;
         justify-content: space-between;
-        padding: 5px;
+        padding: 15px;
         background-color: #F8F8F8;
 
         .number {
           width: 40px;
+          font-weight: 900;
+          color: #808080;
+        }
+
+        .add {
+          font-size: 10px;
+          width: 30px;
+          display: inline-block;
+          color: #1C439B;
+          padding-bottom: 80px;
+
+          p {
+            background-color: #E1E7F5;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+          }
         }
 
         .content {
@@ -237,6 +347,15 @@ onMounted(() => {
           }
 
           .info {
+            .name {
+              color: #1C439B;
+              line-height: 20px;
+            }
+
+            .name:hover {
+              text-decoration: underline;
+            }
+
             .tips {
               margin-top: 15px;
               color: #808080;
