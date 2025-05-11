@@ -2,7 +2,7 @@
   <div class="home">
     <div class="top">
       <img src="@/assets/img/top.png" alt="">
-      <!-- 顶部导航占位 -->
+      <!-- 顶部导航 -->
       <Menu />
     </div>
     <div class="content">
@@ -16,6 +16,32 @@
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
               <swiper-slide v-for="item in animeStore.seasonAnimeList">
                 <Icon :url="item.images.jpg.image_url" :name="item.title_japanese" />
+              </swiper-slide>
+              <div class="swiper-button-prev" />
+              <div class="swiper-button-next" />
+            </swiper>
+          </div>
+        </div>
+        <div class="popular">
+          <div class="up">
+            <p class="title">最受欢迎的预告片</p>
+            <p class="more">更多</p>
+          </div>
+          <div class="down">
+            <swiper :navigation="navigation" :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
+              <swiper-slide v-for="item in animeStore.topPopularAnimesList">
+                <div class="image-container">
+                  <Icon @click="videoPlay(item.trailer.embed_url)" style="width: 270px; height: 150px;" :url="item.images.jpg.image_url"
+                    :name="item.title_japanese" />
+                  <div class="play-icon">
+                    <svg t="1746976513402" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                      xmlns="http://www.w3.org/2000/svg" p-id="2646" width="32" height="32">
+                      <path
+                        d="M507.456 64C262.528 64 64 262.752 64 507.904c0 245.12 198.528 443.872 443.456 443.872 244.896 0 443.456-198.752 443.456-443.872C950.912 262.752 752.352 64 507.456 64z m0 843.408c-220.432 0-399.136-178.88-399.136-399.504C108.32 287.2 287.04 108.368 507.456 108.368c220.432 0 399.136 178.88 399.136 399.536 0 220.624-178.704 399.504-399.136 399.504z m201.28-430.96C639.76 429.44 514.656 359.072 443.36 315.52c-29.232-18.496-53.776-11.088-56.144 21.504-1.728 87.248 0 255.52 0 344.32 1.44 33.04 30.592 37.408 55.92 24.08L708.16 544.736c-0.496-0.272 54.272-30.464 0.592-68.288z"
+                        fill="#000000" p-id="2647"></path>
+                    </svg>
+                  </div>
+                </div>
               </swiper-slide>
               <div class="swiper-button-prev" />
               <div class="swiper-button-next" />
@@ -93,6 +119,7 @@
       </div>
     </div>
   </div>
+  <Video :url="vidoeUrl" v-model="videoIsShow" />
 </template>
 
 <script setup>
@@ -104,6 +131,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
+import Video from '@/components/video/index.vue'
 
 const navigation = ref({
   nextEl: ".swiper-button-next",
@@ -118,7 +146,15 @@ onMounted(() => {
   animeStore.getTopAnimes()
   animeStore.getSeasonAnimes(2025, 'spring')
 })
-
+//控制播放器显示与隐藏
+const videoIsShow = ref(false)
+//播放器播放的视频的链接
+const vidoeUrl = ref('')
+//点击播放的回调
+const videoPlay = (url) => {
+  videoIsShow.value = true
+  vidoeUrl.value = url
+}
 
 </script>
 
@@ -140,51 +176,55 @@ onMounted(() => {
       padding: 10px;
       position: relative;
 
-      .new {
-        width: 100%;
+      .up {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #BEBEBE;
+        padding: 5px 0;
 
-        .up {
-          display: flex;
-          justify-content: space-between;
-          border-bottom: 1px solid #BEBEBE;
-          padding: 5px 0;
+        .more {
+          color: #1C439B;
+        }
+      }
 
-          .more {
-            color: #1C439B;
+      .down {
+        margin-top: 10px;
+
+        .image-container {
+          position: relative;
+          display: inline-block;
+
+          .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 2px solid black;
+            border-radius: 12px;
+            padding: 0 5px;
+            box-shadow: 0 0 5px;
+            pointer-events: none;
           }
         }
 
-        .down {
+        .swiper {
+          width: 100%;
+          height: 150px;
 
-          margin-top: 10px;
+          .swiper-button-prev,
+          .swiper-button-next {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+          }
 
-          .swiper {
-            width: 100%;
-            height: 180px;
+          &:hover {
 
             .swiper-button-prev,
             .swiper-button-next {
-              opacity: 0;
-              visibility: hidden;
-              transition: all 0.3s ease;
-            }
-
-            &:hover {
-
-              .swiper-button-prev,
-              .swiper-button-next {
-                opacity: 1;
-                visibility: visible;
-              }
-            }
-          }
-
-          .img {
-            img {
-              height: 270px;
-              width: 200px;
-              border: 1px solid black;
-              margin-right: 5px;
+              opacity: 1;
+              visibility: visible;
             }
           }
         }

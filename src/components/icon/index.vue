@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   url: {
     type: String,
     default: ''
@@ -22,6 +22,7 @@ const props = defineProps({
 .icon {
   position: relative;
   width: 140px;
+  height: 180px;
   overflow: hidden;
   display: inline-block;
   box-shadow: inset 0 -15px 15px -10px black;
@@ -30,13 +31,14 @@ const props = defineProps({
   &:hover img {
     cursor: pointer;
     opacity: 0.7;
-    cursor: pointer;
   }
 
   img {
-    width: 140px;
-    height: 180px;
     transition: all 0.5s;
+    width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   &::after {
