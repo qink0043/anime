@@ -5,7 +5,7 @@
       <p class="top-p" :class="{ 'active': activeMenu === index }">{{ menu.title }}</p>
       <div class="menu" v-show="activeMenu === index" @mouseenter="activeMenu = index">
         <div class="p" v-for="(item, index) in menu.items" :key="index">
-          <p @click="topMenuItem">{{ item }}</p>
+          <p @click="topMenuItem(item.path)">{{ item.name }}</p>
         </div>
       </div>
     </div>
@@ -14,24 +14,41 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const $router = useRouter()
 const activeMenu = ref(null)
-
+//点击菜单项的回调
+const topMenuItem = (path) => {
+  $router.push(path)
+}
 const menus = [
   {
     title: '动漫',
-    items: ['动漫搜索', '热门动漫', '视频', '评论']
+    items: [{ name: '动漫搜索', path: '/anime/search' },
+    { name: '热门动漫', path: '/topanime' },
+    { name: '视频', path: '/watch/esicope' },
+    { name: '评论', path: '/reviews' }]
   },
   {
     title: '漫画',
-    items: ['兴趣推荐', '论坛', '博客', '用户']
+    items: [{ name: '兴趣推荐', path: '/anime/search' },
+    { name: '论坛', path: '/topanime' },
+    { name: '博客', path: '/watch/esicope' },
+    { name: '用户', path: '/reviews' }]
   },
   {
     title: '社区',
-    items: ['动漫搜索', '热门动漫', '视频', '评论']
+    items: [{ name: '动漫搜索', path: '/anime/search' },
+    { name: '热门动漫', path: '/topanime' },
+    { name: '视频', path: '/watch/esicope' },
+    { name: '评论', path: '/reviews' }]
   },
   {
     title: '帮助',
-    items: ['关于', '支持我们', '更多问题', '开发人员']
+    items: [{ name: '关于', path: '/anime/search' },
+    { name: '支持我们', path: '/topanime' },
+    { name: '更多问题', path: '/watch/esicope' },
+    { name: '开发人员', path: '/reviews' }]
   }
 ]
 </script>
