@@ -19,11 +19,10 @@
   align-items: center;
 
   .content {
-    height: 1000px;
     margin-top: 45px;
     width: 70%;
     border: 1px solid #7f7f7f;
-    background-color: rgba($color: white, $alpha: 0.3);
+    background-color: rgba($color: white, $alpha: 0.7);
   }
 }
 </style>

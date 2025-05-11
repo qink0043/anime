@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="animer" v-for="i in searchStore.searchAnimesList" :key="i.mal_id" @click="goDetail(i.mal_id)">
+    <div class="animer" v-for="i in animeStore.searchAnimesList" :key="i.mal_id" @click="goDetail(i.mal_id)">
       <div class="img">
         <img :src="i.images.jpg.image_url" alt="">
       </div>
@@ -14,13 +14,13 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRoute,useRouter } from 'vue-router';
-import { useSearchStore } from '@/store';
+import { useAnimeStore } from '@/store/anime';
 const $route = useRoute()
 const $router = useRouter()
-const searchStore = useSearchStore()
+const animeStore = useAnimeStore()
 const keyword = ref($route.query.search)
 onMounted(() => {
-  searchStore.getSearchAnimes(keyword.value)
+  animeStore.getSearchAnimes(keyword.value)
 })
 //点击某个动漫的回调
 const goDetail = (id) => {
