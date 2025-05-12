@@ -41,9 +41,17 @@
             <div class="rank">Members</div>
           </div>
         </div>
-        <Video class="pv" @click="openVideoPlyer(animeStore.animeDetail.trailer.embed_url)"
+        <Video class="pv" v-if="animeStore.animeDetail.trailer.embed_url" @click="openVideoPlyer(animeStore.animeDetail.trailer.embed_url)"
           :name="animeStore.animeDetail.title_japanese"
           :imgUrl="animeStore.animeDetail.trailer?.images.large_image_url" />
+      </div>
+      <div class="introduce">
+        <div class="introduce-title">故事梗概</div>
+        <div class="introduce-content">{{ animeStore.animeDetail.synopsis }}</div>
+      </div>
+      <div class="introduce">
+        <div class="introduce-title">背景</div>
+        <div class="introduce-content">{{ animeStore.animeDetail.background }}</div>
       </div>
     </div>
   </div>
@@ -61,7 +69,6 @@ import VideoPlayer from '@/components/videoPlayer/index.vue'
 const $route = useRoute()
 const animeStore = useAnimeStore()
 const id = $route.query.id
-const videoIsShow = ref(false)
 onMounted(() => {
   animeStore.getAnimeDetail(id)
 })
@@ -81,10 +88,19 @@ const openVideoPlyer = (url) => {
   background-color: #E1E7F5;
   border-bottom: 1px solid #2E51A2;
   margin-bottom: 10px;
+  .japanese-title {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+  }
+  .english-title {
+    line-height: 24px;
+  }
 }
 
 .content {
   display: flex;
+  height: 900px;
 
   .left {
     flex: 1;
@@ -120,7 +136,7 @@ const openVideoPlyer = (url) => {
       height: 150px;
 
       .score {
-        width: 550px;
+        flex: 1;
         display: flex;
         background-color: #F8F8F8;
         border: 1px solid #D8D8D8;
@@ -165,8 +181,22 @@ const openVideoPlyer = (url) => {
 
       .pv {
         margin-left: 15px;
-        width: 200px;
         height: 100%;
+        width: 200px;
+      }
+    }
+
+    .introduce {
+      margin-top: 30px;
+
+      .introduce-title {
+        line-height: 40px;
+        border-bottom: 1px solid #BEBEBE;
+        margin-bottom: 10px;
+      }
+      .introduce-content {
+        font-size: 14px;
+        line-height: 20px;
       }
     }
   }

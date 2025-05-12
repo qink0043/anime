@@ -15,7 +15,7 @@
           <div class="down">
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
               <swiper-slide v-for="item in animeStore.seasonAnimeList">
-                <Icon :url="item.images.jpg.image_url" :name="item.title_japanese" />
+                <Icon  @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url" :name="item.title_japanese" />
               </swiper-slide>
               <div class="swiper-button-prev" />
               <div class="swiper-button-next" />
