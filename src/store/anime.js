@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getSearchAnimesAPI, getTopAnimesAPI, getSeasonAnimesAPI, getAnimeDetailAPI } from '@/api/anime'
 
-export const useAnimeStore = defineStore('search', () => {
+export const useAnimeStore = defineStore('anime', () => {
   //搜索结果列表
   const searchAnimesList = ref([])
   //正在热播动漫列表

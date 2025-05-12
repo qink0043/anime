@@ -33,17 +33,19 @@
           <div class="score-left">
             <span class="pingfen">评分</span>
             <span class="fenshu">{{ animeStore.animeDetail.score }}</span>
-            <span class="members">{{ animeStore.animeDetail.members }}次评分</span>
+            <span class="scored-by">{{ animeStore.animeDetail.scored_by }}次评分</span>
           </div>
           <div class="score-right">
-            <div class="rank"></div>
+            <div class="rank">排名</div>
+            <div class="rank">热门榜</div>
+            <div class="rank">Members</div>
           </div>
         </div>
-        <div class="pv"></div>
+        <Icon class="pv" />
       </div>
     </div>
   </div>
-
+  <Video :url="vidoeUrl" v-model="videoIsShow"/>
 </template>
 
 <script setup>
@@ -51,6 +53,8 @@ import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Menu from '@/components/menu/index.vue'
 import { useAnimeStore } from '@/store/anime';
+import Icon from '@/components/icon/index.vue'
+import Video from '@/components/videoPlayer/index.vue'
 
 const $route = useRoute()
 const animeStore = useAnimeStore()
@@ -101,9 +105,11 @@ onMounted(() => {
 
     .info {
       display: flex;
+      height: 150px;
 
       .score {
-        flex: 3;
+        width: 550px;
+        display: flex;
         background-color: #F8F8F8;
         border: 1px solid #D8D8D8;
         padding: 10px;
@@ -115,6 +121,7 @@ onMounted(() => {
           height: 100%;
           width: 100px;
           border-right: 1px solid #D8D8D8;
+          margin-right: 10px;
 
           .pingfen {
             width: 80%;
@@ -132,16 +139,22 @@ onMounted(() => {
             margin: 5px 0;
           }
 
-          .members {
+          .scored_by {
             font-size: 12px;
             width: 100%;
             text-align: center;
           }
         }
+
+        .score-right {
+          display: flex;
+        }
       }
 
       .pv {
-        flex: 1;
+        margin-left: 15px;
+        width: 200px;
+        height: 100%;
       }
     }
   }
