@@ -57,9 +57,9 @@ defineProps({
   }
 
   span {
+    width: 140px;
     height: 20px;
     text-overflow: ellipsis;
-    overflow: hidden;
     white-space: nowrap;
     position: absolute;
     bottom: 0;
@@ -67,7 +67,7 @@ defineProps({
     color: white;
     max-width: 120px;
     font-size: 12px;
-    z-index: 1;
+    z-index: 999;
     pointer-events: none;
   }
 }

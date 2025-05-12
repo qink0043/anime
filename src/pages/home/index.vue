@@ -176,6 +176,10 @@ const videoPlay = (url) => {
       padding: 10px;
       position: relative;
 
+      .new {
+        height: 240px;
+      }
+
       .up {
         display: flex;
         justify-content: space-between;
@@ -210,7 +214,7 @@ const videoPlay = (url) => {
 
         .swiper {
           width: 100%;
-          height: 150px;
+          height: 100%;
 
           .swiper-button-prev,
           .swiper-button-next {
