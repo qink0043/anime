@@ -8,8 +8,8 @@
 *:after,
 *:before {
   box-sizing: border-box;
-
   outline: none;
+  cursor: url(@/assets/shubiao/normal1.cur), auto !important;
 }
 
 html,
@@ -194,4 +194,8 @@ code,
 pre {
   font-family: monospace, monospace;
   font-size: 1em;
+}
+
+.el-button:hover {
+  cursor: default;
 }

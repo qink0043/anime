@@ -84,7 +84,6 @@ const menus = [
       }
 
       .p:hover {
-        cursor: pointer;
         background-color: #2E51A2;
 
         p {
@@ -103,7 +102,6 @@ const menus = [
     &:hover {
       background-color: white;
       color: black;
-      cursor: pointer;
     }
   }
 }

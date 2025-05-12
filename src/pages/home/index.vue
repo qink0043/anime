@@ -31,8 +31,8 @@
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
               <swiper-slide v-for="item in animeStore.topPopularAnimesList">
                 <div class="image-container">
-                  <Icon @click="videoPlay(item.trailer.embed_url)" style="width: 270px; height: 150px;" :url="item.images.jpg.image_url"
-                    :name="item.title_japanese" />
+                  <Icon @click="videoPlay(item.trailer.embed_url)" style="width: 270px; height: 150px;"
+                    :url="item.images.jpg.image_url" :name="item.title_japanese" />
                   <div class="play-icon">
                     <svg t="1746976513402" class="icon" viewBox="0 0 1024 1024" version="1.1"
                       xmlns="http://www.w3.org/2000/svg" p-id="2646" width="32" height="32">
@@ -59,11 +59,11 @@
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
-              <div class="picture">
+              <div class="picture" @click="goDetail(item.mal_id)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name">{{ item.title_japanese }}</div>
+                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -81,11 +81,11 @@
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
-              <div class="picture">
+              <div class="picture" @click="goDetail(item.mal_id)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name">{{ item.title_japanese }}</div>
+                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -103,11 +103,11 @@
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
-              <div class="picture">
+              <div class="picture" @click="goDetail(item.mal_id)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name">{{ item.title_japanese }}</div>
+                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -132,7 +132,9 @@ import 'swiper/css/navigation';
 import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
 import Video from '@/components/video/index.vue'
+import { useRouter } from 'vue-router';
 
+const $router = useRouter()
 const navigation = ref({
   nextEl: ".swiper-button-next",
   prevEl: ".swiper-button-prev",
@@ -156,6 +158,9 @@ const videoPlay = (url) => {
   vidoeUrl.value = url
 }
 
+const goDetail = (id) => {
+  $router.push({ path: '/anime', query: { id } })
+}
 </script>
 
 <style scoped lang="scss">

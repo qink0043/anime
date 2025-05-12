@@ -29,7 +29,6 @@ defineProps({
   box-shadow: 0 0 1px black;
 
   &:hover img {
-    cursor: pointer;
     opacity: 0.7;
   }
 
