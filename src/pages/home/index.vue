@@ -10,7 +10,7 @@
         <div class="new">
           <div class="up">
             <p class="title">2025春季热播</p>
-            <p class="more">更多</p>
+            <p class="more"  @click="getSeasonMore()">更多</p>
           </div>
           <div class="down">
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
@@ -31,7 +31,7 @@
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
               <swiper-slide v-for="item in animeStore.topPopularAnimesList">
                 <div class="image-container">
-                  <Video style="width: 270px; height: 150px;" @click="openVideoPlyer(item.trailer.embed_url)"
+                  <Video style="width: 270px; height: 150px;" @click="openVideoPlyer(item.trailer?.embed_url)"
                     :imgUrl="item.images.jpg.image_url" :name="item.title_japanese" />
                 </div>
               </swiper-slide>
@@ -152,6 +152,12 @@ const openVideoPlyer = (url) => {
 
 const goDetail = (id) => {
   $router.push({ path: '/anime', query: { id } })
+}
+
+//点击更多的回调
+const getSeasonMore = () => {
+  $router.push({path: '/season'})
+  console.log(123);
 }
 </script>
 

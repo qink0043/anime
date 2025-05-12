@@ -19,9 +19,13 @@ export default createRouter({
       path: '/topanime',
       component: () => import('@/pages/topAnime/index.vue')
     },
-     {
+    {
       path: '/login',
       component: () => import('@/pages/login/index.vue')
+    },
+    {
+      path: '/season',
+      component: () => import('@/pages/season/index.vue')
     },
     {
       path: '/',

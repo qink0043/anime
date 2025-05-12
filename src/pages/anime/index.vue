@@ -22,11 +22,7 @@
         <span>详情</span>
       </div>
       <div class="bread-crumb">
-        <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ path: '/top' }">热门</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/anime' }">动漫</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ animeStore.animeDetail.title_japanese }}</el-breadcrumb-item>
-        </el-breadcrumb>
+        <BreadCrumb :title_japanese="animeStore.animeDetail.title_japanese" />
       </div>
       <div class="info">
         <div class="score">
@@ -41,7 +37,7 @@
             <div class="rank">Members</div>
           </div>
         </div>
-        <Video class="pv" v-if="animeStore.animeDetail.trailer.embed_url" @click="openVideoPlyer(animeStore.animeDetail.trailer.embed_url)"
+        <Video class="pv" v-if="animeStore.animeDetail.trailer?.embed_url" @click="openVideoPlyer(animeStore.animeDetail.trailer?.embed_url)"
           :name="animeStore.animeDetail.title_japanese"
           :imgUrl="animeStore.animeDetail.trailer?.images.large_image_url" />
       </div>
@@ -65,6 +61,7 @@ import Menu from '@/components/menu/index.vue'
 import { useAnimeStore } from '@/store/anime';
 import Video from '@/components/video/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
+import BreadCrumb from '@/components/breadCrumb/index.vue'
 
 const $route = useRoute()
 const animeStore = useAnimeStore()
@@ -125,10 +122,6 @@ const openVideoPlyer = (url) => {
       span {
         margin-right: 15px;
       }
-    }
-
-    .bread-crumb {
-      margin: 10px 0;
     }
 
     .info {
