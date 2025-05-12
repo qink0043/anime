@@ -31,7 +31,7 @@
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
               <swiper-slide v-for="item in animeStore.topPopularAnimesList">
                 <div class="image-container">
-                  <Video style="width: 270px; height: 150px;" @click="openVidoePlyer(item.trailer.embed_url)"
+                  <Video style="width: 270px; height: 150px;" @click="openVideoPlyer(item.trailer.embed_url)"
                     :imgUrl="item.images.jpg.image_url" :name="item.title_japanese" />
                 </div>
               </swiper-slide>
@@ -111,7 +111,7 @@
       </div>
     </div>
   </div>
-  <VideoPlayer :url="vidoeUrl" v-model="PlayerIsShow" />
+  <VideoPlayer :url="vidoeUrl" v-model="playerIsShow" />
 </template>
 
 <script setup>
@@ -141,12 +141,12 @@ onMounted(() => {
   animeStore.getSeasonAnimes(2025, 'spring')
 })
 //控制播放器显示与隐藏
-const PlayerIsShow = ref(false)
+const playerIsShow = ref(false)
 //播放器播放的视频的链接
 const vidoeUrl = ref('')
 //点击播放的回调
-const openVidoePlyer = (url) => {
-  PlayerIsShow.value = true
+const openVideoPlyer = (url) => {
+  playerIsShow.value = true
   vidoeUrl.value = url
 }
 

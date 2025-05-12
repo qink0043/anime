@@ -41,27 +41,39 @@
             <div class="rank">Members</div>
           </div>
         </div>
-        <Icon class="pv" />
+        <Video class="pv" @click="openVideoPlyer(animeStore.animeDetail.trailer.embed_url)"
+          :name="animeStore.animeDetail.title_japanese"
+          :imgUrl="animeStore.animeDetail.trailer?.images.large_image_url" />
       </div>
     </div>
   </div>
-  <Video :url="vidoeUrl" v-model="videoIsShow"/>
+  <VideoPlayer :url="vidoeUrl" v-model="playerIsShow" />
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Menu from '@/components/menu/index.vue'
 import { useAnimeStore } from '@/store/anime';
-import Icon from '@/components/icon/index.vue'
-import Video from '@/components/videoPlayer/index.vue'
+import Video from '@/components/video/index.vue'
+import VideoPlayer from '@/components/videoPlayer/index.vue'
 
 const $route = useRoute()
 const animeStore = useAnimeStore()
 const id = $route.query.id
+const videoIsShow = ref(false)
 onMounted(() => {
   animeStore.getAnimeDetail(id)
 })
+//控制播放器显示与隐藏
+const playerIsShow = ref(false)
+//播放器播放的视频的链接
+const vidoeUrl = ref('')
+//点击播放的回调
+const openVideoPlyer = (url) => {
+  playerIsShow.value = true
+  vidoeUrl.value = url
+}
 </script>
 
 <style scoped>
