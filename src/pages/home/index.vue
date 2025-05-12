@@ -209,6 +209,8 @@ const videoPlay = (url) => {
             padding: 0 5px;
             box-shadow: 0 0 5px;
             pointer-events: none;
+            background-color: gray;
+            opacity: 0.8;
           }
         }
 
