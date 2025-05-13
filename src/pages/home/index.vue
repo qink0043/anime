@@ -137,8 +137,8 @@ const animeStore = useAnimeStore()
 const modules = [Navigation]
 
 onMounted(() => {
-  animeStore.getTopAnimes()
-  animeStore.getSeasonAnimes(2025, 'spring')
+  animeStore.getTopAnimes(5)
+  animeStore.getSeasonAnimes(2025, 'spring', 5)
   //将动漫列表中的名字改为中文名
 })
 //控制播放器显示与隐藏

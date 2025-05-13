@@ -22,22 +22,22 @@ export const useAnimeStore = defineStore('anime', () => {
   const getSearchAnimes = async (keyword) => {
     searchAnimesList.value = await getSearchAnimesAPI(keyword)
   }
-  const getTopAnimes = async () => {
-    topAiringAnimesList.value = await getTopAnimesAPI('airing')
+  const getTopAnimes = async (limit) => {
+    topAiringAnimesList.value = await getTopAnimesAPI('airing', limit)
     topAiringAnimesList.value.forEach(async obj => {
       obj.title_chinese = await getAnimeCnName(obj.title_japanese)
     });
-    topUpcomingAnimesList.value = await getTopAnimesAPI('upcoming')
+    topUpcomingAnimesList.value = await getTopAnimesAPI('upcoming', limit)
     topUpcomingAnimesList.value.forEach(async obj => {
       obj.title_chinese = await getAnimeCnName(obj.title)
     });
-    topPopularAnimesList.value = await getTopAnimesAPI('bypopularity')
+    topPopularAnimesList.value = await getTopAnimesAPI('bypopularity', limit)
     topPopularAnimesList.value.forEach(async obj => {
       obj.title_chinese = await getAnimeCnName(obj.title)
     });
   }
-  const getSeasonAnimes = async (year, season) => {
-    seasonAnimeList.value = await getSeasonAnimesAPI(year, season)
+  const getSeasonAnimes = async (year, season, limit) => {
+    seasonAnimeList.value = await getSeasonAnimesAPI(year, season, limit)
     seasonAnimeList.value.forEach(async obj => {
       obj.title_chinese = await getAnimeCnName(obj.title)
     });
