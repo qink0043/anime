@@ -44,7 +44,7 @@ export const useAnimeStore = defineStore('anime', () => {
   }
   const getAnimeDetail = async (id) => {
     animeDetail.value = await getAnimeDetailAPI(id)
-    animeDetail.value.title_chinese = getAnimeCnName(animeDetail.value.title)
+    animeDetail.value.title_chinese = await getAnimeCnName(animeDetail.value.title)
   }
   const getAnimeCnName = async (keyword) => {
     animeCnName.value = await getAnimeCnNameAPI(keyword)

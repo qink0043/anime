@@ -66,7 +66,7 @@ defineProps({
     color: white;
     max-width: 120px;
     font-size: 12px;
-    z-index: 999;
+    z-index: 1;
     pointer-events: none;
   }
 }

@@ -5,6 +5,7 @@
       <router-view></router-view>
     </div>
     <Bottom />
+    <Login />
   </div>
 </template>
 

@@ -124,18 +124,22 @@ onMounted(() => {
 
       .date {
         flex: 1;
+        background-color: #F8F8F8;
       }
 
       .types {
         flex: 1;
+        background-color: #F0F0F0;
       }
 
       .main {
         flex: 8;
+        background-color: #FFF;
       }
 
       .info {
         flex: 1;
+        background-color: #F8F8F8;
       }
     }
   }
