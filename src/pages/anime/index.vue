@@ -1,8 +1,8 @@
 <template>
   <Menu />
   <div class="title">
+    <div class="chinese-title">{{ animeStore.animeDetail.title_chinese }}</div>
     <div class="japanese-title">{{ animeStore.animeDetail.title_japanese }}</div>
-    <div class="english-title">{{ animeStore.animeDetail.title_english }}</div>
   </div>
   <div class="content">
     <div class="left">
@@ -22,7 +22,7 @@
         <span>详情</span>
       </div>
       <div class="bread-crumb">
-        <BreadCrumb :title_japanese="animeStore.animeDetail.title_japanese" />
+        <BreadCrumb :title_chinese="animeStore.animeDetail.title_chinese" :title_japanese="animeStore.animeDetail.title_japanese" />
       </div>
       <div class="info">
         <div class="score">
@@ -38,7 +38,7 @@
           </div>
         </div>
         <Video class="pv" v-if="animeStore.animeDetail.trailer?.embed_url" @click="openVideoPlyer(animeStore.animeDetail.trailer?.embed_url)"
-          :name="animeStore.animeDetail.title_japanese"
+          :name="animeStore.animeDetail.title_chinese || animeStore.animeDetail.title_japanese"
           :imgUrl="animeStore.animeDetail.trailer?.images.large_image_url" />
       </div>
       <div class="introduce">
@@ -85,12 +85,12 @@ const openVideoPlyer = (url) => {
   background-color: #E1E7F5;
   border-bottom: 1px solid #2E51A2;
   margin-bottom: 10px;
-  .japanese-title {
+  .chinese-title {
     font-weight: 500;
     font-size: 20px;
     line-height: 25px;
   }
-  .english-title {
+  .japanese-title {
     line-height: 24px;
   }
 }

@@ -15,7 +15,7 @@
           <div class="down">
             <swiper :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
               <swiper-slide v-for="item in animeStore.seasonAnimeList">
-                <Icon  @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url" :name="item.title_japanese" />
+                <Icon  @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url" :name="item.title_chinese || item.title_japanese" />
               </swiper-slide>
               <div class="swiper-button-prev" />
               <div class="swiper-button-next" />
@@ -32,7 +32,7 @@
               <swiper-slide v-for="item in animeStore.topPopularAnimesList">
                 <div class="image-container">
                   <Video style="width: 270px; height: 150px;" @click="openVideoPlyer(item.trailer?.embed_url)"
-                    :imgUrl="item.images.jpg.image_url" :name="item.title_japanese" />
+                    :imgUrl="item.images.jpg.image_url" :name="item.title_chinese || item.title_japanese" />
                 </div>
               </swiper-slide>
               <div class="swiper-button-prev" />
@@ -55,7 +55,7 @@
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_japanese }}</div>
+                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_chinese || item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -77,7 +77,7 @@
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_japanese }}</div>
+                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_chinese || item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -99,7 +99,7 @@
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_japanese }}</div>
+                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_chinese || item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -139,6 +139,7 @@ const modules = [Navigation]
 onMounted(() => {
   animeStore.getTopAnimes()
   animeStore.getSeasonAnimes(2025, 'spring')
+  //将动漫列表中的名字改为中文名
 })
 //控制播放器显示与隐藏
 const playerIsShow = ref(false)

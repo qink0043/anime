@@ -4,7 +4,7 @@
       <div class="img">
         <img :src="i.images.jpg.image_url" alt="">
       </div>
-      <span>{{ i.title_japanese }}</span>
+      <span>{{ i.title_chinese || i.title_japanese }}</span>
       <span>年份:{{ i.year || '暂无' }}</span>
       <span>评分</span>
     </div>
