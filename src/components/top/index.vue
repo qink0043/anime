@@ -13,22 +13,23 @@
         </template>
       </el-input>
     </el-form>
-    <div class="right">
-      <el-button class="login" @click="goLogin" type="primary" :plain="true">登录</el-button>
-      <el-button class="register" @click="goRegister" type="primary" color="#2E51A2">注册</el-button>
+    <div class="right" v-if="!token">
+      <el-button class="login" @click="openLoginDialog" type="primary" :plain="true">登录</el-button>
+      <!-- <el-button class="register" @click="goRegister" type="primary" color="#2E51A2">注册</el-button> -->
     </div>
+    <div class="user" v-else>{{ userStore.userData.username }}</div>
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
 import { Search } from '@element-plus/icons-vue'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/user';
 
 const $router = useRouter()
+const token = ref('')
 const userStore = useUserStore()
-
 const inputValue = ref('')
 const search = () => {
   $router.push({
@@ -38,14 +39,19 @@ const search = () => {
 }
 
 //登录
-const goLogin = () => {
+const openLoginDialog = () => {
   userStore.visiable = true
 }
 //注册
-const goRegister = () => {
-  $router.push({path : '/register'})
-}
-
+// const goRegister = () => {
+//   $router.push({path : '/register'})
+// }
+onMounted(() => {
+  token.value = localStorage.getItem('token')
+  if(token) {
+    userStore.getMe()
+  }
+})
 </script>
 
 <style scoped lang="scss">

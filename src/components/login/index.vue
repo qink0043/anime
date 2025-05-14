@@ -4,7 +4,7 @@
       <div class="login-title">
         账户登录
       </div>
-      <el-form :model="loginParams" :rules="rule" ref="login" style="max-width: 600px" label-width="auto">
+      <el-form :model="loginParams" ref="loginForm" style="max-width: 600px" label-width="auto">
         <el-form-item>
           <el-input :prefix-icon="User" v-model="loginParams.accountNumber" style="width: 340px; height: 50px;"
             placeholder="请输入账号"></el-input>
@@ -16,10 +16,10 @@
         </el-form-item>
       </el-form>
       <el-form-item>
-        <el-button class="submit-button" type="primary" @click="login">
+        <el-button class="submit-button" type="primary" @click="goLogin">
           登录
         </el-button>
-        <el-button class="register-button" @click="resetForm(ruleFormRef)">
+        <el-button class="register-button">
           注册
         </el-button>
       </el-form-item>
@@ -31,7 +31,7 @@
 import { useUserStore } from '@/store/user';
 import { Lock, User } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 //获取仓库中控制对话框显示与隐藏的数据
 const userStore = useUserStore()
 
@@ -44,9 +44,8 @@ const open2233 = () => {
   isEyesOpen.value = true
 }
 
-
 //存储登录表单的信息
-const loginParams = ref({
+const loginParams = reactive({
   accountNumber: '',
   password: ''
 })
@@ -55,19 +54,28 @@ const regAccountName = /^[0-9]{6,12}$/   //6-12位阿拉伯数字
 const regPassword = /^[a-z0-9]{6,12}$/   //6-12位阿拉伯数字和小写字母的组合
 
 //点击登录
-const login = () => {
+const goLogin = () => {
+
   //表单校验
-  if (regAccountName.test(loginParams.value.accountNumber) && regPassword.test(loginParams.value.password)) {
+  if (regAccountName.test(loginParams.accountNumber) && regPassword.test(loginParams.password)) {
     //发送登录请求
-    ElMessage({
-      type: 'success',
-      message: '正在登陆'
-    })
+    userStore.login(loginParams.accountNumber, loginParams.password)
+      .then(res => {
+        console.log(res);
+        Object.assign(userStore, res.data)
+        ElMessage.success('登录成功')
+        //仓库存储token
+        userStore.token = res.data.token
+        //本地存储token
+        localStorage.setItem('token', res.data.token)
+        userStore.visiable = false
+        //获取用户信息
+        userStore.getMe()
+      }).catch(err => {
+        ElMessage.error(err.response?.data?.error || '登录失败')
+      })
   } else {
-    ElMessage({
-      type: 'error',
-      message: '账号或密码错误'
-    })
+    ElMessage.error('账号或密码错误')
   }
 }
 </script>
