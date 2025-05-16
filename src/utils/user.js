@@ -12,12 +12,12 @@ userInstance.interceptors.request.use(config => {
   return config
 }, error => Promise.reject(error))
 
-//响应拦截器
+/* //响应拦截器
 userInstance.interceptors.response.use((response) => {
   return response.data
 }, (error) => {
   console.log(error)
   return Promise.reject(new Error(error.message))
-})
+}) */
 
 export default userInstance

@@ -158,7 +158,6 @@ const goDetail = (id) => {
 //点击更多的回调
 const getSeasonMore = () => {
   $router.push({path: '/season'})
-  console.log(123);
 }
 </script>
 

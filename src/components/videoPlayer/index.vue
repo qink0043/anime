@@ -50,6 +50,7 @@ document.addEventListener('keydown', (e) => {
 
   iframe {
     width: 80vw;
+    aspect-ratio: 4/3;
   }
 
   .closeButton {

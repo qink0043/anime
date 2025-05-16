@@ -4,9 +4,9 @@
       <div class="login-title">
         账户登录
       </div>
-      <el-form :model="loginParams" ref="loginForm" style="max-width: 600px" label-width="auto">
+      <el-form :model="loginParams" ref="loginForm" style="max-width: 600px">
         <el-form-item>
-          <el-input :prefix-icon="User" v-model="loginParams.accountNumber" style="width: 340px; height: 50px;"
+          <el-input :prefix-icon="User" v-model="loginParams.accountNumber" style="width: 340px;height: 50px;"
             placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item>
@@ -60,19 +60,11 @@ const goLogin = () => {
   if (regAccountName.test(loginParams.accountNumber) && regPassword.test(loginParams.password)) {
     //发送登录请求
     userStore.login(loginParams.accountNumber, loginParams.password)
-      .then(res => {
-        console.log(res);
-        Object.assign(userStore, res.data)
+      .then(() => {
         ElMessage.success('登录成功')
-        //仓库存储token
-        userStore.token = res.data.token
-        //本地存储token
-        localStorage.setItem('token', res.data.token)
         userStore.visiable = false
-        //获取用户信息
-        userStore.getMe()
       }).catch(err => {
-        ElMessage.error(err.response?.data?.error || '登录失败')
+        ElMessage.error(err.response?.error || '登录失败')
       })
   } else {
     ElMessage.error('账号或密码错误')

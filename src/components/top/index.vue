@@ -17,7 +17,12 @@
       <el-button class="login" @click="openLoginDialog" type="primary" :plain="true">登录</el-button>
       <!-- <el-button class="register" @click="goRegister" type="primary" color="#2E51A2">注册</el-button> -->
     </div>
-    <div class="user" v-else>{{ userStore.userData.username }}</div>
+    <div class="userinfo" v-else>
+      <div class="avatar">
+        <img :src="userStore.userData.avatar" alt="">
+      </div>
+      <div class="username">{{ userStore.userData.username }}</div>
+    </div>
   </div>
 </template>
 
@@ -48,7 +53,7 @@ const openLoginDialog = () => {
 // }
 onMounted(() => {
   token.value = localStorage.getItem('token')
-  if(token) {
+  if (token) {
     userStore.getMe()
   }
 })
@@ -72,6 +77,23 @@ onMounted(() => {
       background-color: #2E51A2;
       border-radius: 5px;
       margin-right: 10px;
+    }
+  }
+
+  .userinfo {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .username {
+      margin: 0 20px;
     }
   }
 }
