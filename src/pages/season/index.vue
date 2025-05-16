@@ -9,15 +9,18 @@
       <span v-for="(item, index) in tags" :key="index" class="tag" @click="selectTag(index)"
         :class="{ active: selectedIndex === index }">{{ item }}</span>
     </div>
-    <div class="content">
-      <div class="card">
-        <div class="card-title">{{ animeStore.seasonAnimeList[0]?.title_chinese || animeStore.seasonAnimeList[0]?.title_japanese }}</div>
-        <div class="date">{{ animeStore.seasonAnimeList[0]?.aired.from.slice(0, 10) }} | {{ animeStore.seasonAnimeList[0]?.episodes }}个视频</div>
+    <div v-infinite-scroll="load" :infinite-scroll-immediate="false" class="content">
+      <div v-for="(item, index) in animeStore.seasonAnimeList" :key="index" class="card">
+        <div class="card-title">{{ item?.title_chinese || item?.title_japanese }}</div>
+        <div class="date">{{ item.aired?.from.slice(0, 10) }} | {{ item?.episodes }}个视频</div>
         <div class="types">
-          <div class="type" v-for="item in animeStore.seasonAnimeList[0]?.genres">{{ item.name }}</div>
+          <div class="type" v-for="i in item?.genres">{{ i.name }}</div>
         </div>
         <div class="main">主题</div>
         <div class="info">信息</div>
+      </div>
+      <div class="card" v-for="i in 3">
+        <el-skeleton class="loading" :rows="5" animated />
       </div>
     </div>
   </div>
@@ -41,13 +44,17 @@ const selectTag = (index) => {
 onMounted(() => {
   //从本地存储拿到高亮tag（如果有）
   selectedIndex.value = parseInt(localStorage.getItem('selectedSpanIndex')) || selectedIndex.value
-  animeStore.getSeasonAnimes(2025, 'spring')
+  animeStore.getSeasonAnimes(2025, 'spring', 1, 6)
 })
+const page = ref(1)
+const load = () => {
+  page.value++
+  animeStore.getNewSeasonAnimes(2025, 'spring', page.value, 6)
+}
 </script>
 
 <style scoped lang="scss">
 .container {
-  height: 900px;
   padding: 10px;
 
   .title {
@@ -75,6 +82,7 @@ onMounted(() => {
       height: 20px;
       line-height: 20px;
       color: #2E51A2;
+      transition: all 0.3s;
 
       &:hover {
         color: white;
@@ -91,6 +99,7 @@ onMounted(() => {
   .content {
     margin-top: 10px;
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
 
     .card {
@@ -98,10 +107,13 @@ onMounted(() => {
       flex-direction: column;
       align-items: center;
       width: 32%;
-      margin-right: 10px;
-      margin-top: 20px;
+      margin-bottom: 20px;
       height: 420px;
       border: 1px solid #F0F0F0;
+      .loading {
+        background-color: #FFFFFF;
+        height: 100%;
+      }
 
       .card-title,
       .date,

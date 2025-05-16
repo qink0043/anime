@@ -11,8 +11,9 @@ export const useAnimeStore = defineStore('anime', () => {
   const topUpcomingAnimesList = ref([])
   //热门动漫列表
   const topPopularAnimesList = ref([])
-  //季节动漫列表
+  //季节动漫列表和新获取的列表
   const seasonAnimeList = ref([])
+  const newSeasonAnimeList = ref([])
   //动漫详情
   const animeDetail = ref({})
   //动漫中文名
@@ -22,6 +23,7 @@ export const useAnimeStore = defineStore('anime', () => {
   const getSearchAnimes = async (keyword) => {
     searchAnimesList.value = await getSearchAnimesAPI(keyword)
   }
+
   const getTopAnimes = async (limit) => {
     topAiringAnimesList.value = await getTopAnimesAPI('airing', limit)
     topAiringAnimesList.value.forEach(async obj => {
@@ -36,16 +38,27 @@ export const useAnimeStore = defineStore('anime', () => {
       obj.title_chinese = await getAnimeCnName(obj.title)
     });
   }
-  const getSeasonAnimes = async (year, season, limit) => {
-    seasonAnimeList.value = await getSeasonAnimesAPI(year, season, limit)
-    seasonAnimeList.value.forEach(async obj => {
+
+  const getSeasonAnimes = async (year, season, page, limit) => {
+    seasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit)
+    
+
+    //日文标题变中文
+    /* seasonAnimeList.value.forEach(async obj => {
       obj.title_chinese = await getAnimeCnName(obj.title)
-    });
+    }); */
   }
+  const getNewSeasonAnimes = async (year, season, page, limit) => {
+    newSeasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit)
+    seasonAnimeList.value.push(...newSeasonAnimeList.value)
+  }
+
+
   const getAnimeDetail = async (id) => {
     animeDetail.value = await getAnimeDetailAPI(id)
     animeDetail.value.title_chinese = await getAnimeCnName(animeDetail.value.title)
   }
+
   const getAnimeCnName = async (keyword) => {
     animeCnName.value = await getAnimeCnNameAPI(keyword)
     return animeCnName.value.list[0].name_cn
@@ -60,6 +73,7 @@ export const useAnimeStore = defineStore('anime', () => {
     getSearchAnimes,
     getTopAnimes,
     getSeasonAnimes,
+    getNewSeasonAnimes,
     getAnimeDetail,
     getAnimeCnNameAPI
   }

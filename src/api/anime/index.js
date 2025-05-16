@@ -5,7 +5,7 @@ export const getSearchAnimesAPI = (keyword, limit = 25) => request.get(`/anime?q
 
 export const getTopAnimesAPI = (filter, limit = 25) => request.get(`top/anime?filter=${filter}&limit=${limit}`)
 
-export const getSeasonAnimesAPI = (year, season, limit = 25) => request.get(`/seasons/${year}/${season}?limit=${limit}`)
+export const getSeasonAnimesAPI = (year, season, page = 1, limit = 25) => request.get(`/seasons/${year}/${season}?page=${page}&limit=${limit}`)
 
 export const getAnimeDetailAPI = (id) => request.get(`/anime/${id}`)
 
