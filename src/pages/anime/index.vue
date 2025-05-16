@@ -110,7 +110,6 @@ const openVideoPlyer = (url) => {
     .img {
       width: 100%;
       height: auto;
-      background-color: red;
     }
   }
 

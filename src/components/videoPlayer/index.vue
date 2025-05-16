@@ -1,7 +1,7 @@
 <template>
   <div @click="closePlayer" v-if="show" class="video-player">
-    <iframe height="680" :src="url" frameborder="0"></iframe>
-    <div class="closeButton"  @click="closePlayer">
+    <iframe @load="onLoad" height="680" :src="url" frameborder="0"></iframe>
+    <div v-if="closeShow" class="closeButton"  @click="closePlayer">
       <svg t="1747056132725" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
         p-id="5086" width="32" height="32">
         <path
@@ -13,6 +13,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 defineProps({
   url: {
     type: String,
@@ -24,14 +25,22 @@ defineProps({
   }
 })
 const show = defineModel()
+//控制关闭按钮显示
+const closeShow = ref(false)
 const closePlayer = () => {
   show.value = false
+  closeShow.value = false
 }
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     show.value = false
+    closeShow.value = false
   }
 });
+//iframe加载完毕
+const onLoad = () => {
+  closeShow.value = true
+}
 </script>
 
 <style scoped lang="scss">

@@ -53,8 +53,9 @@ const openLoginDialog = () => {
 // }
 onMounted(() => {
   token.value = localStorage.getItem('token')
-  if (token) {
+  if (token.value) {
     userStore.getMe()
+    token.value = userStore.token
   }
 })
 </script>
