@@ -13,7 +13,7 @@
         </template>
       </el-input>
     </el-form>
-    <div class="right" v-if="!token">
+    <div class="right" v-if="!userStore.token">
       <el-button class="login" @click="openLoginDialog" type="primary" :plain="true">登录</el-button>
       <!-- <el-button class="register" @click="goRegister" type="primary" color="#2E51A2">注册</el-button> -->
     </div>
@@ -21,20 +21,33 @@
       <div class="avatar">
         <img :src="userStore.userData.avatar" alt="">
       </div>
-      <div class="username">{{ userStore.userData.username }}</div>
+      <el-dropdown class="username">
+        {{ userStore.userData.username }}
+        <el-icon class="el-icon--right">
+          <ArrowDown />
+        </el-icon>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="loginOut">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <el-icon>
+        <ArrowDown />
+      </el-icon>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { Search } from '@element-plus/icons-vue'
+import { Search, ArrowDown } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/user';
 
 const $router = useRouter()
-const token = ref('')
 const userStore = useUserStore()
+const token = ref('')
 const inputValue = ref('')
 const search = () => {
   $router.push({
@@ -47,10 +60,15 @@ const search = () => {
 const openLoginDialog = () => {
   userStore.visiable = true
 }
-//注册
-// const goRegister = () => {
-//   $router.push({path : '/register'})
-// }
+//退出登录
+const loginOut = () => {
+  userStore.token = ''
+  //userStore中的所有属性的值变为空字符串
+  Object.keys(userStore.userData).forEach(key => {
+    userStore.userData[key] = ''
+  })
+  localStorage.removeItem('token')
+}
 onMounted(() => {
   token.value = localStorage.getItem('token')
   if (token.value) {
@@ -85,6 +103,7 @@ onMounted(() => {
   .userinfo {
     display: flex;
     align-items: center;
+    margin-right: 10px;
 
     .avatar {
       width: 40px;
@@ -95,7 +114,8 @@ onMounted(() => {
     }
 
     .username {
-      margin: 0 20px;
+      margin-left: 10px;
+      color: black;
     }
   }
 }

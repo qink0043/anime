@@ -50,7 +50,10 @@ export const useAnimeStore = defineStore('anime', () => {
   }
   const getNewSeasonAnimes = async (year, season, page, limit) => {
     newSeasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit)
-    seasonAnimeList.value.push(...newSeasonAnimeList.value)
+    //新旧数据合并
+    const addedList = [...seasonAnimeList.value, ...newSeasonAnimeList.value]
+    //数据去重
+    seasonAnimeList.value = [...new Map(addedList.map(item => [item.mal_id, item])).values()]
   }
 
 

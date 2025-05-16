@@ -11,12 +11,17 @@
     </div>
     <div v-infinite-scroll="load" :infinite-scroll-immediate="false" class="content">
       <div v-for="(item, index) in animeStore.seasonAnimeList" :key="index" class="card">
-        <div class="card-title">{{ item?.title_chinese || item?.title_japanese }}</div>
-        <div class="date">{{ item.aired?.from.slice(0, 10) }} | {{ item?.episodes }}个视频</div>
+        <div class="card-title">{{ item.title_chinese || item.title_japanese }}</div>
+        <div class="date">{{ item.aired?.from.slice(0, 10) }} | {{ item.episodes }}个视频</div>
         <div class="types">
-          <div class="type" v-for="i in item?.genres">{{ i.name }}</div>
+          <div class="type" v-for="i in item.genres">{{ i.name }}</div>
         </div>
-        <div class="main">主题</div>
+        <div class="main">
+          <div class="main-left">
+            <img :src="item.images?.jpg.image_url" alt="">
+          </div>
+          <div class="main-right"></div>
+        </div>
         <div class="info">信息</div>
       </div>
       <div class="card" v-for="i in 3">
@@ -120,6 +125,8 @@ const load = () => {
       .types,
       .main,
       .info {
+        min-width: 0;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -147,6 +154,13 @@ const load = () => {
       .main {
         flex: 8;
         background-color: #FFF;
+        .main-left {
+          height: 100%;
+          img {
+            width: 100%;
+            max-height: 100%;
+          }
+        }
       }
 
       .info {

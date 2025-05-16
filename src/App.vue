@@ -21,7 +21,7 @@
 
   .content {
     margin-top: 45px;
-    width: 70%;
+    width: 1080px;
     border: 1px solid #7f7f7f;
     background-color: rgba($color: white, $alpha: 0.7);
   }
