@@ -12,12 +12,11 @@
 .bottom {
   position: fixed;
   bottom: 0;
-  width: 100%;
-  height: 40px;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 45px;
   background-color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 10px;
   border-bottom: 1px solid #7f7f7f;
   z-index: 999;

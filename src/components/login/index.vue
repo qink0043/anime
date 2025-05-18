@@ -16,7 +16,7 @@
         </el-form-item>
       </el-form>
       <el-form-item>
-        <el-button class="submit-button" type="primary" @click="goLogin">
+        <el-button class="submit-button" type="primary" @click="goLogin" v-loading.fullscreen.lock="loading">
           登录
         </el-button>
         <el-button class="register-button">
@@ -53,17 +53,22 @@ const loginParams = reactive({
 const regAccountName = /^[0-9]{6,12}$/   //6-12位阿拉伯数字
 const regPassword = /^[a-z0-9]{6,12}$/   //6-12位阿拉伯数字和小写字母的组合
 
+const loading = ref(false)
 //点击登录
 const goLogin = () => {
-
+  //设置loading状态
+  loading.value = true
   //表单校验
   if (regAccountName.test(loginParams.accountNumber) && regPassword.test(loginParams.password)) {
     //发送登录请求
     userStore.login(loginParams.accountNumber, loginParams.password)
       .then(() => {
+        //关闭loading状态
         ElMessage.success('登录成功')
         userStore.visiable = false
       }).catch(err => {
+        //关闭loading状态
+        loading.value = false
         ElMessage.error(err.response?.error || '登录失败')
       })
   } else {
