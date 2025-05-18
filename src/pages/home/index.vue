@@ -13,7 +13,7 @@
             <p class="more"  @click="getSeasonMore()">更多</p>
           </div>
           <div class="down">
-            <swiper v-if="animeStore.seasonAnimeList.length >= 5" :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
+            <swiper class="swiper" v-if="animeStore.seasonAnimeList.length >= 5" :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
               <swiper-slide v-for="item in animeStore.seasonAnimeList">
                 <Icon  @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url" :name="item.title_chinese || item.title_japanese" />
               </swiper-slide>
@@ -29,7 +29,7 @@
             <p class="more">更多</p>
           </div>
           <div class="down">
-            <swiper v-if="animeStore.topPopularAnimesList.length >= 5" :navigation="navigation" :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
+            <swiper class="swiper" v-if="animeStore.topPopularAnimesList.length >= 5" :navigation="navigation" :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
               <swiper-slide v-for="item in animeStore.topPopularAnimesList">
                 <div class="image-container">
                   <Video style="width: 270px; height: 150px;" @click="openVideoPlyer(item.trailer?.embed_url)"

@@ -7,10 +7,10 @@
       <el-form :model="loginParams" ref="loginForm" style="max-width: 600px">
         <el-form-item>
           <el-input :prefix-icon="User" v-model="loginParams.accountNumber" style="width: 340px;height: 50px;"
-            placeholder="请输入账号"></el-input>
+            placeholder="请输入账号" @keyup.enter="focusPassword"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input :prefix-icon="Lock" v-model="loginParams.password" @focus="close2233" @blur="open2233"
+          <el-input ref="passwordInput" :prefix-icon="Lock" v-model="loginParams.password" @focus="close2233" @blur="open2233"
             style="width: 340px; height: 50px;" type="password" placeholder="请输入密码">
           </el-input>
         </el-form-item>
@@ -34,6 +34,13 @@ import { ElMessage } from 'element-plus';
 import { ref, reactive } from 'vue';
 //获取仓库中控制对话框显示与隐藏的数据
 const userStore = useUserStore()
+
+// 密码输入框的引用
+const passwordInput = ref(null)
+// 聚焦密码输入框
+const focusPassword = () => {
+  passwordInput.value.focus()
+}
 
 //控制2233睁眼闭眼
 const isEyesOpen = ref(true)
