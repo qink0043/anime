@@ -23,10 +23,10 @@ export default createRouter({
       path: '/season',
       component: () => import('@/pages/season/index.vue')
     },
-    {
-      path: '/',
-      redirect: '/home'
-    }
+    // {
+    //   path: '/',
+    //   redirect: '/home'
+    // }
   ],
   scrollBehavior() {
     return {
