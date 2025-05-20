@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const userInstance = axios.create({
-  baseURL: 'https://auth-backend-tnag.onrender.com/api',
+  baseURL: 'https://auth-backend-tnag.onrender.com/api/user',
   timeout: 5000
 })
 

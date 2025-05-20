@@ -71,7 +71,7 @@ const loginOut = () => {
 }
 //点击网页标题返回首页
 const goHome = () => {
-  $router.push(path = '/home')
+  $router.push({ path: '/home' })
 }
 onMounted(() => {
   token.value = localStorage.getItem('token')

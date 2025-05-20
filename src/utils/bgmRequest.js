@@ -1,14 +1,17 @@
 import axios from "axios";
 import rateLimit from 'axios-rate-limit';
-const unLimitedBgmRequest = axios.create({
-  baseURL: 'https://api.bgm.tv',
+
+const unLimiteBgmRequest = axios.create({
+  baseURL: 'https://auth-backend-tnag.onrender.com/api/bgm',
   timeout: 5000,
 })
+
 // 应用速率限制 (3请求/秒)
-const bgmRequest = rateLimit(unLimitedBgmRequest, {
+const bgmRequest = rateLimit(unLimiteBgmRequest, {
   maxRequests: 3,
   perMilliseconds: 1000,
 });
+
 //请求拦截器
 bgmRequest.interceptors.request.use((config) => {
   return config

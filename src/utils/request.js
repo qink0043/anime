@@ -7,7 +7,7 @@ const unLimitedRequest = axios.create({
 })
 
 // 应用速率限制 (1请求/秒)
-const request = rateLimit(unLimitedRequest, { 
+const request = rateLimit(unLimitedRequest, {
   maxRequests: 1,
   perMilliseconds: 1000,
 });

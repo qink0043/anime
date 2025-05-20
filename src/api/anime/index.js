@@ -9,4 +9,4 @@ export const getSeasonAnimesAPI = (year, season, page = 1, limit = 25) => reques
 
 export const getAnimeDetailAPI = (id) => request.get(`/anime/${id}`)
 
-export const getAnimeCnNameAPI = (keyword) => bgmRequest.get(`https://api.bgm.tv/search/subject/${encodeURIComponent(keyword)}?type=2`)
+export const getAnimeCnNameAPI = (keyword) => bgmRequest.get(`/search/?q=${keyword}&type=2`)

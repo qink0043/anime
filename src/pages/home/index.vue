@@ -10,12 +10,14 @@
         <div class="new">
           <div class="up">
             <p class="title">2025春季热播</p>
-            <p class="more"  @click="getSeasonMore()">更多</p>
+            <p class="more" @click="getSeasonMore()">更多</p>
           </div>
           <div class="down">
-            <swiper class="swiper" v-if="animeStore.seasonAnimeList.length >= 5" :navigation="navigation" :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
+            <swiper class="swiper" v-if="animeStore.seasonAnimeList.length >= 5" :navigation="navigation"
+              :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
               <swiper-slide v-for="item in animeStore.seasonAnimeList">
-                <Icon  @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url" :name="item.title_chinese || item.title_japanese" />
+                <Icon @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url"
+                  :name="item.title_chinese || item.title_japanese" />
               </swiper-slide>
               <div class="swiper-button-prev" />
               <div class="swiper-button-next" />
@@ -29,7 +31,8 @@
             <p class="more">更多</p>
           </div>
           <div class="down">
-            <swiper class="swiper" v-if="animeStore.topPopularAnimesList.length >= 5" :navigation="navigation" :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
+            <swiper class="swiper" v-if="animeStore.topPopularAnimesList.length >= 3" :navigation="navigation"
+              :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
               <swiper-slide v-for="item in animeStore.topPopularAnimesList">
                 <div class="image-container">
                   <Video style="width: 270px; height: 150px;" @click="openVideoPlyer(item.trailer?.embed_url)"
@@ -140,7 +143,7 @@ const modules = [Navigation]
 
 onMounted(() => {
   animeStore.getTopAnimes(5)
-  animeStore.getSeasonAnimes(2025, 'spring',1, 5)
+  animeStore.getSeasonAnimes(2025, 'spring', 1, 7)
 })
 //控制播放器显示与隐藏
 const playerIsShow = ref(false)
@@ -158,7 +161,7 @@ const goDetail = (id) => {
 
 //点击更多的回调
 const getSeasonMore = () => {
-  $router.push({path: '/season'})
+  $router.push({ path: '/season' })
 }
 </script>
 
