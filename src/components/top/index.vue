@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <div class="left">
-      <div class="title">动漫资讯</div>
+      <div class="title" @click="goHome">动漫资讯</div>
     </div>
     <!-- 搜索框 -->
     <el-form @submit.prevent="search">
@@ -68,6 +68,10 @@ const loginOut = () => {
     userStore.userData[key] = ''
   })
   localStorage.removeItem('token')
+}
+//点击网页标题返回首页
+const goHome = () => {
+  $router.push(path = '/home')
 }
 onMounted(() => {
   token.value = localStorage.getItem('token')
