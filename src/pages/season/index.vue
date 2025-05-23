@@ -36,7 +36,7 @@
 <script setup>
 import Menu from '@/components/menu/index.vue'
 import BreadCrumb from '@/components/breadCrumb/index.vue'
-import { computed, onMounted, ref, reactive, watch } from 'vue'
+import { computed, onMounted, ref, reactive, watch, nextTick } from 'vue'
 import { useAnimeStore } from '@/store/anime'
 
 const animeStore = useAnimeStore()
@@ -60,9 +60,7 @@ const selectTag = (index) => {
 //请求锁
 const isLoading = ref(false)
 //判断当前高度是否能滚动
-const isScrollable = () => {
-  console.log(document.documentElement.scrollHeight > window.innerHeight);
-
+const scrollable = () => {
   return document.documentElement.scrollHeight > window.innerHeight
 }
 onMounted(() => {
@@ -95,12 +93,21 @@ const filterAnimeList = computed(() => {
   }
 })
 watch(selectedIndex, async () => {
-  //如果页面无法滚动，则加载
+  //等待DOM更新
+  await nextTick()
+  let isScrollable = scrollable()
   for (let i = 0; i <= 5; i++) {
-    if (!isScrollable()) {
+    //如果页面无法滚动，则加载
+    if (!isScrollable) {
       await load()
-      //如果页面可滚动或没有更多数据，则退出循环
-      if(isScrollable() || !tagMap[tags[selectedIndex.value].hasMore]) break
+      //等待DOM更新
+      await nextTick()
+      //DOM更新后判断是否可滚动
+      isScrollable = scrollable()
+      //如果页面可滚动或没有更多数据，则退出
+      if (isScrollable || !tagMap[tags[selectedIndex.value]].hasMore) {
+        break
+      }
     }
   }
 })
