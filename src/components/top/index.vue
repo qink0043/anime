@@ -1,7 +1,8 @@
 <template>
   <div class="top">
-    <div class="left">
-      <div class="title" @click="goHome">动漫资讯</div>
+    <div class="left" @click="goHome">
+      <img class="logo" width="40" src="@/assets/img/logo.png" alt="">
+      <img class="title" width="80" src="@/assets/img/titleLogo.png" alt="">
     </div>
     <!-- 搜索框 -->
     <el-form @submit.prevent="search">
@@ -95,6 +96,11 @@ onMounted(() => {
   padding: 10px;
   border-bottom: 1px solid #7f7f7f;
   z-index: 999;
+
+  .left {
+    display: flex;
+    align-items: center;
+  }
 
   .right {
     .register {

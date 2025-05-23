@@ -13,10 +13,9 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { useRoute,useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useAnimeStore } from '@/store/anime';
 const $route = useRoute()
-const $router = useRouter()
 const animeStore = useAnimeStore()
 const keyword = ref($route.query.search)
 onMounted(() => {

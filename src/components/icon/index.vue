@@ -1,6 +1,6 @@
 <template>
   <div class="icon">
-    <img :src="url">
+    <img :src="url" :title="name">
     <span>{{ name }}</span>
   </div>
 </template>
@@ -56,9 +56,8 @@ defineProps({
   }
 
   span {
-    width: 140px;
+    min-width: 100%;
     height: 20px;
-    text-overflow: ellipsis;
     white-space: nowrap;
     position: absolute;
     bottom: 0;
@@ -68,6 +67,8 @@ defineProps({
     font-size: 12px;
     z-index: 1;
     pointer-events: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>

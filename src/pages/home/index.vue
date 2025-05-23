@@ -50,7 +50,7 @@
         <div class="hot topAiring">
           <div class="hot-title">
             <p>正在热播</p>
-            <p>查看更多</p>
+            <p class="more">查看更多</p>
           </div>
           <div class="hot-content" v-for="(item, index) in animeStore.topAiringAnimesList.slice(0, 5)"
             :key="item.mal_id">
@@ -72,7 +72,7 @@
         <div class="hot topupcoming">
           <div class="hot-title">
             <p>即将开播</p>
-            <p>查看更多</p>
+            <p class="more">查看更多</p>
           </div>
           <div class="hot-content" v-for="(item, index) in animeStore.topUpcomingAnimesList.slice(0, 5)"
             :key="item.mal_id">
@@ -94,7 +94,7 @@
         <div class="hot popular">
           <div class="hot-title">
             <p>最受欢迎</p>
-            <p>查看更多</p>
+            <p class="more">查看更多</p>
           </div>
           <div class="hot-content" v-for="(item, index) in animeStore.topPopularAnimesList.slice(0, 10)"
             :key="item.mal_id">
@@ -195,6 +195,10 @@ const getSeasonMore = () => {
 
         .more {
           color: #1C439B;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
 
@@ -246,15 +250,19 @@ const getSeasonMore = () => {
         background-color: #DDE1EC;
         padding: 0 15px;
 
-        p:first-child {
+        p {
           font-weight: 900;
           font-size: 14px;
         }
 
-        p:last-child {
+        .more {
           font-weight: 500;
           font-size: 13px;
           color: #1C439B;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
 

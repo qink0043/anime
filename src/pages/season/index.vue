@@ -10,7 +10,7 @@
         :class="{ active: selectedIndex === index }">{{ item }}</span>
     </div>
     <div v-infinite-scroll="load" :infinite-scroll-immediate="false" class="content">
-      <div v-for="(item, index) in animeStore.seasonAnimeList" :key="index" class="card">
+      <div v-for="(item, index) in filterAnimeList" :key="index" class="card">
         <div class="card-title">{{ item.title_chinese || item.title_japanese }}</div>
         <div class="date">{{ item.aired?.from.slice(0, 10) }} | {{ item.episodes }}个视频</div>
         <div class="types">
@@ -24,7 +24,8 @@
         </div>
         <div class="info">信息</div>
       </div>
-      <div class="card" v-for="i in 3">
+      <!-- 骨架，确保最后一行对齐 -->
+      <div class="card" v-for="i in 3 - filterAnimeList.length % 3">
         <el-skeleton class="loading" :rows="5" animated />
       </div>
     </div>
@@ -34,13 +35,22 @@
 <script setup>
 import Menu from '@/components/menu/index.vue'
 import BreadCrumb from '@/components/breadCrumb/index.vue'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useAnimeStore } from '@/store/anime'
 
 const animeStore = useAnimeStore()
 
 //控制tag标签高亮
 const tags = ['全部', 'TV', 'ONA', 'OVA', '剧场版', '其他']
+//tag标签的映射
+const tagMap = {
+  '全部': '',
+  'TV': 'TV',
+  'ONA': 'ONA',
+  'OVA': 'ONA',
+  '剧场版': 'Movie',
+  '其他': 'Special'
+}
 const selectedIndex = ref(0)
 const selectTag = (index) => {
   selectedIndex.value = index
@@ -54,8 +64,18 @@ onMounted(() => {
 const page = ref(1)
 const load = () => {
   page.value++
-  animeStore.getNewSeasonAnimes(2025, 'spring', page.value, 6)
+  animeStore.getNewSeasonAnimes(2025, 'spring', page.value, 6, tagMap[tags[selectedIndex.value]])
 }
+//筛选后的数据
+const filterAnimeList = computed(() => {
+  if ((selectedIndex.value) === 0) {
+    return animeStore.seasonAnimeList
+  } else {
+    return animeStore.seasonAnimeList.filter((item) => {
+      return item.type === tagMap[tags[selectedIndex.value]]
+    })
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -115,6 +135,7 @@ const load = () => {
       margin-bottom: 20px;
       height: 420px;
       border: 1px solid #F0F0F0;
+
       .loading {
         background-color: #FFFFFF;
         height: 100%;
@@ -154,8 +175,10 @@ const load = () => {
       .main {
         flex: 8;
         background-color: #FFF;
+
         .main-left {
           height: 100%;
+
           img {
             width: 100%;
             max-height: 100%;

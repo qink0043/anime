@@ -39,15 +39,15 @@ export const useAnimeStore = defineStore('anime', () => {
     });
   }
 
-  const getSeasonAnimes = async (year, season, page, limit) => {
-    seasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit)
+  const getSeasonAnimes = async (year, season, page, limit, filter) => {
+    seasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit, filter)
     //日文标题变中文
     seasonAnimeList.value.forEach(async obj => {
       obj.title_chinese = await getAnimeCnName(obj.title)
     });
   }
-  const getNewSeasonAnimes = async (year, season, page, limit) => {
-    newSeasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit)
+  const getNewSeasonAnimes = async (year, season, page, limit, filter) => {
+    newSeasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit, filter)
     //新旧数据合并
     const addedList = [...seasonAnimeList.value, ...newSeasonAnimeList.value]
     //数据去重
