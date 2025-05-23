@@ -25,9 +25,10 @@
         <div class="info">信息</div>
       </div>
       <!-- 骨架，确保最后一行对齐 -->
-      <div class="card" v-for="i in 3 - filterAnimeList.length % 3">
+      <div class="card" v-for="i in 3 - filterAnimeList.length % 3" v-if="tagMap[tags[selectedIndex]].hasMore">
         <el-skeleton class="loading" :rows="5" animated />
       </div>
+      <div class="notHasMore" v-else>没有更多了~</div>
     </div>
   </div>
 </template>
@@ -35,7 +36,7 @@
 <script setup>
 import Menu from '@/components/menu/index.vue'
 import BreadCrumb from '@/components/breadCrumb/index.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, reactive, watch } from 'vue'
 import { useAnimeStore } from '@/store/anime'
 
 const animeStore = useAnimeStore()
@@ -43,28 +44,45 @@ const animeStore = useAnimeStore()
 //控制tag标签高亮
 const tags = ['全部', 'TV', 'ONA', 'OVA', '剧场版', '其他']
 //tag标签的映射
-const tagMap = {
-  '全部': '',
-  'TV': 'TV',
-  'ONA': 'ONA',
-  'OVA': 'ONA',
-  '剧场版': 'Movie',
-  '其他': 'Special'
-}
+const tagMap = reactive({
+  '全部': { filter: '', hasMore: true, page: 1 },
+  'TV': { filter: 'TV', hasMore: true, page: 0 },
+  'ONA': { filter: 'ONA', hasMore: true, page: 0 },
+  'OVA': { filter: 'OVA', hasMore: true, page: 0 },
+  '剧场版': { filter: 'Movie', hasMore: true, page: 0 },
+  '其他': { filter: 'Special', hasMore: true, page: 0 }
+})
 const selectedIndex = ref(0)
 const selectTag = (index) => {
   selectedIndex.value = index
   localStorage.setItem('selectedSpanIndex', index)
 }
+//请求锁
+const isLoading = ref(false)
+//判断当前高度是否能滚动
+const isScrollable = () => {
+  console.log(document.documentElement.scrollHeight > window.innerHeight);
+
+  return document.documentElement.scrollHeight > window.innerHeight
+}
 onMounted(() => {
   //从本地存储拿到高亮tag（如果有）
-  selectedIndex.value = parseInt(localStorage.getItem('selectedSpanIndex')) || selectedIndex.value
+  selectedIndex.value = parseInt(localStorage.getItem('selectedSpanIndex')) || 0
   animeStore.getSeasonAnimes(2025, 'spring', 1, 6)
 })
-const page = ref(1)
-const load = () => {
-  page.value++
-  animeStore.getNewSeasonAnimes(2025, 'spring', page.value, 6, tagMap[tags[selectedIndex.value]])
+const load = async () => {
+  const tagData = tagMap[tags[selectedIndex.value]]
+  //如果正在加载或没有更多数据，则不发送请求
+  if (isLoading.value || tagData.hasMore === false) {
+    return
+  }
+  isLoading.value = true
+  tagData.page++
+  await animeStore.getNewSeasonAnimes(2025, 'spring', tagData.page, 6, tagData.filter)
+  isLoading.value = false
+  if (animeStore.newSeasonAnimeList.length === 0) {
+    tagData.hasMore = false
+  }
 }
 //筛选后的数据
 const filterAnimeList = computed(() => {
@@ -72,8 +90,18 @@ const filterAnimeList = computed(() => {
     return animeStore.seasonAnimeList
   } else {
     return animeStore.seasonAnimeList.filter((item) => {
-      return item.type === tagMap[tags[selectedIndex.value]]
+      return item.type === tagMap[tags[selectedIndex.value]].filter
     })
+  }
+})
+watch(selectedIndex, async () => {
+  //如果页面无法滚动，则加载
+  for (let i = 0; i <= 5; i++) {
+    if (!isScrollable()) {
+      await load()
+      //如果页面可滚动或没有更多数据，则退出循环
+      if(isScrollable() || !tagMap[tags[selectedIndex.value].hasMore]) break
+    }
   }
 })
 </script>
@@ -190,6 +218,12 @@ const filterAnimeList = computed(() => {
         flex: 1;
         background-color: #F8F8F8;
       }
+    }
+
+    .notHasMore {
+      width: 100%;
+      height: 200px;
+      text-align: center;
     }
   }
 }

@@ -70,6 +70,7 @@ export const useAnimeStore = defineStore('anime', () => {
     topUpcomingAnimesList,
     topPopularAnimesList,
     seasonAnimeList,
+    newSeasonAnimeList,
     animeDetail,
     getSearchAnimes,
     getTopAnimes,
