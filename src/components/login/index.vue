@@ -1,6 +1,9 @@
 <template>
   <div class="login-container" v-if="userStore.visiable">
     <div class="login-form-content" :class="{ active: !isEyesOpen }">
+      <el-icon class="close-icon" @click="userStore.visiable = false">
+        <Close />
+      </el-icon>
       <div class="login-title">
         账户登录
       </div>
@@ -10,8 +13,8 @@
             placeholder="请输入账号" @keyup.enter="focusPassword"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input ref="passwordInput" :prefix-icon="Lock" v-model="loginParams.password" @focus="close2233" @blur="open2233"
-            style="width: 340px; height: 50px;" type="password" placeholder="请输入密码">
+          <el-input ref="passwordInput" :prefix-icon="Lock" v-model="loginParams.password" @focus="close2233"
+            @blur="open2233" style="width: 340px; height: 50px;" type="password" placeholder="请输入密码">
           </el-input>
         </el-form-item>
       </el-form>
@@ -29,7 +32,7 @@
 
 <script setup>
 import { useUserStore } from '@/store/user';
-import { Lock, User } from '@element-plus/icons-vue';
+import { Lock, User, Close } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { ref, reactive } from 'vue';
 //获取仓库中控制对话框显示与隐藏的数据
@@ -112,6 +115,7 @@ const goLogin = () => {
     background-size: 20%;
     padding: 20px;
     border-radius: 12px;
+    position: relative;
 
     &.active {
       background-image: url('@/assets/img/22_close.png'), url('@/assets/img/33_close.png');
@@ -128,6 +132,13 @@ const goLogin = () => {
       margin-top: 20px;
       width: 164px;
       height: 40px;
+    }
+
+    .close-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 20px;
     }
   }
 }

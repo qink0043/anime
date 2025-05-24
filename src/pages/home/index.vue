@@ -13,7 +13,7 @@
             <p class="more" @click="getSeasonMore()">更多</p>
           </div>
           <div class="down">
-            <swiper class="swiper" v-if="animeStore.seasonAnimeList.length >= 5" :navigation="navigation"
+            <swiper class="swiper" v-if="animeStore.seasonAnimeList?.length >= 5" :navigation="navigation"
               :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
               <swiper-slide v-for="item in animeStore.seasonAnimeList">
                 <Icon @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url"
@@ -27,13 +27,13 @@
         </div>
         <div class="popular">
           <div class="up">
-            <p class="title">最受欢迎的预告片</p>
-            <p class="more">更多</p>
+            <p class="title">热门PV</p>
+            <p class="more" @click="goPopular">更多</p>
           </div>
           <div class="down">
-            <swiper class="swiper" v-if="animeStore.topPopularAnimesList.length >= 3" :navigation="navigation"
+            <swiper class="swiper" v-if="animeStore.topPopularAnimeList.length >= 3" :navigation="navigation"
               :modules="modules" :slides-per-view="3" :space-between="212" :loop="true">
-              <swiper-slide v-for="item in animeStore.topPopularAnimesList">
+              <swiper-slide v-for="item in animeStore.topPopularAnimeList">
                 <div class="image-container">
                   <Video style="width: 270px; height: 150px;" @click="openVideoPlyer(item.trailer?.embed_url)"
                     :imgUrl="item.images.jpg.image_url" :name="item.title_chinese || item.title_japanese" />
@@ -52,7 +52,7 @@
             <p>正在热播</p>
             <p class="more">查看更多</p>
           </div>
-          <div class="hot-content" v-for="(item, index) in animeStore.topAiringAnimesList.slice(0, 5)"
+          <div class="hot-content" v-for="(item, index) in animeStore.topAiringAnimeList?.slice(0, 5)"
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
@@ -74,7 +74,7 @@
             <p>即将开播</p>
             <p class="more">查看更多</p>
           </div>
-          <div class="hot-content" v-for="(item, index) in animeStore.topUpcomingAnimesList.slice(0, 5)"
+          <div class="hot-content" v-for="(item, index) in animeStore.topUpcomingAnimeList.slice(0, 5)"
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
@@ -96,7 +96,7 @@
             <p>最受欢迎</p>
             <p class="more">查看更多</p>
           </div>
-          <div class="hot-content" v-for="(item, index) in animeStore.topPopularAnimesList.slice(0, 10)"
+          <div class="hot-content" v-for="(item, index) in animeStore.topPopularAnimeList.slice(0, 10)"
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
@@ -142,7 +142,9 @@ const animeStore = useAnimeStore()
 const modules = [Navigation]
 
 onMounted(() => {
-  animeStore.getTopAnimes(5)
+  animeStore.getTopAnimes('airing', 1, 10)
+  animeStore.getTopAnimes('upcoming', 1, 10)
+  animeStore.getTopAnimes('bypopularity', 1, 10)
   animeStore.getSeasonAnimes(2025, 'spring', 1, 7)
 })
 //控制播放器显示与隐藏
@@ -162,6 +164,9 @@ const goDetail = (id) => {
 //点击更多的回调
 const getSeasonMore = () => {
   $router.push({ path: '/season' })
+}
+const goPopular = () => {
+  $router.push({ path: '/popularanime' })
 }
 </script>
 
@@ -205,14 +210,14 @@ const getSeasonMore = () => {
       .down {
         margin-top: 10px;
 
-        .image-container {
-          position: relative;
-          display: inline-block;
-        }
-
         .swiper {
           width: 100%;
           height: 100%;
+
+          .image-container {
+            position: relative;
+            display: inline-block;
+          }
 
           .swiper-button-prev,
           .swiper-button-next {

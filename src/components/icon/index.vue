@@ -1,11 +1,18 @@
 <template>
   <div class="icon">
-    <img :src="url" :title="name">
+    <img @load="onLoad" :src="url" :title="name">
+    <img :src="url" src="@/assets/img/loading.gif" :title="name" v-if="!loaded">
     <span>{{ name }}</span>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const loaded = ref(false)
+const onLoad = () => {
+  loaded.value = true
+}
 defineProps({
   url: {
     type: String,

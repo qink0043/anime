@@ -3,7 +3,7 @@ import bgmRequest from "@/utils/bgmRequest";
 
 export const getSearchAnimesAPI = (keyword, limit = 25) => request.get(`/anime?q=${keyword}&limit=${limit}`)
 
-export const getTopAnimesAPI = (filter, limit = 25) => request.get(`top/anime?filter=${filter}&limit=${limit}`)
+export const getTopAnimesAPI = (type, page = 1, limit = 25) => request.get(`top/anime?filter=${type}&page=${page}&limit=${limit}`)
 
 export const getSeasonAnimesAPI = (year, season, page = 1, limit = 25, filter) => {
   if (filter) {

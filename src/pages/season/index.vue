@@ -26,7 +26,7 @@
         <div class="info">信息</div>
       </div>
       <!-- 骨架，确保最后一行对齐 -->
-      <div class="card" v-for="i in 3 - filterAnimeList.length % 3" v-if="tagMap[tags[selectedIndex]].hasMore">
+      <div class="card" v-for="i in 3 - filterAnimeList?.length % 3" v-if="tagMap[tags[selectedIndex]].hasMore">
         <el-skeleton class="loading" :rows="5" animated />
       </div>
       <div class="notHasMore" v-else>没有更多了~</div>
@@ -84,7 +84,7 @@ const load = async () => {
   tagData.page++
   await animeStore.getNewSeasonAnimes(2025, 'spring', tagData.page, 6, tagData.filter)
   isLoading.value = false
-  if (animeStore.newSeasonAnimeList.length === 0) {
+  if (animeStore.newSeasonAnimeList?.length === 0) {
     tagData.hasMore = false
   }
 }
