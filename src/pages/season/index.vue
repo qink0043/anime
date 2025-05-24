@@ -18,7 +18,8 @@
         </div>
         <div class="main">
           <div class="main-left">
-            <img :src="item.images?.jpg.image_url" alt="">
+            <img @click="goDetail(item.mal_id)" :src="item.images?.jpg.image_url" alt=""
+              :title="item.title_chinese || item.title_japanese" />
           </div>
           <div class="main-right"></div>
         </div>
@@ -38,9 +39,14 @@ import Menu from '@/components/menu/index.vue'
 import BreadCrumb from '@/components/breadCrumb/index.vue'
 import { computed, onMounted, ref, reactive, watch, nextTick } from 'vue'
 import { useAnimeStore } from '@/store/anime'
+import { useRouter } from 'vue-router'
 
+const $router = useRouter()
 const animeStore = useAnimeStore()
-
+//点击跳转到详情页
+const goDetail = (id) => {
+  $router.push({ path: '/anime', query: { id } })
+}
 //控制tag标签高亮
 const tags = ['全部', 'TV', 'ONA', 'OVA', '剧场版', '其他']
 //tag标签的映射
@@ -159,7 +165,7 @@ watch(selectedIndex, async () => {
   .content {
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
 
     .card {
@@ -168,6 +174,7 @@ watch(selectedIndex, async () => {
       align-items: center;
       width: 32%;
       margin-bottom: 20px;
+      margin-right: 12px;
       height: 420px;
       border: 1px solid #F0F0F0;
 
