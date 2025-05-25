@@ -24,6 +24,10 @@ export default createRouter({
       component: () => import('@/pages/season/index.vue')
     },
     {
+      path: '/imageSearch',
+      component: () => import('@/pages/imageSearch/index.vue')
+    },
+    {
       path: '/popularanime',
       component: () => import('@/pages/popularAnime/index.vue')
     },

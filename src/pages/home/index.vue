@@ -117,6 +117,7 @@
     </div>
   </div>
   <VideoPlayer :url="vidoeUrl" v-model="playerIsShow" />
+  <imageUpload />
 </template>
 
 <script setup>
@@ -129,6 +130,7 @@ import 'swiper/css/navigation';
 import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
+import imageUpload from '@/components/imageUpload/index.vue'
 import { useRouter } from 'vue-router';
 
 const $router = useRouter()

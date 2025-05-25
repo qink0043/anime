@@ -5,15 +5,19 @@
       <img class="title" width="80" src="@/assets/img/titleLogo.png" alt="">
     </div>
     <!-- 搜索框 -->
-    <el-form @submit.prevent="search">
-      <el-input v-model="inputValue" style="width: 240px" placeholder="输入动漫关键字搜索">
-        <template #prefix>
-          <el-icon style="vertical-align: middle">
-            <Search />
-          </el-icon>
-        </template>
-      </el-input>
-    </el-form>
+    <div class="center">
+      <el-form @submit.prevent="search">
+        <el-input v-model="inputValue" style="width: 240px" placeholder="输入动漫关键字搜索">
+          <template #prefix>
+            <el-icon style="vertical-align: middle">
+              <Search />
+            </el-icon>
+          </template>
+        </el-input>
+      </el-form>
+      <span>或</span>
+      <el-button @click="showImageUpload">上传图片搜索</el-button>
+    </div>
     <div class="right" v-if="!userStore.token">
       <el-button class="login" @click="openLoginDialog" type="primary" :plain="true">登录</el-button>
       <!-- <el-button class="register" @click="goRegister" type="primary" color="#2E51A2">注册</el-button> -->
@@ -38,6 +42,7 @@
       </el-icon>
     </div>
   </div>
+  
 </template>
 
 <script setup>
@@ -45,8 +50,10 @@ import { useRouter } from 'vue-router';
 import { Search, ArrowDown } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/user';
+import { useAnimeStore } from '@/store/anime';
 
 const $router = useRouter()
+const animeStore = useAnimeStore()
 const userStore = useUserStore()
 const token = ref('')
 const inputValue = ref('')
@@ -82,6 +89,12 @@ onMounted(() => {
     token.value = userStore.token
   }
 })
+//上传图片搜索
+const showImageUpload = () => {
+  console.log(123);
+  
+  animeStore.imageUploadVisible = true
+}
 </script>
 
 <style scoped lang="scss">
@@ -100,6 +113,12 @@ onMounted(() => {
   .left {
     display: flex;
     align-items: center;
+  }
+
+  .center {
+    display: flex;
+    align-items: center;
+    gap: 20px;
   }
 
   .right {

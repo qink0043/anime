@@ -19,7 +19,10 @@ export const useAnimeStore = defineStore('anime', () => {
   const animeDetail = ref({})
   //动漫中文名
   const animeCnName = ref('')
-
+  //控制上传图片的显示与隐藏
+  const imageUploadVisible = ref(false)
+  //图片搜索结果
+  const imageSearchResult = ref([])
 
   const getSearchAnimes = async (keyword) => {
     searchAnimesList.value = await getSearchAnimesAPI(keyword)
@@ -100,6 +103,8 @@ export const useAnimeStore = defineStore('anime', () => {
     seasonAnimeList,
     newSeasonAnimeList,
     animeDetail,
+    imageUploadVisible,
+    imageSearchResult,
     getSearchAnimes,
     getTopAnimes,
     getNewTopAnimes,
