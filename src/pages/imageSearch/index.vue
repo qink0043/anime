@@ -1,6 +1,14 @@
 <template>
   <div class="container">
     <div class="left">
+      <div class="results">
+        <div class="results-left">
+          <div>上传图片</div>
+        </div>
+        <div class="results-right">
+          <img :src="animiStore.imageUploadUrl" alt="">
+        </div>
+      </div>
       <div class="results" @click="changeResult(index)" v-for="(item, index) in results"
         :class="{ active: selected === index }">
         <div class="results-left">
@@ -122,6 +130,7 @@ const formatTime = (seconds) => {
       margin-bottom: 10px;
       display: flex;
       overflow: hidden;
+      padding-left: 10px;
 
       &.active {
         transform: translate(2px, 2px);

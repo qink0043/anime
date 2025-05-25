@@ -36,6 +36,7 @@ const uploadImage = async () => {
     // 创建 FormData 对象并添加文件
     const formData = new FormData();
     formData.append('image', file);
+    animeStore.imageUploadUrl = URL.createObjectURL(file);
     try {
       await axios.post('https://api.trace.moe/search', formData, {
         headers: {
@@ -56,11 +57,9 @@ const uploadImage = async () => {
   }
 }
 const fileEnter = () => {
-  console.log('文件进入');
   isFileEnter.value = true;
 }
 const fileLeave = () => {
-  console.log('文件离开');
   isFileEnter.value = false;
 }
 </script>
@@ -113,21 +112,21 @@ const fileLeave = () => {
       align-items: center;
       justify-content: center;
 
+      &.active {
+        background-color: rgba(68, 27, 192, 0.5);
+      }
+
       span {
         pointer-events: auto;
       }
 
       input {
-        width: 100% ;
+        width: 100%;
         height: 100%;
         position: absolute;
         top: 0;
         left: 0;
         opacity: 0;
-      }
-
-      &.active {
-        background-color: blue;
       }
 
       span {

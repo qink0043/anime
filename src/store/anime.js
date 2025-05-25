@@ -21,6 +21,8 @@ export const useAnimeStore = defineStore('anime', () => {
   const animeCnName = ref('')
   //控制上传图片的显示与隐藏
   const imageUploadVisible = ref(false)
+  //本地上传图片url
+  const imageUploadUrl = ref('')
   //图片搜索结果
   const imageSearchResult = ref([])
 
@@ -104,6 +106,7 @@ export const useAnimeStore = defineStore('anime', () => {
     newSeasonAnimeList,
     animeDetail,
     imageUploadVisible,
+    imageUploadUrl,
     imageSearchResult,
     getSearchAnimes,
     getTopAnimes,
