@@ -117,7 +117,7 @@
     </div>
   </div>
   <VideoPlayer :url="vidoeUrl" v-model="playerIsShow" />
-  <imageUpload />
+  <imageUpload v-if="animeStore.imageUploadVisible" />
 </template>
 
 <script setup>

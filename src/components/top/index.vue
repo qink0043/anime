@@ -91,8 +91,6 @@ onMounted(() => {
 })
 //上传图片搜索
 const showImageUpload = () => {
-  console.log(123);
-  
   animeStore.imageUploadVisible = true
 }
 </script>
