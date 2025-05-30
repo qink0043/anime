@@ -60,6 +60,7 @@
           </svg>
         </div>
       </div>
+      <div class="id"@click="goDetail(results[index]?.anilist.idMal)">{{ results[index]?.anilist.idMal }}</div>
     </div>
   </div>
 </template>
@@ -67,7 +68,9 @@
 <script setup>
 import { useAnimeStore } from '@/store/anime';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const $router = useRouter()
 const results = ref([])
 const videoRef = ref(null)
 const animiStore = useAnimeStore()
@@ -106,6 +109,11 @@ const formatTime = (seconds) => {
   const date = new Date(0)
   date.setSeconds(seconds)
   return date.toISOString().substring(11, 19)
+}
+
+//跳转到详情页
+const goDetail = (id) => {
+  $router.push({ path: '/anime', query: { id } })
 }
 </script>
 

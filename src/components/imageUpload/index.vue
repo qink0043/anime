@@ -7,6 +7,7 @@
       <div class="upload-title">
         上传图片搜索
       </div>
+      <span v-show="onPreview">建议裁剪画面以提高搜索成功率和准确度！</span>
       <div class="center" @dragenter="fileEnter" @dragleave="fileLeave">
         <span @click="fileInput.click()" v-loading.fullscreen.lock="loading">点击上传图片</span>
         <input type="file" accept="image/*" @change="preview" ref="fileInput" v-if="!onPreview" />
@@ -103,7 +104,7 @@ const doImgSearch = async (cropped) => {
       animeStore.imageUploadUrl = URL.createObjectURL(file.value)
     }
 
-    await axios.post('https://api.trace.moe/search', formData, {
+    await axios.post('https://api.trace.moe/search?anilistInfo', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
