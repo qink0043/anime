@@ -187,11 +187,12 @@ const goDetailByName = async (keyword) => {
   const res = await animeStore.getSearchAnime(keyword, 1, 2)
   const id = res?.list[0].id
   await animeStore.getAnimeDetail(id)
-  $router.push({ path: '/anime' })
+  $router.push({ path: '/anime', query: { id } })
 }
 const goDetailById = async (id) => {
+  //仓库里的id
   await animeStore.getAnimeDetail(id)
-  $router.push({ path: '/anime' })
+  $router.push({ path: '/anime', query: { id } })
 }
 
 //点击更多的回调

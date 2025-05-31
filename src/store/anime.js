@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getAnimeSearchAPI, getTopAnimesAPI, getSeasonAnimesAPI, getAnimeDetailAPI, getCalendarAnimeAPI } from '@/api/anime'
+import { getAnimeSearchAPI, getTopAnimesAPI, getSeasonAnimesAPI, getAnimeDetailAPI, getCalendarAnimeAPI, getCharactersAPI } from '@/api/anime'
 
 export const useAnimeStore = defineStore('anime', () => {
   //搜索结果列表
@@ -17,6 +17,8 @@ export const useAnimeStore = defineStore('anime', () => {
   const newSeasonAnimeList = ref([])
   //动漫详情
   const animeDetail = ref({})
+  //角色详情
+  const characters = ref([])
   //控制上传图片的显示与隐藏
   const imageUploadVisible = ref(false)
   //本地上传图片url
@@ -90,6 +92,10 @@ export const useAnimeStore = defineStore('anime', () => {
     animeDetail.value = await getAnimeDetailAPI(id)
   }
 
+  const getCharacters = async (id) => {
+    characters.value = await getCharactersAPI(id)
+  }
+
   const getCalendarAnime = async () => {
     calendarAnimeList.value = await getCalendarAnimeAPI()
   }
@@ -106,6 +112,7 @@ export const useAnimeStore = defineStore('anime', () => {
     imageUploadUrl,
     imageSearchResult,
     calendarAnimeList,
+    characters,
     getSearchAnime,
     getTopAnimes,
     getNewTopAnimes,
@@ -113,5 +120,6 @@ export const useAnimeStore = defineStore('anime', () => {
     getNewSeasonAnimes,
     getAnimeDetail,
     getCalendarAnime,
+    getCharacters,
   }
 })

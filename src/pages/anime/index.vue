@@ -1,29 +1,31 @@
 <template>
   <Menu />
   <div class="title">
-    <div class="big-title">{{ animeStore.animeDetail.title_chinese || animeStore.animeDetail.title_japanese }}</div>
-    <div class="small-title">{{ animeStore.animeDetail.title_chinese ? animeStore.animeDetail.title_japanese : animeStore.animeDetail.title_english }}</div>
+    <div class="big-title">{{ animeStore.animeDetail.name_cn || animeStore.animeDetail.name }}</div>
+    <div class="small-title">{{ animeStore.animeDetail.name_cn ? animeStore.animeDetail.name : '' }}</div>
+    <span class="title-type">{{ animeStore.animeDetail.platform }}</span>
   </div>
   <div class="content">
     <div class="left">
       <img class="img" :src="animeStore.animeDetail.images?.common" alt="">
-      <span class="add">添加到我的收藏</span>
+      <div class="infobox" v-for="item in animeStore.animeDetail.infobox">
+        <span class="infokey">{{ item.key }}：</span>
+        <span class="infovalue">{{ item.value }}</span>
+      </div>
     </div>
     <div class="right">
       <div class="menu">
-        <span>详情</span>
-        <span>详情</span>
-        <span>详情</span>
-        <span>详情</span>
-        <span>详情</span>
-        <span>详情</span>
-        <span>详情</span>
-        <span>详情</span>
-        <span>详情</span>
+        <span>概览</span>
+        <span>章节</span>
+        <span>角色</span>
+        <span>制作人员</span>
+        <span>吐槽</span>
+        <span>评论</span>
+        <span>讨论版</span>
+        <span>透视</span>
       </div>
       <div class="bread-crumb">
-        <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn"
-          :title_japanese="animeStore.animeDetail.name" />
+        <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn" :title_japanese="animeStore.animeDetail.name" />
       </div>
       <div class="info">
         <div class="score">
@@ -32,48 +34,66 @@
             <span class="fenshu">{{ animeStore.animeDetail.rating?.score }}</span>
             <span class="scored-by">{{ animeStore.animeDetail.rating?.total }}次评分</span>
           </div>
+          <div class="score-middle">
+            <div class="intro">
+              {{ animeStore.animeDetail.summary }}
+            </div>
+          </div>
           <div class="score-right">
-            <div class="rank">排名{{ animeStore.animeDetail.rating?.rank }}</div>
-            <div class="rank">热门榜</div>
-            <div class="rank">Members</div>
+            <div class="barchart">
+              <BarChart :count="animeStore.animeDetail.rating?.count || {}" />
+            </div>
           </div>
         </div>
-        <Video class="pv" v-if="animeStore.animeDetail.trailer?.embed_url"
-          @click="openVideoPlyer(animeStore.animeDetail.trailer?.embed_url)"
-          :name="animeStore.animeDetail.title_chinese || animeStore.animeDetail.title_japanese"
-          :imgUrl="animeStore.animeDetail.trailer?.images.large_image_url" />
       </div>
-      <div class="introduce">
-        <div class="introduce-title">故事梗概</div>
-        <div class="introduce-content">{{ animeStore.animeDetail.summary }}</div>
-      </div>
-      <div class="introduce">
-        <div class="introduce-title">背景</div>
-        <div class="introduce-content">{{ animeStore.animeDetail.background }}</div>
+      <div class="charac-title">角色介绍</div>
+      <div class="character">
+        <div class="charac-info" v-for="item in animeStore.characters.slice(0, 12)">
+          <div class="info-left">
+            <img class="charac-img" :src="item?.images.small" alt="">
+          </div>
+          <div class="info-middle">
+            <div class="name-info">
+              <div class="role">{{ item.relation }}</div>
+              <div class="charac-name">{{ item.name }}</div>
+            </div>
+            <div class="cv-info">
+              <div class="cv">CV:</div>
+              <div class="cv-name">{{ item.actors[0].name }}</div>
+            </div>
+          </div>
+          <div class="info-right">
+            <img class="cv-img" :src="item.actors[0]?.images.small" alt="">
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <VideoPlayer :url="vidoeUrl" v-model="playerIsShow" />
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import Menu from '@/components/menu/index.vue'
 import { useAnimeStore } from '@/store/anime';
-import Video from '@/components/video/index.vue'
-import VideoPlayer from '@/components/videoPlayer/index.vue'
 import BreadCrumb from '@/components/breadCrumb/index.vue'
+import { useRoute } from 'vue-router';
+//引入柱状图组件
+import BarChart from '@/components/barChart/index.vue'
 
+const $route = useRoute()
 const animeStore = useAnimeStore()
-//控制播放器显示与隐藏
-const playerIsShow = ref(false)
-//播放器播放的视频的链接
-const vidoeUrl = ref('')
-//点击播放的回调
-const openVideoPlyer = (url) => {
-  playerIsShow.value = true
-  vidoeUrl.value = url
-}
+//如果没有数据，则请求数据
+onMounted(async () => {
+  const id = $route.query.id
+  if (!animeStore.animeDetail.length) {
+    await animeStore.getAnimeDetail(id)
+    await animeStore.getCharacters(id)
+  }
+})
+
+onBeforeUnmount(() => {
+  animeStore.characters = []
+})
 </script>
 
 <style scoped>
@@ -90,26 +110,43 @@ const openVideoPlyer = (url) => {
 
   .small-title {
     line-height: 24px;
+    display: inline-block;
+    margin-right: 15px;
+  }
+
+  .title-type {
+    font-size: 14px;
+    color: #666666;
   }
 }
 
 .content {
   display: flex;
-  height: 900px;
 
   .left {
-    flex: 1;
+    width: 25%;
     padding: 0 5px 0 10px;
 
     .img {
       width: 100%;
       height: auto;
     }
+
+    .infobox {
+      margin: 10px 0;
+      border-bottom: 1px solid #EEEEEE;
+      padding: 5px 0;
+
+      .infokey {
+        color: #666666;
+        line-height: 30px;
+      }
+    }
   }
 
   .right {
     padding: 0 5px;
-    flex: 3;
+    width: 75%;
     border-left: 1px solid #E1E7F5;
 
     .menu {
@@ -164,30 +201,94 @@ const openVideoPlyer = (url) => {
           }
         }
 
+        .score-middle {
+          flex: 2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          .intro {
+            font-size: 12px;
+            line-height: 16px;
+          }
+        }
+
         .score-right {
           display: flex;
-        }
-      }
+          flex: 1;
+          justify-content: end;
+          border-left: 1px solid #D8D8D8;
 
-      .pv {
-        margin-left: 15px;
-        height: 100%;
-        width: 200px;
+          .barchart {
+            height: 180px;
+            width: 100%;
+          }
+        }
       }
     }
 
-    .introduce {
-      margin-top: 30px;
+    .charac-title {
+      font-size: 20px;
+      margin: 20px 0;
+    }
 
-      .introduce-title {
-        line-height: 40px;
-        border-bottom: 1px solid #BEBEBE;
-        margin-bottom: 10px;
-      }
+    .character {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
 
-      .introduce-content {
-        font-size: 14px;
-        line-height: 20px;
+      .charac-info {
+        display: flex;
+        margin-bottom: 20px;
+        height: 100px;
+        width: 45%;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+
+        .info-left,
+        .info-right {
+          position: relative;
+          overflow: hidden;
+          width: 20%;
+          display: flex;
+          justify-content: center;
+          object-fit: cover;
+
+          .charac-img,
+          .cv-img {
+            position: absolute;
+          }
+        }
+
+        .info-middle {
+          flex: 1;
+
+          .charac-name,
+          .cv-name {
+            color: #2E51A2;
+          }
+
+          .name-info {
+            display: flex;
+            margin-bottom: 20px;
+
+            .role {
+              border: 1px solid #666;
+              border-radius: 3px;
+              color: #666;
+              margin-right: 5px;
+            }
+          }
+
+          .cv-info {
+            display: flex;
+
+            .cv {
+              color: #666;
+            }
+          }
+        }
       }
     }
   }

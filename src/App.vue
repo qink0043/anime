@@ -4,7 +4,7 @@
     <div class="content">
       <router-view></router-view>
     </div>
-    <Bottom />
+    <!-- <Bottom /> -->
     <Login />
   </div>
 </template>
