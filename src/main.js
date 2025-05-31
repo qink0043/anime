@@ -13,6 +13,8 @@ import 'element-plus/dist/index.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/css';
 //引入pinia仓库
+//引入进度条样式
+import 'nprogress/nprogress.css';
 const pinia = createPinia()
 import App from '@/App.vue'
 

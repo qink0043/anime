@@ -6,10 +6,10 @@
           <div>上传图片</div>
         </div>
         <div class="results-right">
-          <img :src="animiStore.imageUploadUrl" alt="">
+          <img :src="animeStore.imageUploadUrl" alt="">
         </div>
       </div>
-      <div class="results" @click="changeResult(index)" v-for="(item, index) in results"
+      <div class="results" @click="changeResult(index)" v-for="(item, index) in animeStore.imageSearchResult"
         :class="{ active: selected === index }">
         <div class="results-left">
           <div class="episode">第{{ item.episode }}集</div>
@@ -28,7 +28,7 @@
       <div class="detail">
         <div class="video">
           <video ref="videoRef" poster="@/assets/img/loading.gif" @click="handlePlay" :muted="!hasVoice" autoplay
-            :src="results[index]?.video" width="100%" :loop="true"></video>
+            :src="animeStore.imageSearchResult[index]?.video" width="100%" :loop="true"></video>
           <svg v-if="!isPaused" t="1748184538635" class="pause-icon" viewBox="0 0 1024 1024" version="1.1"
             xmlns="http://www.w3.org/2000/svg" p-id="4297" width="32" height="32">
             <path
@@ -43,6 +43,7 @@
           </svg>
         </div>
         <div class="video-info">
+          <div class="filename">{{ animeStore.imageSearchResult[index].filename }}</div>
           <svg @click="handleVoice" v-if="hasVoice" t="1748180500832" class="icon" viewBox="0 0 1024 1024" version="1.1"
             xmlns="http://www.w3.org/2000/svg" p-id="3956" width="32" height="32">
             <path
@@ -59,15 +60,16 @@
               fill="#333333" p-id="4302"></path>
           </svg>
         </div>
-        <div class="title-native">{{ results[index]?.anilist.title.native }}</div>
-        <div class="title-english">{{ results[index]?.anilist.title.english }}</div>
+        <div class="title-native">{{ animeStore.imageSearchResult[index]?.anilist.title.native }}</div>
+        <div class="title-english">{{ animeStore.imageSearchResult[index]?.anilist.title.english }}</div>
         <div class="info">
           <div class="info-left">
-            <div class="duration">时长{{ animiStore.animeDetail?.duration }}</div>
-            <div class="air-time">上映时间{{ animiStore.animeDetail?.aired?.from.slice(0,10) }}</div>
+            <div class="duration">时长{{ animeStore.animeDetail?.duration }}</div>
+            <div class="air-time">上映时间{{ animeStore.animeDetail?.aired?.from.slice(0, 10) }}</div>
           </div>
           <div class="info-right">
-            <Icon class="img" @click="goDetail(results[index]?.anilist.idMal)" :url="animiStore.animeDetail?.images?.jpg.image_url" />
+            <Icon class="img" @click="goDetail(animeStore.animeDetail[index]?.anilist.idMal)"
+              :url="animeStore.animeDetail?.images?.common" />
           </div>
         </div>
       </div>
@@ -77,32 +79,26 @@
 
 <script setup>
 import { useAnimeStore } from '@/store/anime';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Icon from '@/components/icon/index.vue'
 
 const $router = useRouter()
 const results = ref([])
 const videoRef = ref(null)
-const animiStore = useAnimeStore()
+const animeStore = useAnimeStore()
 const index = ref(0)
 const selected = ref(0)
 const hasVoice = ref(false)
 const isPaused = ref(true)
-const changeResult = (i) => {
+const changeResult = async (i) => {
   if (i !== index.value) {
-    // animiStore.animeDetail = {}
     selected.value = i
     index.value = i
-    animiStore.getAnimeDetail(results.value[i].anilist.idMal)
   } else {
     return
   }
 }
-onMounted(() => {
-  results.value = animiStore.imageSearchResult
-  animiStore.getAnimeDetail(results.value[0].anilist.idMal)
-})
 //控制视频播放
 const handlePlay = () => {
   if (videoRef.value.paused) {

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getSearchAnimesAPI, getTopAnimesAPI, getSeasonAnimesAPI, getAnimeDetailAPI, getAnimeCnNameAPI } from '@/api/anime'
+import { getAnimeSearchAPI, getTopAnimesAPI, getSeasonAnimesAPI, getAnimeDetailAPI, getCalendarAnimeAPI } from '@/api/anime'
 
 export const useAnimeStore = defineStore('anime', () => {
   //搜索结果列表
@@ -17,37 +17,33 @@ export const useAnimeStore = defineStore('anime', () => {
   const newSeasonAnimeList = ref([])
   //动漫详情
   const animeDetail = ref({})
-  //动漫中文名
-  const animeCnName = ref('')
   //控制上传图片的显示与隐藏
   const imageUploadVisible = ref(false)
   //本地上传图片url
   const imageUploadUrl = ref('')
   //图片搜索结果
   const imageSearchResult = ref([])
-
-  const getSearchAnimes = async (keyword) => {
-    searchAnimesList.value = await getSearchAnimesAPI(keyword)
-  }
+  //每日放送
+  const calendarAnimeList = ref([])
 
   const getTopAnimes = async (type, page, limit) => {
     if (type === 'bypopularity') {
       topPopularAnimeList.value = await getTopAnimesAPI('bypopularity', page, limit)
-      topPopularAnimeList.value.forEach(async obj => {
-        obj.title_chinese = await getAnimeCnName(obj.title_japanese)
-      });
+      // topPopularAnimeList.value.forEach(async obj => {
+      //   obj.title_chinese = await getAnimeCnName(obj.title_japanese)
+      // });
     }
     if (type === 'upcoming') {
       topUpcomingAnimeList.value = await getTopAnimesAPI('upcoming', page, limit)
-      topUpcomingAnimeList.value.forEach(async obj => {
-        obj.title_chinese = await getAnimeCnName(obj.title)
-      });
+      // topUpcomingAnimeList.value.forEach(async obj => {
+      //   obj.title_chinese = await getAnimeCnName(obj.title)
+      // });
     }
     if (type === 'airing') {
       topAiringAnimeList.value = await getTopAnimesAPI('airing', page, limit)
-      topAiringAnimeList.value.forEach(async obj => {
-        obj.title_chinese = await getAnimeCnName(obj.title)
-      });
+      // topAiringAnimeList.value.forEach(async obj => {
+      //   obj.title_chinese = await getAnimeCnName(obj.title)
+      // });
     }
   }
 
@@ -74,9 +70,9 @@ export const useAnimeStore = defineStore('anime', () => {
   const getSeasonAnimes = async (year, season, page, limit, filter) => {
     seasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit, filter)
     //日文标题变中文
-    seasonAnimeList.value.forEach(async obj => {
-      obj.title_chinese = await getAnimeCnName(obj.title)
-    });
+    // seasonAnimeList.value.forEach(async obj => {
+    //   obj.title_chinese = await getAnimeCnName(obj.title)
+    // });
   }
   const getNewSeasonAnimes = async (year, season, page, limit, filter) => {
     newSeasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit, filter)
@@ -86,15 +82,16 @@ export const useAnimeStore = defineStore('anime', () => {
     seasonAnimeList.value = [...new Map(addedList.map(item => [item.mal_id, item])).values()]
   }
 
+  const getSearchAnime = async (keyword, max_results, type) => {
+    return await getAnimeSearchAPI(encodeURIComponent(keyword), max_results, type)
+  }
 
   const getAnimeDetail = async (id) => {
     animeDetail.value = await getAnimeDetailAPI(id)
-    animeDetail.value.title_chinese = await getAnimeCnName(animeDetail.value.title)
   }
 
-  const getAnimeCnName = async (keyword) => {
-    animeCnName.value = await getAnimeCnNameAPI(keyword)
-    return animeCnName.value.list ? animeCnName.value.list[0].name_cn : ''
+  const getCalendarAnime = async () => {
+    calendarAnimeList.value = await getCalendarAnimeAPI()
   }
   return {
     searchAnimesList,
@@ -108,12 +105,13 @@ export const useAnimeStore = defineStore('anime', () => {
     imageUploadVisible,
     imageUploadUrl,
     imageSearchResult,
-    getSearchAnimes,
+    calendarAnimeList,
+    getSearchAnime,
     getTopAnimes,
     getNewTopAnimes,
     getSeasonAnimes,
     getNewSeasonAnimes,
     getAnimeDetail,
-    getAnimeCnNameAPI
+    getCalendarAnime,
   }
 })

@@ -1,5 +1,6 @@
 import axios from "axios";
 import rateLimit from 'axios-rate-limit';
+import NProgress from "nprogress";
 
 const unLimitedRequest = axios.create({
   baseURL: 'https://api.jikan.moe/v4',
@@ -14,14 +15,19 @@ const request = rateLimit(unLimitedRequest, {
 
 //请求拦截器
 request.interceptors.request.use((config) => {
+  NProgress.start()
   return config
+}, error => {
+  NProgress.done()
+  return Promise.reject(new Error(error.message))
 })
 
 //响应拦截器
 request.interceptors.response.use((response) => {
+  NProgress.done()
   return response.data.data
-}, (error) => {
-  console.log(error)
+}, error => {
+  NProgress.done()
   return Promise.reject(new Error(error.message))
 })
 

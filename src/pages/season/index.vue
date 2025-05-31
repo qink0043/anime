@@ -72,7 +72,7 @@ const scrollable = () => {
 onMounted(() => {
   //从本地存储拿到高亮tag（如果有）
   selectedIndex.value = parseInt(localStorage.getItem('selectedSpanIndex')) || 0
-  animeStore.getSeasonAnimes(2025, 'spring', 1, 6)
+  animeStore.getSeasonAnimes(2025, 'summer', 1, 6)
 })
 const load = async () => {
   const tagData = tagMap[tags[selectedIndex.value]]
@@ -82,7 +82,7 @@ const load = async () => {
   }
   isLoading.value = true
   tagData.page++
-  await animeStore.getNewSeasonAnimes(2025, 'spring', tagData.page, 6, tagData.filter)
+  await animeStore.getNewSeasonAnimes(2025, 'summer', tagData.page, 6, tagData.filter)
   isLoading.value = false
   if (animeStore.newSeasonAnimeList?.length === 0) {
     tagData.hasMore = false

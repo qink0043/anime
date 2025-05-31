@@ -6,7 +6,7 @@
   </div>
   <div class="content">
     <div class="left">
-      <img class="img" :src="animeStore.animeDetail.images?.jpg.large_image_url" alt="">
+      <img class="img" :src="animeStore.animeDetail.images?.common" alt="">
       <span class="add">添加到我的收藏</span>
     </div>
     <div class="right">
@@ -22,18 +22,18 @@
         <span>详情</span>
       </div>
       <div class="bread-crumb">
-        <BreadCrumb :title_chinese="animeStore.animeDetail.title_chinese"
-          :title_japanese="animeStore.animeDetail.title_japanese" />
+        <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn"
+          :title_japanese="animeStore.animeDetail.name" />
       </div>
       <div class="info">
         <div class="score">
           <div class="score-left">
             <span class="pingfen">评分</span>
-            <span class="fenshu">{{ animeStore.animeDetail.score }}</span>
-            <span class="scored-by">{{ animeStore.animeDetail.scored_by }}次评分</span>
+            <span class="fenshu">{{ animeStore.animeDetail.rating?.score }}</span>
+            <span class="scored-by">{{ animeStore.animeDetail.rating?.total }}次评分</span>
           </div>
           <div class="score-right">
-            <div class="rank">排名</div>
+            <div class="rank">排名{{ animeStore.animeDetail.rating?.rank }}</div>
             <div class="rank">热门榜</div>
             <div class="rank">Members</div>
           </div>
@@ -45,7 +45,7 @@
       </div>
       <div class="introduce">
         <div class="introduce-title">故事梗概</div>
-        <div class="introduce-content">{{ animeStore.animeDetail.synopsis }}</div>
+        <div class="introduce-content">{{ animeStore.animeDetail.summary }}</div>
       </div>
       <div class="introduce">
         <div class="introduce-title">背景</div>
@@ -58,19 +58,13 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import Menu from '@/components/menu/index.vue'
 import { useAnimeStore } from '@/store/anime';
 import Video from '@/components/video/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import BreadCrumb from '@/components/breadCrumb/index.vue'
 
-const $route = useRoute()
 const animeStore = useAnimeStore()
-const id = $route.query.id
-onMounted(() => {
-  animeStore.getAnimeDetail(id)
-})
 //控制播放器显示与隐藏
 const playerIsShow = ref(false)
 //播放器播放的视频的链接

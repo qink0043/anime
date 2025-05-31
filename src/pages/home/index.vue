@@ -9,14 +9,14 @@
       <div class="left">
         <div class="new">
           <div class="up">
-            <p class="title">2025春季热播</p>
+            <p class="title">2025夏季热播</p>
             <p class="more" @click="getSeasonMore()">更多</p>
           </div>
           <div class="down">
             <swiper class="swiper" v-if="animeStore.seasonAnimeList?.length >= 5" :navigation="navigation"
               :modules="modules" :slides-per-view="5" :space-between="130" :loop="true">
               <swiper-slide v-for="item in animeStore.seasonAnimeList">
-                <Icon @click="goDetail(item.mal_id)" :url="item.images.jpg.image_url"
+                <Icon @click="goDetailByName(item.title_japanese)" :url="item.images.jpg.image_url"
                   :name="item.title_chinese || item.title_japanese" />
               </swiper-slide>
               <div class="swiper-button-prev" />
@@ -45,6 +45,25 @@
             <div v-else>加载中。。。</div>
           </div>
         </div>
+        <div class="airing">每周放送</div>
+        <div class="airing">
+          <div class="airing-title">
+            <div class="weekdays" :class="{ active: index == selected }" @click="changeSelected(index)"
+              v-for="(item, index) in animeStore.calendarAnimeList">{{
+                item.weekday.cn }}</div>
+          </div>
+          <div class="airing-info">
+            <div class="info-item" v-for="item in animeStore.calendarAnimeList[selected]?.items">
+              <div class="item-up">
+                <Icon @click="goDetailById(item.id)" :url="item.images.common" :name="item.name_cn || item.name" />
+              </div>
+              <div class="item-down">
+                <div class="air-date">上映时间{{ item.air_date }}</div>
+                <div class="score">{{ item.rating?.score ? `评分${item.rating.score}` : `暂无评分` }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="right">
         <div class="hot topAiring">
@@ -56,11 +75,12 @@
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
-              <div class="picture" @click="goDetail(item.mal_id)">
+              <div class="picture" @click="goDetailByName(item.title_japanese)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_chinese || item.title_japanese }}</div>
+                <div class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
+                  item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -78,11 +98,12 @@
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
-              <div class="picture" @click="goDetail(item.mal_id)">
+              <div class="picture" @click="goDetailByName(item.title_chinese)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_chinese || item.title_japanese }}</div>
+                <div class="name" @click="goDetailByName(item.title_chinese)">{{ item.title_chinese ||
+                  item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -100,11 +121,12 @@
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="content">
-              <div class="picture" @click="goDetail(item.mal_id)">
+              <div class="picture" @click="goDetailByName(item.title_japanese)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetail(item.mal_id)">{{ item.title_chinese || item.title_japanese }}</div>
+                <div class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
+                  item.title_japanese }}</div>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -132,6 +154,7 @@ import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import imageUpload from '@/components/imageUpload/index.vue'
 import { useRouter } from 'vue-router';
+import { getAnimeDetailAPI } from '@/api/anime';
 
 const $router = useRouter()
 const navigation = ref({
@@ -147,7 +170,8 @@ onMounted(() => {
   animeStore.getTopAnimes('airing', 1, 10)
   animeStore.getTopAnimes('upcoming', 1, 10)
   animeStore.getTopAnimes('bypopularity', 1, 10)
-  animeStore.getSeasonAnimes(2025, 'spring', 1, 7)
+  animeStore.getSeasonAnimes(2025, 'summer', 1, 7)
+  animeStore.getCalendarAnime()
 })
 //控制播放器显示与隐藏
 const playerIsShow = ref(false)
@@ -159,8 +183,15 @@ const openVideoPlyer = (url) => {
   vidoeUrl.value = url
 }
 
-const goDetail = (id) => {
-  $router.push({ path: '/anime', query: { id } })
+const goDetailByName = async (keyword) => {
+  const res = await animeStore.getSearchAnime(keyword, 1, 2)
+  const id = res?.list[0].id
+  await animeStore.getAnimeDetail(id)
+  $router.push({ path: '/anime' })
+}
+const goDetailById = async (id) => {
+  await animeStore.getAnimeDetail(id)
+  $router.push({ path: '/anime' })
 }
 
 //点击更多的回调
@@ -169,6 +200,11 @@ const getSeasonMore = () => {
 }
 const goPopular = () => {
   $router.push({ path: '/popularanime' })
+}
+
+const selected = ref(0)
+const changeSelected = (index) => {
+  selected.value = index
 }
 </script>
 
@@ -235,6 +271,62 @@ const goPopular = () => {
               opacity: 1;
               visibility: visible;
             }
+          }
+        }
+      }
+
+      .airing {
+        margin-top: 25px;
+        display: flex;
+        position: relative;
+
+        .airing-title {
+          display: flex;
+          align-items: center;
+        }
+
+        .weekdays {
+          border-bottom: 1px solid #BEBEBE;
+          padding: 5px 10px;
+          margin-right: 10px;
+          border-radius: 4px 4px 0 0;
+          color: white;
+          background-color: #2E51A2;
+
+          &.active,
+          &:hover {
+            color: black;
+            background-color: #11ffee00;
+          }
+        }
+
+        .airing-info {
+          top: 100%;
+          left: 0;
+          width: 100%;
+          position: absolute;
+          display: flex;
+          justify-content: start;
+          flex-wrap: wrap;
+
+          .info-item {
+            margin-right: 21px;
+            border: 1px solid #2E51A2;
+            margin-bottom: 21px;
+
+            .item-down {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              .air-date {
+                font-size: 14px;
+              }
+            }
+          }
+
+          :nth-child(4n) {
+            margin-right: 0px;
           }
         }
       }
