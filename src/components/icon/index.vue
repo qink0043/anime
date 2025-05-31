@@ -1,7 +1,6 @@
 <template>
   <div class="icon">
     <img @load="onLoad" :src="url" :title="name">
-    <img :src="url" src="@/assets/img/loading.gif" :title="name" v-if="!loaded">
     <span>{{ name }}</span>
   </div>
 </template>

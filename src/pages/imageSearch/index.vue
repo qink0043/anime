@@ -35,8 +35,8 @@
               d="M142.293 0h22.261q77.913 0 77.913 77.913v868.174q0 77.913-77.913 77.913h-22.26q-77.914 0-77.914-77.913V77.913Q64.38 0 142.293 0zM810.12 0h22.26q77.913 0 77.913 77.913v868.174q0 77.913-77.913 77.913h-22.26q-77.913 0-77.913-77.913V77.913Q732.207 0 810.12 0z"
               fill="#666666" p-id="4298"></path>
           </svg>
-          <svg v-else t="1748184691236" class="pause-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-            p-id="3016" width="32" height="32">
+          <svg v-else t="1748184691236" class="pause-icon" viewBox="0 0 1024 1024" version="1.1"
+            xmlns="http://www.w3.org/2000/svg" p-id="3016" width="32" height="32">
             <path
               d="M847.462 598.016l-587.161 378.88A102.4 102.4 0 0 1 102.4 890.88V133.12a102.4 102.4 0 0 1 157.9-86.016l587.162 378.88a102.4 102.4 0 0 1 0 172.032z"
               fill="#666666" p-id="3017"></path>
@@ -59,8 +59,18 @@
               fill="#333333" p-id="4302"></path>
           </svg>
         </div>
+        <div class="title-native">{{ results[index]?.anilist.title.native }}</div>
+        <div class="title-english">{{ results[index]?.anilist.title.english }}</div>
+        <div class="info">
+          <div class="info-left">
+            <div class="duration">时长{{ animiStore.animeDetail?.duration }}</div>
+            <div class="air-time">上映时间{{ animiStore.animeDetail?.aired?.from.slice(0,10) }}</div>
+          </div>
+          <div class="info-right">
+            <Icon class="img" @click="goDetail(results[index]?.anilist.idMal)" :url="animiStore.animeDetail?.images?.jpg.image_url" />
+          </div>
+        </div>
       </div>
-      <div class="id"@click="goDetail(results[index]?.anilist.idMal)">{{ results[index]?.anilist.idMal }}</div>
     </div>
   </div>
 </template>
@@ -69,6 +79,7 @@
 import { useAnimeStore } from '@/store/anime';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Icon from '@/components/icon/index.vue'
 
 const $router = useRouter()
 const results = ref([])
@@ -79,11 +90,18 @@ const selected = ref(0)
 const hasVoice = ref(false)
 const isPaused = ref(true)
 const changeResult = (i) => {
-  selected.value = i
-  index.value = i
+  if (i !== index.value) {
+    // animiStore.animeDetail = {}
+    selected.value = i
+    index.value = i
+    animiStore.getAnimeDetail(results.value[i].anilist.idMal)
+  } else {
+    return
+  }
 }
 onMounted(() => {
   results.value = animiStore.imageSearchResult
+  animiStore.getAnimeDetail(results.value[0].anilist.idMal)
 })
 //控制视频播放
 const handlePlay = () => {
@@ -199,13 +217,16 @@ const goDetail = (id) => {
           transform: translate(-50%, -50%);
           animation: disappear 0.6s ease;
           animation-fill-mode: forwards;
+
           @keyframes disappear {
             0% {
               opacity: 1;
             }
+
             50% {
               opacity: 1;
             }
+
             100% {
               opacity: 0;
             }
@@ -222,6 +243,33 @@ const goDetail = (id) => {
           min-width: 100%;
           min-height: 100%;
           object-fit: cover;
+        }
+      }
+
+      .title-native {
+        color: #335FFF;
+        font-size: 20px;
+      }
+
+      .title-english {
+        color: #335FFF;
+      }
+
+      .info {
+        display: flex;
+        width: 100%;
+
+        .info-left {
+          width: 60%;
+        }
+
+        .info-right {
+          width: 40%;
+
+          .img {
+            width: 100%;
+            height: 100%;
+          }
         }
       }
     }
