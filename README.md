@@ -1,6 +1,6 @@
 # Anime Season Explorer
 
-🌸 一款基于 Vue 3 和 Vite 构建的动漫季度番剧浏览平台，支持无限滚动加载、季度切换、响应式布局等功能。数据来源于 [Bangumi 番组计划](https://bangumi.tv/)，部署于 Vercel。
+🌸 一款基于 Vue 3 和 Vite 构建的动漫季度番剧浏览平台，支持无限滚动加载、季度切换、响应式布局等功能。数据来源于 [Bangumi 番组计划](https://bangumi.tv/)，在线地地址http://43.136.72.202/
 
 ## 🚀 在线体验
 

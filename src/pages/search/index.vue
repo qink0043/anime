@@ -28,7 +28,7 @@
   </div>
   <div class="content">
     <div class="content-left">
-      <div class="result" v-for="item in animeStore.searchResultList.list">
+      <div class="result" v-for="item in animeStore.searchResultList.list" :key="item.id">
         <div class="result-left">
           <img class="result-img" :src="item.images?.large" alt="">
         </div>
