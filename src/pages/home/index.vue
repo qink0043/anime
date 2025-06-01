@@ -74,7 +74,7 @@
           <div class="hot-content" v-for="(item, index) in animeStore.topAiringAnimeList?.slice(0, 5)"
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
-            <div class="content">
+            <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
@@ -97,7 +97,7 @@
           <div class="hot-content" v-for="(item, index) in animeStore.topUpcomingAnimeList.slice(0, 5)"
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
-            <div class="content">
+            <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_chinese)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
@@ -120,7 +120,7 @@
           <div class="hot-content" v-for="(item, index) in animeStore.topPopularAnimeList.slice(0, 10)"
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
-            <div class="content">
+            <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
@@ -154,7 +154,6 @@ import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import imageUpload from '@/components/imageUpload/index.vue'
 import { useRouter } from 'vue-router';
-import { getAnimeDetailAPI } from '@/api/anime';
 
 const $router = useRouter()
 const navigation = ref({
@@ -183,6 +182,7 @@ const openVideoPlyer = (url) => {
   vidoeUrl.value = url
 }
 
+//根据名字搜索到结果后跳转到详情页
 const goDetailByName = async (keyword) => {
   const res = await animeStore.getSearchAnime(keyword, 1, 2)
   const id = res?.list[0].id
@@ -190,7 +190,6 @@ const goDetailByName = async (keyword) => {
   $router.push({ path: '/anime', query: { id } })
 }
 const goDetailById = async (id) => {
-  //仓库里的id
   await animeStore.getAnimeDetail(id)
   $router.push({ path: '/anime', query: { id } })
 }
@@ -220,9 +219,10 @@ const changeSelected = (index) => {
 
   .content {
     display: flex;
+    justify-content: space-between;
 
     .left {
-      min-width: 650px;
+      width: 60%;
       max-width: 650px;
       padding: 10px;
       position: relative;
@@ -311,9 +311,9 @@ const changeSelected = (index) => {
           flex-wrap: wrap;
 
           .info-item {
-            margin-right: 21px;
-            border: 1px solid #2E51A2;
-            margin-bottom: 21px;
+            margin-right: 20px;
+            border: 1px solid #BEBEBE;
+            margin-bottom: 20px;
 
             .item-down {
               display: flex;
@@ -334,7 +334,7 @@ const changeSelected = (index) => {
     }
 
     .right {
-      width: 400px;
+      width: 40%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -393,8 +393,9 @@ const changeSelected = (index) => {
           }
         }
 
-        .content {
-          width: 300px;
+        .middle {
+          flex: 1;
+          display: flex;
 
           .picture {
             width: 64px;

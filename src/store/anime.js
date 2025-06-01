@@ -17,6 +17,8 @@ export const useAnimeStore = defineStore('anime', () => {
   const newSeasonAnimeList = ref([])
   //动漫详情
   const animeDetail = ref({})
+  //动漫详情列表
+  const animeDetailList = ref([])
   //角色详情
   const characters = ref([])
   //控制上传图片的显示与隐藏
@@ -90,6 +92,7 @@ export const useAnimeStore = defineStore('anime', () => {
 
   const getAnimeDetail = async (id) => {
     animeDetail.value = await getAnimeDetailAPI(id)
+    animeDetailList.value.push(animeDetail.value)
   }
 
   const getCharacters = async (id) => {
@@ -108,6 +111,7 @@ export const useAnimeStore = defineStore('anime', () => {
     seasonAnimeList,
     newSeasonAnimeList,
     animeDetail,
+    animeDetailList,
     imageUploadVisible,
     imageUploadUrl,
     imageSearchResult,

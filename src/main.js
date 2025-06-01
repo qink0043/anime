@@ -9,12 +9,15 @@ import bottom from '@/components/bottom/index.vue'
 import login from '@/components/login/index.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+
 //引入swiper
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/css';
 //引入pinia仓库
 //引入进度条样式
 import 'nprogress/nprogress.css';
+import NProgress from 'nprogress';
+NProgress.configure({ showSpinner: false })
 const pinia = createPinia()
 import App from '@/App.vue'
 

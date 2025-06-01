@@ -43,7 +43,7 @@
           </svg>
         </div>
         <div class="video-info">
-          <div class="filename">{{ animeStore.imageSearchResult[index].filename }}</div>
+          <div class="filename">{{ animeStore.imageSearchResult[index]?.filename }}</div>
           <svg @click="handleVoice" v-if="hasVoice" t="1748180500832" class="icon" viewBox="0 0 1024 1024" version="1.1"
             xmlns="http://www.w3.org/2000/svg" p-id="3956" width="32" height="32">
             <path
@@ -60,16 +60,24 @@
               fill="#333333" p-id="4302"></path>
           </svg>
         </div>
-        <div class="title-native">{{ animeStore.imageSearchResult[index]?.anilist.title.native }}</div>
-        <div class="title-english">{{ animeStore.imageSearchResult[index]?.anilist.title.english }}</div>
+        <div class="title">
+          <span class="title-chinese" @click="goDetail(animeStore.animeDetailList[index]?.id)">{{
+            animeStore.animeDetailList[index]?.name_cn }}</span>
+          <span class="title-english" @click="goDetail(animeStore.animeDetailList[index]?.id)">{{
+            animeStore.animeDetailList[index]?.name }}</span>
+        </div>
         <div class="info">
           <div class="info-left">
-            <div class="duration">时长{{ animeStore.animeDetail?.duration }}</div>
-            <div class="air-time">上映时间{{ animeStore.animeDetail?.aired?.from.slice(0, 10) }}</div>
+            <div class="air-time">上映时间{{ animeStore.animeDetailList[index]?.date }}</div>
+            <div class="tags">
+              <div class="tag" v-for="tag in animeStore.animeDetailList[index]?.tags" :key="tag.id">
+                {{ tag.name }}
+              </div>
+            </div>
           </div>
           <div class="info-right">
-            <Icon class="img" @click="goDetail(animeStore.animeDetail[index]?.anilist.idMal)"
-              :url="animeStore.animeDetail?.images?.common" />
+            <Icon class="img" @click="goDetail(animeStore.animeDetailList[index]?.id)"
+              :url="animeStore.animeDetailList[index]?.images?.common" />
           </div>
         </div>
       </div>
@@ -79,12 +87,12 @@
 
 <script setup>
 import { useAnimeStore } from '@/store/anime';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Icon from '@/components/icon/index.vue'
 
 const $router = useRouter()
-const results = ref([])
+const $route = useRoute()
 const videoRef = ref(null)
 const animeStore = useAnimeStore()
 const index = ref(0)
@@ -129,6 +137,21 @@ const formatTime = (seconds) => {
 const goDetail = (id) => {
   $router.push({ path: '/anime', query: { id } })
 }
+onMounted(async () => {
+  for (let i = 0; i < animeStore.imageSearchResult.length; i++) {
+    const res = await animeStore.getSearchAnime(animeStore.imageSearchResult[i]?.anilist.title.english || animeStore.imageSearchResult[i]?.anilist.title.romaji, 1, 2)
+    const id = res?.list[0].id
+    await animeStore.getAnimeDetail(id)
+  }
+})
+//离开页面时清空数据
+onBeforeUnmount(() => {
+  animeStore.animeDetailList = []
+  //如果是刷新则跳转到首页
+  if ($route.path === '/imageSearch') {
+    $router.push('/home')
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -242,14 +265,27 @@ const goDetail = (id) => {
         }
       }
 
-      .title-native {
-        color: #335FFF;
-        font-size: 20px;
+      .title {
+        display: flex;
+        flex-direction: column;
+
+        .title-chinese,
+        .title-english {
+          width: fit-content;
+          color: #335FFF;
+
+          &:hover {
+            color: #09268e;
+            transition: all 0.3s;
+          }
+
+        }
+
+        .title-chinese {
+          font-size: 20px;
+        }
       }
 
-      .title-english {
-        color: #335FFF;
-      }
 
       .info {
         display: flex;
@@ -257,6 +293,19 @@ const goDetail = (id) => {
 
         .info-left {
           width: 60%;
+
+          .tags {
+            display: flex;
+            flex-wrap: wrap;
+
+            .tag {
+              padding: 5px 10px;
+              border-radius: 5px;
+              background-color: #ccc;
+              margin-right: 5px;
+              margin-bottom: 5px;
+            }
+          }
         }
 
         .info-right {

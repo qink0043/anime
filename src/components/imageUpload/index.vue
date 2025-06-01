@@ -15,8 +15,8 @@
         <div class="center-active" v-if="isFileEnter || onPreview">
           <div class="preview">
             <div class="preview-left">
-              <vueCropper @realTime="realTime" model="contain" :autoCrop="true" :info="false" :center-box="true"
-                ref="cropper" :img="previewUrl" class="cut-img" alt=""></vueCropper>
+              <VueCropper @realTime="realTime" model="contain" :autoCrop="true" :info="false" :center-box="true"
+                ref="cropper" :img="previewUrl" class="cut-img" alt=""></VueCropper>
             </div>
             <div class="preview-right">
               <div class="previewImg" :style="previewData?.div">
@@ -108,10 +108,10 @@ const doImgSearch = async (cropped) => {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
-    }).then((res) => {
-      loading.value = false;
-      animeStore.imageUploadVisible = false;
-      animeStore.imageSearchResult = res.data.result;
+    }).then(async (res) => {
+      loading.value = false
+      animeStore.imageUploadVisible = false
+      animeStore.imageSearchResult = res.data.result
       $router.push({ path: '/imageSearch' })
     })
   } catch (error) {

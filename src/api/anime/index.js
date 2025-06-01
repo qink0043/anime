@@ -15,6 +15,9 @@ export const getAnimeDetailAPI = (id) => bgmRequest.get(`/v0/subjects/${id}`)
 
 export const getCharactersAPI = (id) => bgmRequest.get(`v0/subjects/${id}/characters`)
 
-export const getAnimeSearchAPI = (keyword, max_results, type) => bgmRequest.get(`/search/subject/${keyword}?type=${type}&max_results=${max_results}`)
+export const getAnimeSearchAPI = (keyword, max_results, type) => {
+  const encodeKeyword = keyword.replace(/!/g, '%EF%BC%81')
+  return bgmRequest.get(`/search/subject/${encodeKeyword}?type=${type}&max_results=${max_results}`)
+}
 
 export const getCalendarAnimeAPI = () => bgmRequest.get('/calendar')

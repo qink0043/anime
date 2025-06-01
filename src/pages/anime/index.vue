@@ -136,6 +136,9 @@ onBeforeUnmount(() => {
       margin: 10px 0;
       border-bottom: 1px solid #EEEEEE;
       padding: 5px 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: wrap;
 
       .infokey {
         color: #666666;
@@ -263,6 +266,7 @@ onBeforeUnmount(() => {
 
         .info-middle {
           flex: 1;
+          padding: 10px;
 
           .charac-name,
           .cv-name {
