@@ -6,11 +6,14 @@
     </div>
     <!-- <Bottom /> -->
     <Login />
+    <imageUpload v-if="animeStore.imageUploadVisible" />
   </div>
 </template>
 
 <script setup>
+import { useAnimeStore } from './store/anime';
 
+const animeStore = useAnimeStore()
 </script>
 
 <style scoped lang="scss">

@@ -24,7 +24,7 @@ const topMenuItem = (path) => {
 const menus = [
   {
     title: '动漫',
-    items: [{ name: '动漫搜索', path: '/anime/search' },
+    items: [{ name: '动漫搜索', path: '/search' },
     { name: '热门动漫', path: '/topanime' },
     { name: '视频', path: '/watch/esicope' },
     { name: '评论', path: '/reviews' }]

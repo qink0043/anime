@@ -11,13 +11,25 @@ export const getSeasonAnimesAPI = (year, season, page = 1, limit = 25, filter) =
   }
 }
 
+//根据id获取番剧详情
 export const getAnimeDetailAPI = (id) => bgmRequest.get(`/v0/subjects/${id}`)
 
+//根据id获取角色
 export const getCharactersAPI = (id) => bgmRequest.get(`v0/subjects/${id}/characters`)
 
-export const getAnimeSearchAPI = (keyword, max_results, type) => {
+export const getAnimeSearchAPI = (keyword, max_results, type = '', responseGroup = 'small') => {
   const encodeKeyword = keyword.replace(/!/g, '%EF%BC%81')
-  return bgmRequest.get(`/search/subject/${encodeKeyword}?type=${type}&max_results=${max_results}`)
+  return bgmRequest.get(`/search/subject/${encodeKeyword}?type=${type}&max_results=${max_results}&responseGroup=${responseGroup}`)
+}
+
+//搜索角色
+export const getCharacterSearchAPI = (keyword) => {
+  bgmRequest.post(`/v0/search/characters`, {
+    "keyword": keyword,
+    "fileter": {
+      "nsfw": false
+    }
+  })
 }
 
 export const getCalendarAnimeAPI = () => bgmRequest.get('/calendar')

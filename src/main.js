@@ -7,6 +7,7 @@ import router from '@/router/index'
 import top from '@/components/top/index.vue'
 import bottom from '@/components/bottom/index.vue'
 import login from '@/components/login/index.vue'
+import imageUpload from '@/components/imageUpload/index.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
@@ -25,6 +26,7 @@ const app = createApp(App)
 app.component('Top', top)
 app.component('Bottom', bottom)
 app.component('Login', login)
+app.component('ImageUpload', imageUpload)
 app.use(router)
 app.use(ElementPlus)
 app.use(pinia)

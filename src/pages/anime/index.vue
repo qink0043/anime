@@ -50,7 +50,7 @@
       <div class="character">
         <div class="charac-info" v-for="item in animeStore.characters.slice(0, 12)">
           <div class="info-left">
-            <img class="charac-img" :src="item?.images.small" alt="">
+            <img class="charac-img" :src="item?.images?.small" alt="">
           </div>
           <div class="info-middle">
             <div class="name-info">
@@ -63,7 +63,7 @@
             </div>
           </div>
           <div class="info-right">
-            <img class="cv-img" :src="item.actors[0]?.images.small" alt="">
+            <img class="cv-img" :src="item.actors[0].images?.small" alt="">
           </div>
         </div>
       </div>

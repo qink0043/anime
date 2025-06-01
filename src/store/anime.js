@@ -29,6 +29,8 @@ export const useAnimeStore = defineStore('anime', () => {
   const imageSearchResult = ref([])
   //每日放送
   const calendarAnimeList = ref([])
+  //搜索结果
+  const searchResultList = ref([])
 
   const getTopAnimes = async (type, page, limit) => {
     if (type === 'bypopularity') {
@@ -86,8 +88,12 @@ export const useAnimeStore = defineStore('anime', () => {
     seasonAnimeList.value = [...new Map(addedList.map(item => [item.mal_id, item])).values()]
   }
 
-  const getSearchAnime = async (keyword, max_results, type) => {
-    return await getAnimeSearchAPI(encodeURIComponent(keyword), max_results, type)
+  const getSearchAnime = async (keyword, max_results, type, responseGroup) => {
+    if (max_results === 1) {
+      return await getAnimeSearchAPI(keyword, max_results, type, responseGroup)
+    } else {
+      searchResultList.value = await getAnimeSearchAPI(keyword, max_results, type, responseGroup)
+    }
   }
 
   const getAnimeDetail = async (id) => {
@@ -117,6 +123,7 @@ export const useAnimeStore = defineStore('anime', () => {
     imageSearchResult,
     calendarAnimeList,
     characters,
+    searchResultList,
     getSearchAnime,
     getTopAnimes,
     getNewTopAnimes,

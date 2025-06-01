@@ -120,17 +120,17 @@ watch(selectedIndex, async () => {
 </script>
 
 <style scoped lang="scss">
+.title {
+  background-color: #E1E7F5;
+  border-bottom: 1px solid #2E51A2;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
 .container {
   padding: 10px;
-
-  .title {
-    background-color: #E1E7F5;
-    border-bottom: 1px solid #2E51A2;
-    height: 40px;
-    line-height: 40px;
-    font-weight: 500;
-    font-size: 20px;
-  }
 
   .filter {
     display: flex;

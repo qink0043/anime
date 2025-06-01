@@ -42,7 +42,7 @@
       </el-icon>
     </div>
   </div>
-  
+
 </template>
 
 <script setup>
@@ -57,7 +57,11 @@ const animeStore = useAnimeStore()
 const userStore = useUserStore()
 const token = ref('')
 const inputValue = ref('')
-const search = () => {
+const search = async () => {
+  if (!inputValue.value) {
+    return
+  }
+  await animeStore.getSearchAnime(inputValue.value, 10, '', 'large')
   $router.push({
     path: "/search",
     query: { search: inputValue.value }
