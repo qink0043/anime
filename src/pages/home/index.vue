@@ -45,7 +45,7 @@
             <div v-else>加载中。。。</div>
           </div>
         </div>
-        <div class="airing">每周放送</div>
+        <div class="airing">每日放送</div>
         <div class="airing">
           <div class="airing-title">
             <div class="weekdays" :class="{ active: index == selected }" @click="changeSelected(index)"
@@ -152,6 +152,8 @@ import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import { useRouter } from 'vue-router';
+import { searchVideoAPI } from '@/api/anime';
+
 
 const $router = useRouter()
 const navigation = ref({
@@ -163,7 +165,7 @@ const animeStore = useAnimeStore()
 //定义swpier模块
 const modules = [Navigation]
 
-onMounted(() => {
+onMounted(async () => {
   animeStore.getTopAnimes('airing', 1, 10)
   animeStore.getTopAnimes('upcoming', 1, 10)
   animeStore.getTopAnimes('bypopularity', 1, 10)

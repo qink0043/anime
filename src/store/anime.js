@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getAnimeSearchAPI, getTopAnimesAPI, getSeasonAnimesAPI, getAnimeDetailAPI, getCalendarAnimeAPI, getCharactersAPI } from '@/api/anime'
+import { getAnimeSearchAPI, getTopAnimesAPI, getSeasonAnimesAPI, getAnimeDetailAPI, getCalendarAnimeAPI, getCharactersAPI, searchVideoAPI } from '@/api/anime'
 
 export const useAnimeStore = defineStore('anime', () => {
   //搜索结果列表
@@ -31,6 +31,8 @@ export const useAnimeStore = defineStore('anime', () => {
   const calendarAnimeList = ref([])
   //搜索结果
   const searchResultList = ref([])
+  //视频资源结果
+  const searchVideoList = ref([])
 
   const getTopAnimes = async (type, page, limit) => {
     if (type === 'bypopularity') {
@@ -108,6 +110,11 @@ export const useAnimeStore = defineStore('anime', () => {
   const getCalendarAnime = async () => {
     calendarAnimeList.value = await getCalendarAnimeAPI()
   }
+
+  const getVideoList = async (keyword) => {
+    const res = await searchVideoAPI(keyword)
+    searchVideoList.value = res.data
+  }
   return {
     searchAnimesList,
     newTopAnimeList,
@@ -124,6 +131,7 @@ export const useAnimeStore = defineStore('anime', () => {
     calendarAnimeList,
     characters,
     searchResultList,
+    searchVideoList,
     getSearchAnime,
     getTopAnimes,
     getNewTopAnimes,
@@ -132,5 +140,6 @@ export const useAnimeStore = defineStore('anime', () => {
     getAnimeDetail,
     getCalendarAnime,
     getCharacters,
+    getVideoList,
   }
 })

@@ -1,13 +1,13 @@
 <template>
   <Menu />
   <div class="title">
-    <div class="big-title">{{ animeStore.animeDetail.name_cn || animeStore.animeDetail.name }}</div>
-    <div class="small-title">{{ animeStore.animeDetail.name_cn ? animeStore.animeDetail.name : '' }}</div>
+    <div class="big-title">{{ animeStore.animeDetail.name_cn || animeStore.animeDetail?.name }}</div>
+    <div class="small-title">{{ animeStore.animeDetail.name_cn ? animeStore.animeDetail?.name : '' }}</div>
     <span class="title-type">{{ animeStore.animeDetail.platform }}</span>
   </div>
   <div class="content">
     <div class="left">
-      <img class="img" :src="animeStore.animeDetail.images?.common" alt="">
+      <img class="img" :src="animeStore.animeDetail?.images?.common" alt="">
       <div class="infobox" v-for="item in animeStore.animeDetail.infobox">
         <span class="infokey">{{ item.key }}：</span>
         <span class="infovalue">{{ item.value }}</span>
@@ -23,9 +23,10 @@
         <span>评论</span>
         <span>讨论版</span>
         <span>透视</span>
+        <button @click="searchVideo(animeStore.animeDetail.name_cn || animeStore.animeDetail?.name)">搜索相关视频</button>
       </div>
       <div class="bread-crumb">
-        <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn" :title_japanese="animeStore.animeDetail.name" />
+        <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn" :title_japanese="animeStore.animeDetail?.name" />
       </div>
       <div class="info">
         <div class="score">
@@ -55,15 +56,15 @@
           <div class="info-middle">
             <div class="name-info">
               <div class="role">{{ item.relation }}</div>
-              <div class="charac-name">{{ item.name }}</div>
+              <div class="charac-name">{{ item?.name }}</div>
             </div>
             <div class="cv-info">
               <div class="cv">CV:</div>
-              <div class="cv-name">{{ item.actors[0].name }}</div>
+              <div class="cv-name">{{ item.actors[0]?.name }}</div>
             </div>
           </div>
           <div class="info-right">
-            <img class="cv-img" :src="item.actors[0].images?.small" alt="">
+            <img class="cv-img" :src="item.actors[0]?.images?.small" alt="">
           </div>
         </div>
       </div>
@@ -76,11 +77,12 @@ import { onBeforeUnmount, onMounted, ref } from 'vue';
 import Menu from '@/components/menu/index.vue'
 import { useAnimeStore } from '@/store/anime';
 import BreadCrumb from '@/components/breadCrumb/index.vue'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 //引入柱状图组件
 import BarChart from '@/components/barChart/index.vue'
 
 const $route = useRoute()
+const $router = useRouter()
 const animeStore = useAnimeStore()
 //如果没有数据，则请求数据
 onMounted(async () => {
@@ -94,6 +96,17 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   animeStore.characters = []
 })
+
+//搜索视频
+const searchVideo = async (key) => {
+  const keyword = key.slice(0, 4)
+  console.log(keyword);
+  
+  const res = await animeStore.getVideoList(keyword)
+  console.log(res);
+
+  $router.push({ path: '/searchVideo', query: { keyword } })
+}
 </script>
 
 <style scoped>

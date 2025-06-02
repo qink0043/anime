@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const userInstance = axios.create({
-  baseURL: 'https://auth-backend-tnag.onrender.com/api/user',
-  timeout: 5000
+const ownInstance = axios.create({
+  baseURL: 'https://auth-backend-tnag.onrender.com/api',
+  timeout: 20000
 })
 
 //请求拦截器
-userInstance.interceptors.request.use(config => {
+ownInstance.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
@@ -20,4 +20,4 @@ userInstance.interceptors.response.use((response) => {
   return Promise.reject(new Error(error.message))
 }) */
 
-export default userInstance
+export default ownInstance

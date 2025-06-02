@@ -1,5 +1,6 @@
 import request from "@/utils/request";
 import bgmRequest from "@/utils/bgmRequest";
+import ownInstance from "@/utils/user";
 
 export const getTopAnimesAPI = (type, page = 1, limit = 25) => request.get(`top/anime?filter=${type}&page=${page}&limit=${limit}`)
 
@@ -33,3 +34,9 @@ export const getCharacterSearchAPI = (keyword) => {
 }
 
 export const getCalendarAnimeAPI = () => bgmRequest.get('/calendar')
+
+export const getVideoAPI = () => ownInstance.get('/anime/video')
+
+export const searchVideoAPI = (keyword) => ownInstance.get(`/anime/search?keyword=${keyword}`,)
+
+export const getVideoDetailAPI = (url) => ownInstance.get(`/anime/detail?url=${url}`)

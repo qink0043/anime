@@ -16,6 +16,10 @@ export default createRouter({
       component: () => import('@/pages/search/index.vue')
     },
     {
+      path: '/searchVideo',
+      component: () => import('@/pages/searchVideo/index.vue')
+    },
+    {
       path: '/topanime',
       component: () => import('@/pages/topAnime/index.vue')
     },
