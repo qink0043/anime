@@ -35,7 +35,7 @@ export const getCharacterSearchAPI = (keyword) => {
 
 export const getCalendarAnimeAPI = () => bgmRequest.get('/calendar')
 
-export const getVideoAPI = () => ownInstance.get('/anime/video')
+export const getVideoAPI = (url) => ownInstance.get(`/anime/video?url=${url}`)
 
 export const searchVideoAPI = (keyword) => ownInstance.get(`/anime/search?keyword=${keyword}`,)
 

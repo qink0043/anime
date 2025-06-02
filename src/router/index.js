@@ -20,6 +20,10 @@ export default createRouter({
       component: () => import('@/pages/searchVideo/index.vue')
     },
     {
+      path: '/watch',
+      component: () => import('@/pages/watch/index.vue')
+    },
+    {
       path: '/topanime',
       component: () => import('@/pages/topAnime/index.vue')
     },

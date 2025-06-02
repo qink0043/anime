@@ -23,7 +23,7 @@
         <span>评论</span>
         <span>讨论版</span>
         <span>透视</span>
-        <button @click="searchVideo(animeStore.animeDetail.name_cn || animeStore.animeDetail?.name)">搜索相关视频</button>
+        <span @click="searchVideo(animeStore.animeDetail.name_cn || animeStore.animeDetail?.name)">观看相关视频👉</span>
       </div>
       <div class="bread-crumb">
         <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn" :title_japanese="animeStore.animeDetail?.name" />
@@ -99,12 +99,8 @@ onBeforeUnmount(() => {
 
 //搜索视频
 const searchVideo = async (key) => {
-  const keyword = key.slice(0, 4)
-  console.log(keyword);
-  
-  const res = await animeStore.getVideoList(keyword)
-  console.log(res);
-
+  const keyword = encodeURI(key.slice(0, 4))
+  await animeStore.getVideoList(keyword)
   $router.push({ path: '/searchVideo', query: { keyword } })
 }
 </script>
@@ -168,6 +164,17 @@ const searchVideo = async (key) => {
     .menu {
       padding: 5px 0;
       border-bottom: 1px solid #2E51A2;
+      display: flex;
+
+      :last-child {
+        margin-left: auto;
+        vertical-align: text-top;
+
+        &:hover {
+          color: #2E51A2;
+          transition: all 0.3s ease;
+        }
+      }
 
       span {
         margin-right: 15px;
