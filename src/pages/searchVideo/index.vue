@@ -1,7 +1,9 @@
 <template>
   <div class="video-list">
-    <div class="video-item" v-for="(item, index) in animeStore.searchVideoList" :key="index">
-      <img class="img" @click="goWatch(item.url)" :src="item.img" alt="视频封面">
+    <div class="video-item" @click="goWatch(item.url)" v-for="(item, index) in animeStore.searchVideoList" :key="index">
+      <div class="img-container">
+        <img class="img" onerror="this.display='none'" :src="item.img" alt="">
+      </div>
       <div class="video-info">
         <div>{{ item.title }}</div>
       </div>
@@ -46,9 +48,17 @@ const goWatch = async (url) => {
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .img {
-      width: 100%;
+    .img-container {
       aspect-ratio: 9 / 13;
+      background-image: url('@/assets/img/error.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      .img {
+        width: 100%;
+        object-fit: cover;
+      }
     }
   }
 }

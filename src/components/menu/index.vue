@@ -3,8 +3,8 @@
     <div class="topAndMenu" v-for="(menu, index) in menus" :key="index" @mouseenter="activeMenu = index"
       @mouseleave="activeMenu = null">
       <p class="top-p" :class="{ 'active': activeMenu === index }">{{ menu.title }}</p>
-      <div class="menu" v-show="activeMenu === index" @mouseenter="activeMenu = index">
-        <div class="p" v-for="(item, index) in menu.items" :key="index">
+      <div class="menu" v-show="true" @mouseenter="activeMenu = index">
+        <div class="menu-p" v-for="(item, index) in menu.items" :key="index">
           <p @click="topMenuItem(item.path)">{{ item.name }}</p>
         </div>
       </div>
@@ -64,6 +64,23 @@ const menus = [
   .topAndMenu {
     position: relative;
 
+    .top-p {
+      width: 90px;
+      text-align: center;
+      line-height: 40px;
+      transition: all 0.3s ease;
+
+      &.active,
+      &:hover {
+        background-color: white;
+        color: black;
+      }
+
+      &:hover+.menu {
+        transform: scaleY(1);
+      }
+    }
+
     .menu {
       background-color: white;
       position: absolute;
@@ -72,9 +89,13 @@ const menus = [
       min-width: 90px;
       z-index: 2;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transform: scaleY(0);
+      transition: all 0.3s ease;
+      transform-origin: top;
 
-      .p {
+      .menu-p {
         padding: 5px;
+        height: auto;
 
         p {
           height: 40px;
@@ -90,18 +111,6 @@ const menus = [
           color: white;
         }
       }
-    }
-  }
-
-  .top-p {
-    width: 90px;
-    text-align: center;
-    line-height: 40px;
-
-    &.active,
-    &:hover {
-      background-color: white;
-      color: black;
     }
   }
 }

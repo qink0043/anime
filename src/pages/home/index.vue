@@ -22,7 +22,7 @@
               <div class="swiper-button-prev" />
               <div class="swiper-button-next" />
             </swiper>
-            <div v-else>加载中。。。</div>
+            <div class="swiper" v-else>加载中。。。</div>
           </div>
         </div>
         <div class="popular">
@@ -42,7 +42,7 @@
               <div class="swiper-button-prev" />
               <div class="swiper-button-next" />
             </swiper>
-            <div v-else>加载中。。。</div>
+            <div class="swiper" v-else>加载中。。。</div>
           </div>
         </div>
         <div class="airing">每日放送</div>
@@ -55,7 +55,7 @@
           <div class="airing-info">
             <div class="info-item" v-for="item in animeStore.calendarAnimeList[selected]?.items">
               <div class="item-up">
-                <Icon @click="goDetailById(item.id)" :url="item.images.common" :name="item.name_cn || item.name" />
+                <Icon @click="goDetailById(item.id)" :url="item.images.large" :name="item.name_cn || item.name" />
               </div>
               <div class="item-down">
                 <div class="air-date">上映时间{{ item.air_date }}</div>
@@ -79,8 +79,8 @@
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
-                  item.title_japanese }}</div>
+                <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
+                  item.title_japanese }}</span>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -98,12 +98,12 @@
             :key="item.mal_id">
             <div class="number">{{ index + 1 }}</div>
             <div class="middle">
-              <div class="picture" @click="goDetailByName(item.title_chinese)">
+              <div class="picture" @click="goDetailByName(item.title_japanese)">
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetailByName(item.title_chinese)">{{ item.title_chinese ||
-                  item.title_japanese }}</div>
+                <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
+                  item.title_japanese }}</span>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -125,8 +125,8 @@
                 <img :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
-                <div class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
-                  item.title_japanese }}</div>
+                <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
+                  item.title_japanese }}</span>
                 <div class="tips">{{ item.type }},评分:{{ item.score }}</div>
               </div>
             </div>
@@ -152,8 +152,6 @@ import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import { useRouter } from 'vue-router';
-import { searchVideoAPI } from '@/api/anime';
-
 
 const $router = useRouter()
 const navigation = ref({
@@ -413,13 +411,20 @@ const changeSelected = (index) => {
 
           .info {
             .name {
-              color: #1C439B;
               line-height: 20px;
+              color: #1C439B;
+              background: linear-gradient(to right, #1C439B) no-repeat;
+              background-size: 0 2px;
+              background-position: right bottom;
+              transition: background-size 0.3s ease;
+
+              &:hover {
+                background-size: 100% 2px;
+                background-position: left bottom;
+              }
             }
 
-            .name:hover {
-              text-decoration: underline;
-            }
+
 
             .tips {
               margin-top: 15px;

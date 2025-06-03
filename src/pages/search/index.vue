@@ -18,8 +18,7 @@
     <div class="nav-2" v-else>
       <div class="tag-container">
         <div class="tag" :class="{ active: activeIndex == index }" @mouseenter="activeIndex = index"
-          @mouseleave="activeIndex = selectedIndex"
-           v-for="(type, index) in Object.values(personMap)">
+          @mouseleave="activeIndex = selectedIndex" v-for="(type, index) in Object.values(personMap)">
           {{ type }}
         </div>
       </div>
@@ -28,7 +27,8 @@
   </div>
   <div class="content">
     <div class="content-left">
-      <div class="result" v-for="item in animeStore.searchResultList.list" :key="item.id">
+      <div class="result" @click="goDetail(item.type, item.id)" v-for="item in animeStore.searchResultList.list"
+        :key="item.id">
         <div class="result-left">
           <img class="result-img" :src="item.images?.large" alt="">
         </div>
@@ -53,9 +53,10 @@
 import { computed, onMounted, ref } from 'vue';
 import { useAnimeStore } from '@/store/anime';
 import Menu from '@/components/menu/index.vue'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const $route = useRoute()
+const $router = useRouter()
 const animeStore = useAnimeStore();
 const nav = ref(true)
 const activeIndex = ref(0)
@@ -94,6 +95,13 @@ const personMap = {
 
 const typeSearch = async (type) => {
   await animeStore.getSearchAnime($route.query.search, 10, type, 'large')
+}
+
+const goDetail = async (type, id) => {
+  if (type === 2) {
+    await animeStore.getAnimeDetail(id)
+    $router.push({ path: '/anime', query: { id } })
+  }
 }
 
 onMounted(async () => {

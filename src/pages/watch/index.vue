@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="video">
-      <iframe class="video-player" width="100%" height="100%" :scrolling="no" :src="animeStore.videoUrl"
-        :frameborder="no" marginwidth="0" marginheight="0">
+      <iframe class="video-player" width="100%" height="100%" :scrolling="no"
+        :src="animeStore.videoUrl" :frameborder="no" marginwidth="0" marginheight="0">
       </iframe>
     </div>
     <div class="episodes">
