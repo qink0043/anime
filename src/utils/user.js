@@ -1,9 +1,10 @@
 import axios from "axios";
+import { ElMessage } from "element-plus";
 import NProgress from "nprogress";
 
 const ownInstance = axios.create({
   baseURL: 'https://auth-backend-tnag.onrender.com/api',
-  timeout: 20000
+  timeout: 15000
 })
 
 //请求拦截器
@@ -12,7 +13,10 @@ ownInstance.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
-}, error => Promise.reject(error))
+}, error => {
+  ElMessage.error('请求超时')
+  return Promise.reject(error)
+})
 
 //响应拦截器
 ownInstance.interceptors.response.use((response) => {
@@ -20,6 +24,7 @@ ownInstance.interceptors.response.use((response) => {
   return response
 }, (error) => {
   NProgress.done()
+  ElMessage.error('请求超时')
   console.log(error)
   return Promise.reject(new Error(error.message))
 })

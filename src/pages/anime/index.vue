@@ -56,7 +56,7 @@
           <div class="info-middle">
             <div class="name-info">
               <div class="role">{{ item.relation }}</div>
-              <div class="charac-name">{{ item?.name }}</div>
+              <sapn class="charac-name">{{ item?.name }}</sapn>
             </div>
             <div class="cv-info">
               <div class="cv">CV:</div>
@@ -95,6 +95,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   animeStore.characters = []
+  animeStore.animeDetailList = []
 })
 
 //搜索视频
@@ -298,10 +299,11 @@ const searchVideo = async (key) => {
             margin-bottom: 20px;
 
             .role {
-              border: 1px solid #666;
               border-radius: 3px;
               color: #666;
               margin-right: 5px;
+              width: 20%;
+              height: fit-content;
             }
           }
 
@@ -310,6 +312,9 @@ const searchVideo = async (key) => {
 
             .cv {
               color: #666;
+              margin-right: 5px;
+              width: 20%;
+              height: fit-content;
             }
           }
         }

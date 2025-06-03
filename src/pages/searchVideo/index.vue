@@ -36,12 +36,17 @@ const goWatch = async (url) => {
 .video-list {
   display: flex;
   flex-wrap: wrap;
+  min-height: 600px;
 
   .video-item {
     width: 20%;
     padding: 10px;
+    height: 300px;
     box-sizing: border-box;
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &:hover {
       transform: translateY(-5px);
@@ -49,16 +54,27 @@ const goWatch = async (url) => {
     }
 
     .img-container {
-      aspect-ratio: 9 / 13;
+      width: 100%;
+      aspect-ratio: 9 / 20;
       background-image: url('@/assets/img/error.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
+      overflow: hidden;
 
       .img {
+        flex: 1;
         width: 100%;
+        height: 100%;
         object-fit: cover;
       }
+    }
+
+    .video-info {
+      font-size: 14px;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
