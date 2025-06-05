@@ -82,7 +82,7 @@ const load = async () => {
   }
   isLoading.value = true
   tagData.page++
-  await animeStore.getNewSeasonAnimes(2025, 'summer', tagData.page, 6, tagData.filter)
+  await animeStore.getNewSeasonAnimes(2025, 'summer', tagData.page, 12, tagData.filter)
   isLoading.value = false
   if (animeStore.newSeasonAnimeList?.length === 0) {
     tagData.hasMore = false
