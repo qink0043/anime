@@ -1,15 +1,12 @@
 <template>
   <div class="icon">
-    <img class="realImg" :key="url" :src="props.url" @load="loaded" :title="name">
+    <img class="realImg" :key="url" :src="props.url" :title="name">
     <img class="loadingImg" src="@/assets/img/loading.gif">
     <span>{{ name }}</span>
   </div>
 </template>
 
 <script setup>
-const loaded = (e) => {
-  e.target.style.opacity = 1
-}
 const props = defineProps({
   url: {
     type: String,
