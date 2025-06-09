@@ -1,18 +1,16 @@
 <template>
   <div class="icon">
-    <img @load="onLoad" :src="url" :title="name">
+    <img class="realImg" :key="url" :src="props.url" @load="loaded" :title="name">
+    <img class="loadingImg" src="@/assets/img/loading.gif">
     <span>{{ name }}</span>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
-const loaded = ref(false)
-const onLoad = () => {
-  loaded.value = true
+const loaded = (e) => {
+  e.target.style.opacity = 1
 }
-defineProps({
+const props = defineProps({
   url: {
     type: String,
     default: ''
@@ -44,6 +42,14 @@ defineProps({
     min-height: 100%;
     object-fit: cover;
     object-position: center;
+  }
+
+  .realImg {
+    z-index: 2;
+  }
+
+  .loadingImg {
+    z-index: 1;
   }
 
   &::after {
