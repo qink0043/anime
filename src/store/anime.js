@@ -40,19 +40,22 @@ export const useAnimeStore = defineStore('anime', () => {
 
   const getTopAnimes = async (type, page, limit) => {
     if (type === 'bypopularity') {
-      topPopularAnimeList.value = await getTopAnimesAPI('bypopularity', page, limit)
+       const data = await getTopAnimesAPI('bypopularity', page, limit)
+       topPopularAnimeList.value = [...new Map(data.map(item => [item.mal_id, item])).values()]
       // topPopularAnimeList.value.forEach(async obj => {
       //   obj.title_chinese = await getAnimeCnName(obj.title_japanese)
       // });
     }
     if (type === 'upcoming') {
-      topUpcomingAnimeList.value = await getTopAnimesAPI('upcoming', page, limit)
-      // topUpcomingAnimeList.value.forEach(async obj => {
+      const data = await getTopAnimesAPI('upcoming', page, limit)
+      topUpcomingAnimeList.value = [...new Map(data.map(item => [item.mal_id, item])).values()]
+       // topUpcomingAnimeList.value.forEach(async obj => {
       //   obj.title_chinese = await getAnimeCnName(obj.title)
       // });
     }
     if (type === 'airing') {
-      topAiringAnimeList.value = await getTopAnimesAPI('airing', page, limit)
+      const data = await getTopAnimesAPI('airing', page, limit)
+       topAiringAnimeList.value = [...new Map(data.map(item => [item.mal_id, item])).values()]
       // topAiringAnimeList.value.forEach(async obj => {
       //   obj.title_chinese = await getAnimeCnName(obj.title)
       // });
@@ -80,8 +83,8 @@ export const useAnimeStore = defineStore('anime', () => {
   }
 
   const getSeasonAnimes = async (year, season, page, limit, filter) => {
-    seasonAnimeList.value = await getSeasonAnimesAPI(year, season, page, limit, filter)
-    seasonAnimeList.value = [...new Map(seasonAnimeList.value.map(item => [item.mal_id, item])).values()]
+    const data = await getSeasonAnimesAPI(year, season, page, limit, filter)
+    seasonAnimeList.value = [...new Map(data.map(item => [item.mal_id, item])).values()]
     //日文标题变中文
     // seasonAnimeList.value.forEach(async obj => {
     //   obj.title_chinese = await getAnimeCnName(obj.title)
