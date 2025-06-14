@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="top">
-      <!-- <img src="@/assets/img/top.webp" alt=""> -->
+      <img src="@/assets/img/top.webp" alt="">
       <!-- 顶部导航 -->
       <Menu />
     </div>
@@ -52,8 +52,8 @@
               v-for="(item, index) in animeStore.calendarAnimeList">{{
                 item.weekday.cn }}</div>
           </div>
-          <div class="airing-info">
-            <div class="info-item" v-for="item in animeStore.calendarAnimeList[selected]?.items">
+          <div class="airing-info" v-for="i in 7" v-show="i === selected + 1">
+            <div class="info-item" v-for="item in animeStore.calendarAnimeList[i - 1]?.items">
               <div class="item-up">
                 <Icon @click="goDetailById(item.id)" :url="item.images.large" :name="item.name_cn || item.name" />
               </div>
@@ -152,6 +152,7 @@ import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import { useRouter } from 'vue-router';
+import { lazyLoading } from '@/utils/lazyLoading';
 
 const $router = useRouter()
 const navigation = ref({
@@ -164,6 +165,7 @@ const animeStore = useAnimeStore()
 const modules = [Navigation]
 
 onMounted(async () => {
+  lazyLoading()
   animeStore.getTopAnimes('airing', 1, 10)
   animeStore.getTopAnimes('upcoming', 1, 10)
   animeStore.getTopAnimes('bypopularity', 1, 10)
@@ -218,6 +220,7 @@ const changeSelected = (index) => {
   .content {
     display: flex;
     justify-content: space-between;
+    min-height: 900px;
 
     .left {
       width: 60%;

@@ -1,11 +1,11 @@
 <template>
   <div class="top-nav">
-    <div class="topAndMenu" v-for="(menu, index) in menus" :key="index" @mouseenter="activeMenu = index"
+    <div class="topAndMenu" v-for="(menu, index) in menus" :key="index" @mouseenter="activeMenu = null"
       @mouseleave="activeMenu = null">
       <p class="top-p" :class="{ 'active': activeMenu === index }">{{ menu.title }}</p>
-      <div class="menu" v-show="true" @mouseenter="activeMenu = index">
-        <div class="menu-p" v-for="(item, index) in menu.items" :key="index">
-          <p @click="topMenuItem(item.path)">{{ item.name }}</p>
+      <div class="menu" @mouseenter="activeMenu = index">
+        <div class="menu-p" v-for="(item, index) in menu.items" :key="index" @click="topMenuItem(item.path)">
+          {{ item.name }}
         </div>
       </div>
     </div>
@@ -93,21 +93,18 @@ const menus = [
       transition: all 0.3s ease;
       transform-origin: top;
 
-      .menu-p {
-        padding: 5px;
-        height: auto;
-
-        p {
-          height: 40px;
-          line-height: 40px;
-          color: black;
-        }
+      &:hover {
+        transform: scaleY(1);
       }
 
-      .p:hover {
-        background-color: #2E51A2;
+      .menu-p {
+        padding: 5px;
+        height: 40px;
+        color: black;
+        text-align: center;
 
-        p {
+        &:hover {
+          background-color: #2E51A2;
           color: white;
         }
       }

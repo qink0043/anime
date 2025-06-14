@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <el-skeleton :rows="5" v-if="loading" animated />
+  <div v-else class="container">
     <Top />
     <div class="content">
       <router-view></router-view>
@@ -12,8 +13,15 @@
 
 <script setup>
 import { useAnimeStore } from './store/anime';
+import { onMounted, ref } from 'vue';
 
+const loading = ref(true)
 const animeStore = useAnimeStore()
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false
+  }, 2000)
+})
 </script>
 
 <style scoped lang="scss">

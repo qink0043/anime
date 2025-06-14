@@ -13,7 +13,6 @@ export default defineConfig({
     imagetools({
       force: true,
     }),
-    viteCompression(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
