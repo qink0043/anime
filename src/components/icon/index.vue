@@ -1,6 +1,6 @@
 <template>
   <div class="icon">
-    <img class="realImg" :key="url" :src="props.url" :title="name">
+    <img loading="lazy" class="realImg" :key="url" :src="url" :title="name">
     <span>{{ name }}</span>
   </div>
 </template>
@@ -9,7 +9,7 @@
 const props = defineProps({
   url: {
     type: String,
-    default: '@/assets/img/loading/gif'
+    default: ''
   },
   name: {
     type: String,

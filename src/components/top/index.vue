@@ -1,8 +1,8 @@
 <template>
   <div class="top">
     <div class="left" @click="goHome">
-      <img class="logo" width="40" :src="logo" alt="">
-      <img class="title" width="80" :src="title" alt="">
+      <img class="logo" width="40" src="../../assets/img/logo.png" alt="">
+      <img class="title" width="80" src="../../assets/img/titleLogo.png" alt="">
     </div>
     <!-- 搜索框 -->
     <div class="center">
@@ -51,8 +51,6 @@ import { Search, ArrowDown } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/user';
 import { useAnimeStore } from '@/store/anime';
-import logo from '@/assets/img/logo.png'
-import title from '@/assets/img/titleLogo.png'
 
 const $router = useRouter()
 const animeStore = useAnimeStore()

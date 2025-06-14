@@ -7,11 +7,16 @@
   </div>
   <div class="content">
     <div class="left">
-      <img class="img" :src="animeStore.animeDetail?.images?.common" alt="">
+      <img class="img" @load="loading = false" :src="animeStore.animeDetail?.images?.common" alt="" v-show="!loading">
+      <el-skeleton :loading="loading" animated v-show="loading">
+        <template #template>
+          <el-skeleton-item class="img" variant="image" />
+        </template>
+      </el-skeleton>
       <div class="infobox" v-for="item in animeStore.animeDetail.infobox">
         <span class="infokey">{{ item.key }}：</span>
         <span class="infovalue">{{Array.isArray(item.value) ? item.value.map(i => i.v).join('/') : item.value
-          }}</span>
+        }}</span>
       </div>
     </div>
     <div class="right">
@@ -57,7 +62,7 @@
           <div class="info-middle">
             <div class="name-info">
               <div class="role">{{ item.relation }}</div>
-              <sapn class="charac-name">{{ item?.name }}</sapn>
+              <span class="charac-name">{{ item?.name }}</span>
             </div>
             <div class="cv-info">
               <div class="cv">CV:</div>
@@ -107,6 +112,9 @@ const searchVideo = async (key) => {
   await animeStore.getVideoList(keyword)
   $router.push({ path: '/searchVideo', query: { keyword } })
 }
+
+const loading = ref(true)
+
 </script>
 
 <style scoped>
@@ -143,6 +151,7 @@ const searchVideo = async (key) => {
     .img {
       width: 100%;
       height: auto;
+      min-height: 400px;
     }
 
     .infobox {

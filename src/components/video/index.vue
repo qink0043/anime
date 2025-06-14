@@ -1,6 +1,6 @@
 <template>
   <div class="video" @click="openPlayer">
-    <img @load="onLoad" :data-src="imgUrl">
+    <img loading="lazy" @load="onLoad" :src="imgUrl">
     <span>{{ name }}</span>
     <div class="play-icon">
       <svg t="1748751846712" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import { lazyLoading } from '@/utils/lazyLoading'
 import { onMounted, ref } from 'vue'
 const loaded = ref(false)
 const onLoad = () => {
@@ -29,9 +28,6 @@ defineProps({
     type: String,
     default: ''
   }
-})
-onMounted(() => {
-  lazyLoading()
 })
 </script>
 
