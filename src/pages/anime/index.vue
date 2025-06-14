@@ -10,7 +10,8 @@
       <img class="img" :src="animeStore.animeDetail?.images?.common" alt="">
       <div class="infobox" v-for="item in animeStore.animeDetail.infobox">
         <span class="infokey">{{ item.key }}：</span>
-        <span class="infovalue">{{ item.value }}</span>
+        <span class="infovalue">{{Array.isArray(item.value) ? item.value.map(i => i.v).join('/') : item.value
+          }}</span>
       </div>
     </div>
     <div class="right">

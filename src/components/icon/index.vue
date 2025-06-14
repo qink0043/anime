@@ -1,12 +1,14 @@
 <template>
   <div class="icon">
-    <img class="realImg" :key="url" :src="props.url" :title="name">
-    <img class="loadingImg" src="@/assets/img/loading.gif">
+    <img class="realImg" :key="url" :data-src="props.url" :title="name">
     <span>{{ name }}</span>
   </div>
 </template>
 
 <script setup>
+import { lazyLoading } from '@/utils/lazyLoading';
+import { onMounted } from 'vue';
+
 const props = defineProps({
   url: {
     type: String,
@@ -16,6 +18,9 @@ const props = defineProps({
     type: String,
     default: ''
   }
+})
+onMounted(() => {
+  lazyLoading()
 })
 </script>
 
@@ -43,10 +48,6 @@ const props = defineProps({
 
   .realImg {
     z-index: 2;
-  }
-
-  .loadingImg {
-    z-index: 1;
   }
 
   &::after {

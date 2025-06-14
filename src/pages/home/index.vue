@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="top">
-      <img src="@/assets/img/top.png" alt="">
+      <!-- <img src="@/assets/img/top.webp" alt=""> -->
       <!-- 顶部导航 -->
       <Menu />
     </div>
@@ -76,7 +76,7 @@
             <div class="number">{{ index + 1 }}</div>
             <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
-                <img :src="item.images.jpg.image_url" alt="">
+                <img :data-src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
                 <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
@@ -99,7 +99,7 @@
             <div class="number">{{ index + 1 }}</div>
             <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
-                <img :src="item.images.jpg.image_url" alt="">
+                <img :data-src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
                 <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
@@ -122,7 +122,7 @@
             <div class="number">{{ index + 1 }}</div>
             <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
-                <img :src="item.images.jpg.image_url" alt="">
+                <img :data-src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
                 <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
