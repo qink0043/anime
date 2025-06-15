@@ -4,7 +4,7 @@ import NProgress from "nprogress";
 import CookieUtil from "./cookie";
 
 const ownInstance = axios.create({
-  baseURL: 'https://auth-backend-tnag.onrender.com/api',
+  baseURL: 'http://124.71.198.227/api',
   timeout: 15000
 })
 
