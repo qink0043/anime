@@ -4,7 +4,7 @@ import NProgress from "nprogress";
 import CookieUtil from "./cookie";
 
 const ownInstance = axios.create({
-  baseURL: 'http://124.71.198.227/api',
+  baseURL: 'http://124.71.198.227:3000/api',
   timeout: 15000
 })
 
