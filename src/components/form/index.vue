@@ -11,7 +11,7 @@
       </div>
       <el-form :model="ruleForm" ref="ruleFormRef" style="max-width: 600px" :rules="rules" label-width="auto"
         status-icon>
-        <el-form-item prop="email">
+        <el-form-item prop="email" v-if="!tab">
           <el-input :prefix-icon="Message" v-model="ruleForm.email" style="width: 340px;height: 50px;"
             placeholder="请输入邮箱" type="email" />
         </el-form-item>
@@ -24,7 +24,7 @@
             @blur="open2233" style="width: 340px; height: 50px;" type="password" placeholder="请输入密码">
           </el-input>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="password" v-if="!tab">
           <el-input ref="passwordInput" :prefix-icon="Lock" v-model="ruleForm.confirmPassword" @focus="close2233"
             @blur="open2233" style="width: 340px; height: 50px;" type="password" placeholder="请确认密码">
           </el-input>
@@ -119,14 +119,14 @@ const submitForm = (formEl, type) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      const data = {
-        email: ruleForm.email,
-        userName: ruleForm.userName,
-        password: ruleForm.password,
-        confirmPassword: ruleForm.confirmPassword
-      }
       isSubmit.value = true
       if (type === 'register') {
+        const data = {
+          email: ruleForm.email,
+          userName: ruleForm.userName,
+          password: ruleForm.password,
+          confirmPassword: ruleForm.confirmPassword
+        }
         registerAPI(data).then(res => {
           if (res.code === 200) {
             ElMessage({ type: 'success', message: '注册成功' })
@@ -140,21 +140,35 @@ const submitForm = (formEl, type) => {
         }).finally(() => {
           isSubmit.value = false
         })
-      }
-    } else if (type === 'login') {
-      loginAPI(data).then(res => {
-        if (res.code === 200) {
-          ElMessage({ type: 'success', message: '登录成功' })
-          //登录成功后，关闭登录对话框
-          userStore.formVisiable = false
-        } else {
-          ElMessage({ type: 'error', message: res.msg })
+      } else if (type === 'login') {
+        const data = {
+          userName: ruleForm.userName,
+          password: ruleForm.password,
         }
-      }).catch(err => {
-        ElMessage({ type: 'error', message: err })
-      }).finally(() => {
-        isSubmit.value = false
-      })
+        loginAPI(data).then(res => {
+          if (res.code === 200) {
+            ElMessage({ type: 'success', message: '登录成功' })
+            //登录成功后，关闭登录对话框
+            userStore.formVisiable = false
+            const { userName, email, token } = res.data
+            // 设置token
+            userStore.setToken(token)
+            //设置用户信息
+            userStore.setUserInfo({
+              userName,
+              email
+            })
+          } else {
+            ElMessage.error(res.msg)
+          }
+        }).catch(err => {
+          ElMessage.error(err.msg)
+        }).finally(() => {
+          isSubmit.value = false
+        })
+      }
+    } else {
+      ElMessage('错误')
     }
   })
 }
@@ -168,37 +182,9 @@ const open2233 = () => {
   isEyesOpen.value = true
 }
 
-//存储登录表单的信息
-const loginParams = reactive({
-  accountNumber: '',
-  password: ''
-})
-//自定义表单校验规则
-const regAccountName = /^[0-9]{6,12}$/   //6-12位阿拉伯数字
-const regPassword = /^[a-z0-9]{6,12}$/   //6-12位阿拉伯数字和小写字母的组合
 
 const loading = ref(false)
-//点击登录
-const goLogin = () => {
-  //设置loading状态
-  loading.value = true
-  //表单校验
-  if (regAccountName.test(loginParams.accountNumber) && regPassword.test(loginParams.password)) {
-    //发送登录请求
-    userStore.login(loginParams.accountNumber, loginParams.password)
-      .then(() => {
-        //关闭loading状态
-        ElMessage.success('登录成功')
-        userStore.visiable = false
-      }).catch(err => {
-        //关闭loading状态
-        loading.value = false
-        ElMessage.error(err.response?.error || '登录失败')
-      })
-  } else {
-    ElMessage.error('账号或密码错误')
-  }
-}
+
 </script>
 
 <style scoped lang="scss">

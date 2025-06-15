@@ -15,7 +15,7 @@ export const registerAPI = async (params) => {
 //登录
 export const loginAPI = async (params) => {
   try {
-    const res = await ownInstance.get('/user/login', {
+    const res = await ownInstance.post('/user/login', {
       params
     });
     return res.data;

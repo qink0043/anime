@@ -9,15 +9,15 @@ export const useUserStore = defineStore('user', () => {
   const token = CookieUtil.getCookie("token")
 
   const setToken = (token) => {
-    //设置token到cookie
-    this.token = token
     CookieUtil.setCookie("token", token)
   }
 
-  const setUserInfo = (userInfo) => {
+  const setUserInfo = (useInfo) => {
+    console.log(useInfo);
+    
     // 设置用户信息
-    this.userInfo = userInfo
-    localStorage.setItem("userInfo", JSON.stringify(this.userInfo))
+    userInfo = useInfo
+    localStorage.setItem("userInfo", JSON.stringify(userInfo))
   }
 
   const loginOut = () => {

@@ -15,7 +15,6 @@ ownInstance.interceptors.request.use(config => {
   if (token) config.headers.Authorization = CookieUtil.getCookie("token")
   return config
 }, error => {
-  ElMessage.error(error.message)
   return Promise.reject(error)
 })
 
@@ -25,8 +24,7 @@ ownInstance.interceptors.response.use((response) => {
   return response
 }, (error) => {
   NProgress.done()
-  ElMessage.error(error.message)
-  console.log(error)
+  ElMessage.error(error.response.data.msg)
   return Promise.reject(new Error(error.message))
 })
 

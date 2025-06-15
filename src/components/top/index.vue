@@ -23,10 +23,10 @@
     </div>
     <div class="userinfo" v-else>
       <div class="avatar">
-        <img :src="userStore.userData.avatar" alt="">
+        <img src="" alt="">
       </div>
       <el-dropdown class="username">
-        {{ userStore.userData.username }}
+        {{ userStore.userInfo.userName }}
         <el-icon class="el-icon--right">
           <ArrowDown />
         </el-icon>
