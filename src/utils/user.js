@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import NProgress from "nprogress";
+import CookieUtil from "./cookie";
 
 const ownInstance = axios.create({
   baseURL: 'https://auth-backend-tnag.onrender.com/api',
@@ -10,8 +11,8 @@ const ownInstance = axios.create({
 //请求拦截器
 ownInstance.interceptors.request.use(config => {
   NProgress.start()
-  const token = localStorage.getItem('token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
+  const token = CookieUtil.getCookie('token')
+  if (token) config.headers.Authorization = CookieUtil.getCookie("token")
   return config
 }, error => {
   ElMessage.error('请求超时')

@@ -19,8 +19,7 @@
       <el-button @click="showImageUpload">上传图片搜索</el-button>
     </div>
     <div class="right" v-if="!userStore.token">
-      <el-button class="login" @click="openLoginDialog" type="primary" :plain="true">登录</el-button>
-      <!-- <el-button class="register" @click="goRegister" type="primary" color="#2E51A2">注册</el-button> -->
+      <el-button class="login" @click="openFormDialog" type="primary" color="#2E51A2">登录</el-button>
     </div>
     <div class="userinfo" v-else>
       <div class="avatar">
@@ -68,9 +67,9 @@ const search = async () => {
   });
 }
 
-//登录
-const openLoginDialog = () => {
-  userStore.visiable = true
+//表单弹窗
+const openFormDialog = () => {
+  userStore.formVisiable = true
 }
 //退出登录
 const loginOut = () => {
@@ -124,7 +123,7 @@ const showImageUpload = () => {
   }
 
   .right {
-    .register {
+    .login {
       background-color: #2E51A2;
       border-radius: 5px;
       margin-right: 10px;

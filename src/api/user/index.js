@@ -1,21 +1,25 @@
 import ownInstance from "@/utils/user";
 
 //注册
-export const registerAPI = (accountNumber, password, username) => {
-  return ownInstance.post('/user/register', {
-    accountNumber,
-    password,
-    username
-  })
+export const registerAPI = async (params) => {
+  try {
+    const res = await ownInstance.post('/user/register', {
+      params
+    });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
 }
 
 //登录
-export const loginAPI = (accountNumber, password) => {
-  return ownInstance.post('/user/login', {
-    accountNumber,
-    password
-  })
+export const loginAPI = async (params) => {
+  try {
+    const res = await ownInstance.get('/user/login', {
+      params
+    });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
 }
-
-//获取用户信息
-export const getMeAPI = () => ownInstance.get('/user/me')

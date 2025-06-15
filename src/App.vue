@@ -6,7 +6,7 @@
       <router-view></router-view>
     </div>
     <!-- <Bottom /> -->
-    <Login />
+    <Form />
     <imageUpload v-if="animeStore.imageUploadVisible" />
   </div>
 </template>

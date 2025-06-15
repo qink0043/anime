@@ -1,42 +1,37 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { getMeAPI, loginAPI } from "@/api/user";
-import { ElMessage } from "element-plus";
+import CookieUtil from "@/utils/cookie";
 
 export const useUserStore = defineStore('user', () => {
-  const visiable = ref(false)
-  const token = ref('')
-  const userData = ref({
-    accountNumber: '',
-    username: '',
-    id: '',
-    avatar: ''
-  })
+  const formVisiable = ref(false)
+  const user = localStorage.getItem('userInfo')
+  const userInfo = user ? JSON.parse(user) : {}
+  const token = CookieUtil.getCookie("token")
 
-  const login = async (accountNumber, password) => {
-    const res = await loginAPI(accountNumber, password)
-    //本地存储token
-    localStorage.setItem('token', res.data.token)
-    //仓库存储token和用户数据
-    token.value = res.data.token
-    Object.assign(userData.value, res.data.user)
+  const setToken = (token) => {
+    //设置token到cookie
+    this.token = token
+    CookieUtil.setCookie("token", token)
   }
 
-  const getMe = async () => {
-    try {
-      const res = await getMeAPI()
-      Object.assign(userData.value, res.data.user)
-    } catch (error) {
-      ElMessage.error(error.response.data.error)
-      localStorage.removeItem('token')
-      token.value = ''
-    }
+  const setUserInfo = (userInfo) => {
+    // 设置用户信息
+    this.userInfo = userInfo
+    localStorage.setItem("userInfo", JSON.stringify(this.userInfo))
+  }
+
+  const loginOut = () => {
+    // 退出登录
+    CookieUtil.deleteCookie("token");
+    localStorage.removeItem("userInfo");
+    router.push({ name: "Login" });
   }
   return {
-    visiable,
+    formVisiable,
     token,
-    userData,
-    login,
-    getMe
+    userInfo,
+    setToken,
+    setUserInfo,
+    loginOut,
   }
 })
