@@ -31,11 +31,12 @@
         </el-form-item>
       </el-form>
       <el-form-item>
-        <el-button v-if="tab" class="submit-button" :disabled="isSubmit" @click="goLogin"
+        <el-button v-if="tab" @click="submitForm(ruleFormRef, 'login')" :disabled="isSubmit" class="submit-button"
           v-loading.fullscreen.lock="loading">
           登录
         </el-button>
-        <el-button v-else @click="submitForm(ruleFormRef, 'register')" :disabled="isSubmit" class="register-button">
+        <el-button v-else @click="submitForm(ruleFormRef, 'register')" :disabled="isSubmit" class="register-button"
+          v-loading.fullscreen.lock="loading">
           注册
         </el-button>
       </el-form-item>
@@ -44,7 +45,7 @@
 </template>
 
 <script setup>
-import { registerAPI } from '@/api/user';
+import { registerAPI, loginAPI } from '@/api/user';
 import { useUserStore } from '@/store/user';
 import { Lock, User, Close, Message } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
@@ -140,8 +141,20 @@ const submitForm = (formEl, type) => {
           isSubmit.value = false
         })
       }
-    } else {
-      console.log('error submit!')
+    } else if (type === 'login') {
+      loginAPI(data).then(res => {
+        if (res.code === 200) {
+          ElMessage({ type: 'success', message: '登录成功' })
+          //登录成功后，关闭登录对话框
+          userStore.formVisiable = false
+        } else {
+          ElMessage({ type: 'error', message: res.msg })
+        }
+      }).catch(err => {
+        ElMessage({ type: 'error', message: err })
+      }).finally(() => {
+        isSubmit.value = false
+      })
     }
   })
 }

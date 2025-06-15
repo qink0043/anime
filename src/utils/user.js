@@ -15,7 +15,7 @@ ownInstance.interceptors.request.use(config => {
   if (token) config.headers.Authorization = CookieUtil.getCookie("token")
   return config
 }, error => {
-  ElMessage.error(error.msg)
+  ElMessage.error(error.message)
   return Promise.reject(error)
 })
 
@@ -25,7 +25,7 @@ ownInstance.interceptors.response.use((response) => {
   return response
 }, (error) => {
   NProgress.done()
-  ElMessage.error('请求超时')
+  ElMessage.error(error.message)
   console.log(error)
   return Promise.reject(new Error(error.message))
 })
