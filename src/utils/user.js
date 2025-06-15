@@ -15,7 +15,7 @@ ownInstance.interceptors.request.use(config => {
   if (token) config.headers.Authorization = CookieUtil.getCookie("token")
   return config
 }, error => {
-  ElMessage.error('请求超时')
+  ElMessage.error(error.msg)
   return Promise.reject(error)
 })
 
