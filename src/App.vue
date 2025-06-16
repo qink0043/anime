@@ -6,7 +6,7 @@
       <router-view></router-view>
     </div>
     <!-- <Bottom /> -->
-    <Form />
+    <Form v-if="userStore.formVisiable" />
     <imageUpload v-if="animeStore.imageUploadVisible" />
   </div>
 </template>
@@ -14,8 +14,10 @@
 <script setup>
 import { useAnimeStore } from './store/anime';
 import { onMounted, ref } from 'vue';
+import { useUserStore } from './store/user';
 
 const loading = ref(true)
+const userStore = useUserStore()
 const animeStore = useAnimeStore()
 onMounted(() => {
   setTimeout(() => {

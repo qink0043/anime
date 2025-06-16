@@ -23,7 +23,7 @@
     </div>
     <div class="userinfo" v-else>
       <div class="avatar">
-        <img src="" alt="">
+        <img :src="userStore.userInfo.avatar" alt="">
       </div>
       <el-dropdown class="username">
         {{ userStore.userInfo.userName }}
@@ -32,6 +32,7 @@
         </el-icon>
         <template #dropdown>
           <el-dropdown-menu>
+            <el-dropdown-item @click="goMyCollection">我的收藏</el-dropdown-item>
             <el-dropdown-item @click="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -50,6 +51,7 @@ import { Search, ArrowDown } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue';
 import { useUserStore } from '@/store/user';
 import { useAnimeStore } from '@/store/anime';
+import CookieUtil from '@/utils/cookie';
 
 const $router = useRouter()
 const animeStore = useAnimeStore()
@@ -73,12 +75,10 @@ const openFormDialog = () => {
 }
 //退出登录
 const loginOut = () => {
-  userStore.token = ''
-  //userStore中的所有属性的值变为空字符串
-  Object.keys(userStore.userData).forEach(key => {
-    userStore.userData[key] = ''
-  })
-  localStorage.removeItem('token')
+  // 退出登录
+  CookieUtil.deleteCookie("token")
+  localStorage.removeItem("userInfo")
+  window.location.reload()
 }
 //点击网页标题返回首页
 const goHome = () => {

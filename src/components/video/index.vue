@@ -1,6 +1,6 @@
 <template>
   <div class="video" @click="openPlayer">
-    <img loading="lazy" @load="onLoad" :src="imgUrl">
+    <img ref="imgRef" @load="handleLoad" :src="imgUrl">
     <span>{{ name }}</span>
     <div class="play-icon">
       <svg t="1748751846712" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -14,10 +14,10 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-const loaded = ref(false)
-const onLoad = () => {
-  loaded.value = true
+import { ref } from 'vue'
+const imgRef = ref(null)
+const handleLoad = () => {
+  imgRef.value.style.opacity = 1
 }
 defineProps({
   imgUrl: {
@@ -54,6 +54,7 @@ defineProps({
   }
 
   img {
+    opacity: 0;
     transition: all 0.5s;
     width: 100%;
     min-height: 100%;

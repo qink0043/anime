@@ -12,26 +12,19 @@ export const useUserStore = defineStore('user', () => {
     CookieUtil.setCookie("token", token)
   }
 
-  const setUserInfo = (useInfo) => {
-    console.log(useInfo);
-    
+  const setUserInfo = (info) => {
     // 设置用户信息
-    userInfo = useInfo
+    userInfo.userName = info.userName
+    userInfo.avatar = info.avatar
+    userInfo.email = info.email
     localStorage.setItem("userInfo", JSON.stringify(userInfo))
   }
 
-  const loginOut = () => {
-    // 退出登录
-    CookieUtil.deleteCookie("token");
-    localStorage.removeItem("userInfo");
-    router.push({ name: "Login" });
-  }
   return {
     formVisiable,
     token,
     userInfo,
     setToken,
     setUserInfo,
-    loginOut,
   }
 })

@@ -40,6 +40,16 @@ export default createRouter({
       component: () => import('@/pages/popularAnime/index.vue')
     },
     {
+      path: '/user',
+      component: () => import('@/pages/user/index.vue'),
+      children: [
+        {
+          path: 'collection',
+          component: () => import('@/pages/user/collection/index.vue')
+        }
+      ]
+    },
+    {
       path: '/',
       redirect: '/home'
     }

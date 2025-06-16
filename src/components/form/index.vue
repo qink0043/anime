@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container" v-if="userStore.formVisiable">
+  <div class="login-container">
     <div class="login-form-content" :class="{ active: !isEyesOpen }">
       <el-icon class="close-icon" @click="userStore.formVisiable = false">
         <Close />
@@ -9,25 +9,26 @@
         <div class="tab-line"></div>
         <div class="tab" :class="{ active: !tab }" @click="changeTab(false)">注册</div>
       </div>
-      <el-form :model="ruleForm" ref="ruleFormRef" style="max-width: 600px" :rules="rules" label-width="auto"
-        status-icon>
+      <el-form :model="ruleForm" ref="ruleFormRef" style="max-width: 600px" :rules="rules" status-icon>
         <el-form-item prop="email" v-if="!tab">
-          <el-input :prefix-icon="Message" v-model="ruleForm.email" style="width: 340px;height: 50px;"
-            placeholder="请输入邮箱" type="email" />
+          <el-input :prefix-icon="Message" v-model="ruleForm.email" placeholder="请输入邮箱" type="email" />
         </el-form-item>
         <el-form-item>
-          <el-input :prefix-icon="User" v-model="ruleForm.userName" style="width: 340px;height: 50px;"
-            placeholder="请输入用户名" @keyup.enter="focusPassword"></el-input>
+          <el-input :prefix-icon="User" v-model="ruleForm.userName" placeholder="请输入用户名" @keyup.enter="focusPassword" />
         </el-form-item>
         <el-form-item prop="password">
           <el-input ref="passwordInput" :prefix-icon="Lock" v-model="ruleForm.password" @focus="close2233"
-            @blur="open2233" style="width: 340px; height: 50px;" type="password" placeholder="请输入密码">
+            @blur="open2233" :type="passwordVisible ? 'text' : 'password'" placeholder="请输入密码">
+            <template #suffix>
+              <el-icon @click="passwordVisible = !passwordVisible">
+                <component :is="passwordVisible ? View : Hide" />
+              </el-icon>
+            </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="password" v-if="!tab">
           <el-input ref="passwordInput" :prefix-icon="Lock" v-model="ruleForm.confirmPassword" @focus="close2233"
-            @blur="open2233" style="width: 340px; height: 50px;" type="password" placeholder="请确认密码">
-          </el-input>
+            @blur="open2233" type="password" placeholder="请确认密码" />
         </el-form-item>
       </el-form>
       <el-form-item>
@@ -47,7 +48,7 @@
 <script setup>
 import { registerAPI, loginAPI } from '@/api/user';
 import { useUserStore } from '@/store/user';
-import { Lock, User, Close, Message } from '@element-plus/icons-vue';
+import { Lock, User, Close, Message, View, Hide } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { ref, reactive } from 'vue';
 //获取仓库中控制对话框显示与隐藏的数据
@@ -55,6 +56,7 @@ const userStore = useUserStore()
 
 const tab = ref(true)
 const changeTab = (val) => {
+  ruleFormRef.value.clearValidate()
   tab.value = val
 }
 
@@ -147,17 +149,20 @@ const submitForm = (formEl, type) => {
         }
         loginAPI(data).then(res => {
           if (res.code === 200) {
-            ElMessage({ type: 'success', message: '登录成功' })
+            ElMessage.success(res.msg)
             //登录成功后，关闭登录对话框
             userStore.formVisiable = false
-            const { userName, email, token } = res.data
+            const { userName, email, token, avatar } = res.data
             // 设置token
             userStore.setToken(token)
             //设置用户信息
             userStore.setUserInfo({
               userName,
-              email
+              email,
+              avatar
             })
+            //刷新页面
+            window.location.reload()
           } else {
             ElMessage.error(res.msg)
           }
@@ -182,6 +187,8 @@ const open2233 = () => {
   isEyesOpen.value = true
 }
 
+// 密码是否可见
+const passwordVisible = ref(false)
 
 const loading = ref(false)
 
@@ -246,6 +253,15 @@ const loading = ref(false)
         height: 20px;
         background-color: #d8c9c9;
         margin: 0 10px;
+      }
+    }
+
+    .el-form {
+      .el-form-item {
+        .el-input {
+          width: 340px;
+          height: 50px;
+        }
       }
     }
 

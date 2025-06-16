@@ -1,11 +1,14 @@
 <template>
   <div class="icon">
-    <img loading="lazy" class="realImg" :key="url" :src="url" :title="name">
+    <img ref="imgRef" @load="handleLoad" class="realImg" :key="url" :src="url" :title="name">
     <span>{{ name }}</span>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const imgRef = ref(null)
 const props = defineProps({
   url: {
     type: String,
@@ -16,6 +19,10 @@ const props = defineProps({
     default: ''
   }
 })
+
+const handleLoad = () => {
+  imgRef.value.style.opacity = 1
+}
 </script>
 
 <style scoped lang="scss">
@@ -42,6 +49,8 @@ const props = defineProps({
 
   .realImg {
     z-index: 2;
+    opacity: 0;
+    transition: all 0.5s;
   }
 
   &::after {

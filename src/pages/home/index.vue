@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="top">
-      <img loading="lazy" src='../../assets/img/top.png' alt="">
+      <img @load="handleLoad" loading="lazy" src='../../assets/img/top.png' alt="">
       <!-- 顶部导航 -->
       <Menu />
     </div>
@@ -76,7 +76,7 @@
             <div class="number">{{ index + 1 }}</div>
             <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
-                <img loading="lazy" :src="item.images.jpg.image_url" alt="">
+                <img @load="handleLoad" loading="lazy" :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
                 <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
@@ -99,7 +99,7 @@
             <div class="number">{{ index + 1 }}</div>
             <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
-                <img loading="lazy" :src="item.images.jpg.image_url" alt="">
+                <img @load="handleLoad" loading="lazy" :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
                 <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
@@ -122,7 +122,7 @@
             <div class="number">{{ index + 1 }}</div>
             <div class="middle">
               <div class="picture" @click="goDetailByName(item.title_japanese)">
-                <img loading="lazy" :src="item.images.jpg.image_url" alt="">
+                <img @load="handleLoad" loading="lazy" :src="item.images.jpg.image_url" alt="">
               </div>
               <div class="info">
                 <span class="name" @click="goDetailByName(item.title_japanese)">{{ item.title_chinese ||
@@ -152,7 +152,6 @@ import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import { useRouter } from 'vue-router';
-const topImgUrl = '../../assets/img/top.png'
 
 const $router = useRouter()
 const navigation = ref({
@@ -205,6 +204,11 @@ const selected = ref(0)
 const changeSelected = (index) => {
   selected.value = index
 }
+
+const handleLoad = (e) => {
+  e.target.style.opacity = 1
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -408,6 +412,8 @@ const changeSelected = (index) => {
               min-width: 100%;
               min-height: 100%;
               object-fit: cover;
+              opacity: 0;
+              transition: all 0.5s;
             }
           }
 
