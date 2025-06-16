@@ -80,6 +80,10 @@ const loginOut = () => {
   localStorage.removeItem("userInfo")
   window.location.reload()
 }
+//我的收藏
+const goMyCollection = () => {
+  $router.push({ path: '/user/collection' })
+}
 //点击网页标题返回首页
 const goHome = () => {
   $router.push({ path: '/home' })
