@@ -414,6 +414,10 @@ const handleLoad = (e) => {
               object-fit: cover;
               opacity: 0;
               transition: all 0.5s;
+
+              &:hover {
+                opacity: 0.7 !important;
+              }
             }
           }
 

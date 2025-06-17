@@ -1,6 +1,6 @@
 <template>
   <div class="icon">
-    <img ref="imgRef" @load="handleLoad" class="realImg" :key="url" :src="url" :title="name">
+    <img ref="imgRef" @load="handleLoad" class="img" :key="url" :src="url" :title="name">
     <span>{{ name }}</span>
   </div>
 </template>
@@ -35,22 +35,19 @@ const handleLoad = () => {
   box-shadow: inset 0 -15px 15px -10px black;
   box-shadow: 0 0 1px black;
 
-  &:hover img {
-    opacity: 0.7;
-  }
-
-  img {
+  .img {
     transition: all 0.5s;
     width: 100%;
     min-height: 100%;
     object-fit: cover;
     object-position: center;
-  }
-
-  .realImg {
     z-index: 2;
     opacity: 0;
     transition: all 0.5s;
+  }
+
+  &:hover .img {
+    opacity: 0.7 !important;
   }
 
   &::after {

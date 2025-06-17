@@ -2,7 +2,7 @@
   <div class="video-list">
     <div class="video-item" @click="goWatch(item.url)" v-for="(item, index) in animeStore.searchVideoList" :key="index">
       <div class="img-container">
-        <img class="img" onerror="this.display='none'" :src="item.img" alt="">
+        <img ref="imgRef" class="img" @load="handleLoad(index)" :src="item.img" alt="">
       </div>
       <div class="video-info">
         <div>{{ item.title }}</div>
@@ -13,12 +13,13 @@
 
 <script setup>
 import { useAnimeStore } from '@/store/anime';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const animeStore = useAnimeStore()
 const $route = useRoute()
 const $router = useRouter()
+const imgRef = ref(null)
 
 onMounted(() => {
   //如果没有数据则重新获取数据
@@ -29,6 +30,9 @@ onMounted(() => {
 const goWatch = async (url) => {
   await animeStore.getVideoDetail(url)
   $router.push({ path: '/watch' })
+}
+const handleLoad = (index) => {
+  imgRef.value[index].style.opacity = 1
 }
 </script>
 
@@ -56,10 +60,6 @@ const goWatch = async (url) => {
     .img-container {
       width: 100%;
       aspect-ratio: 9 / 20;
-      background-image: url('@/assets/img/error.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
       overflow: hidden;
 
       .img {
@@ -67,6 +67,8 @@ const goWatch = async (url) => {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        opacity: 0;
+        transition: all 0.5s ease;
       }
     }
 
