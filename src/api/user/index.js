@@ -23,3 +23,15 @@ export const loginAPI = async (params) => {
     return err;
   }
 }
+
+//修改头像
+export const updateAvatarAPI = async (file) => {
+  const formData = new FormData()
+  formData.append('avatar', file)
+  try {
+    const res = await ownInstance.post('/user/updateAvatar', formData);
+    return res.data;
+  } catch (err) {
+    return err.data.msg;
+  }
+}
