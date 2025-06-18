@@ -14,9 +14,12 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/store/user'
 import { ref } from 'vue'
+const userStore = useUserStore()
 const imgRef = ref(null)
 const handleLoad = () => {
+  userStore.loading = false
   imgRef.value.style.opacity = 1
 }
 defineProps({

@@ -5,7 +5,10 @@ export default createRouter({
   routes: [
     {
       path: '/home',
-      component: () => import('@/pages/home/index.vue')
+      component: () => import('@/pages/home/index.vue'),
+      meta: {
+        title: '首页'
+      }
     },
     {
       path: '/anime',
@@ -13,11 +16,17 @@ export default createRouter({
     },
     {
       path: '/search',
-      component: () => import('@/pages/search/index.vue')
+      component: () => import('@/pages/search/index.vue'),
+      meta: {
+        title: '搜索'
+      }
     },
     {
       path: '/searchVideo',
-      component: () => import('@/pages/searchVideo/index.vue')
+      component: () => import('@/pages/searchVideo/index.vue'),
+      meta: {
+        title: '搜索视频'
+      }
     },
     {
       path: '/watch',
@@ -25,7 +34,10 @@ export default createRouter({
     },
     {
       path: '/topanime',
-      component: () => import('@/pages/topAnime/index.vue')
+      component: () => import('@/pages/topAnime/index.vue'),
+      meta: {
+        title: '排行榜'
+      }
     },
     {
       path: '/season',
@@ -33,15 +45,24 @@ export default createRouter({
     },
     {
       path: '/imageSearch',
-      component: () => import('@/pages/imageSearch/index.vue')
+      component: () => import('@/pages/imageSearch/index.vue'),
+      meta: {
+        title: '图片搜索'
+      }
     },
     {
       path: '/popularanime',
-      component: () => import('@/pages/popularAnime/index.vue')
+      component: () => import('@/pages/popularAnime/index.vue'),
+      meta: {
+        title: '热门动画'
+      }
     },
     {
       path: '/user',
       component: () => import('@/pages/user/index.vue'),
+      meta: {
+        title: '用户中心'
+      },
       children: [
         {
           path: 'collection',

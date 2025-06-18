@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, ref, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 //引入echarts
 import * as echarts from 'echarts'
 const props = defineProps({
@@ -49,13 +49,25 @@ const initChart = () => {
 }
 watch(() => props.count, (newCount) => {
   if (newCount && Object.keys(newCount).length > 0) {
-    initChart()
+    nextTick(() => {
+      initChart()
+    })
   }
 })
 
+onMounted(() => {
+  if (props.count && Object.keys(props.count).length > 0) {
+    nextTick(() => {
+      initChart();
+    });
+  }
+});
+
 onBeforeUnmount(() => {
-  myChart.dispose()
-})
+  if (myChart) {
+    myChart.dispose();
+  }
+});
 </script>
 
 <style scoped lang="scss">

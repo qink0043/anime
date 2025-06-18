@@ -71,7 +71,7 @@ const search = async () => {
 
 //表单弹窗
 const openFormDialog = () => {
-  userStore.formVisiable = true
+  userStore.formVisible = true
 }
 //退出登录
 const loginOut = () => {

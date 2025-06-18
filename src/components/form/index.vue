@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-form-content" :class="{ active: !isEyesOpen }">
-      <el-icon class="close-icon" @click="userStore.formVisiable = false">
+      <el-icon class="close-icon" @click="userStore.formVisible = false">
         <Close />
       </el-icon>
       <div class="title">
@@ -151,7 +151,7 @@ const submitForm = (formEl, type) => {
           if (res.code === 200) {
             ElMessage.success(res.msg)
             //登录成功后，关闭登录对话框
-            userStore.formVisiable = false
+            userStore.formVisible = false
             const { userName, email, token, avatar } = res.data
             // 设置token
             userStore.setToken(token)

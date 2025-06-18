@@ -1,6 +1,5 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
-import NProgress from "nprogress";
 import CookieUtil from "./cookie";
 
 const ownInstance = axios.create({
@@ -10,7 +9,6 @@ const ownInstance = axios.create({
 
 //请求拦截器
 ownInstance.interceptors.request.use(config => {
-  NProgress.start()
   const token = CookieUtil.getCookie('token')
   if (token) config.headers.Authorization = CookieUtil.getCookie("token")
   return config
@@ -20,10 +18,8 @@ ownInstance.interceptors.request.use(config => {
 
 //响应拦截器
 ownInstance.interceptors.response.use((response) => {
-  NProgress.done()
   return response
 }, (error) => {
-  NProgress.done()
   ElMessage.error(error.response.data.msg)
   return Promise.reject(new Error(error.message))
 })

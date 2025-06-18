@@ -3,7 +3,8 @@ import { ref } from "vue";
 import CookieUtil from "@/utils/cookie";
 
 export const useUserStore = defineStore('user', () => {
-  const formVisiable = ref(false)
+  const formVisible = ref(false)
+  const loading = ref(true)
   const user = localStorage.getItem('userInfo')
   const userInfo = user ? JSON.parse(user) : {}
   const token = CookieUtil.getCookie("token")
@@ -21,7 +22,8 @@ export const useUserStore = defineStore('user', () => {
   }
 
   return {
-    formVisiable,
+    formVisible,
+    loading,
     token,
     userInfo,
     setToken,

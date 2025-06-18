@@ -20,15 +20,25 @@ import 'nprogress/nprogress.css';
 import NProgress from 'nprogress';
 NProgress.configure({ showSpinner: false })
 const pinia = createPinia()
+const app = createApp(App)
 import App from '@/App.vue'
 
-const app = createApp(App)
+app.use(pinia)
+app.use(router)
+
+//引入路由鉴权
+import { usePermission } from '@/permission'
+//调用路由鉴权
+usePermission(router)
+
+//全局组件注册
 app.component('Top', top)
 app.component('Bottom', bottom)
 app.component('Form', form)
 app.component('ImageUpload', imageUpload)
-app.use(router)
+
+//其他插件注册
 app.use(ElementPlus)
-app.use(pinia)
 app.use(VueAwesomeSwiper)
+
 app.mount('#app')

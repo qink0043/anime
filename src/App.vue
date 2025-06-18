@@ -1,29 +1,24 @@
 <template>
-  <el-skeleton :rows="5" v-if="loading" animated />
-  <div v-else class="container">
+  <template v-if="userStore.loading">
+    <el-skeleton :rows="5" animated />
+  </template>
+  <div v-show="!userStore.loading" class="container">
     <Top />
     <div class="content">
       <router-view></router-view>
     </div>
     <!-- <Bottom /> -->
-    <Form v-if="userStore.formVisiable" />
+    <Form v-if="userStore.formVisible" />
     <imageUpload v-if="animeStore.imageUploadVisible" />
   </div>
 </template>
 
 <script setup>
 import { useAnimeStore } from './store/anime';
-import { onMounted, ref } from 'vue';
 import { useUserStore } from './store/user';
 
-const loading = ref(true)
 const userStore = useUserStore()
 const animeStore = useAnimeStore()
-onMounted(() => {
-  setTimeout(() => {
-    loading.value = false
-  }, 2000)
-})
 </script>
 
 <style scoped lang="scss">
