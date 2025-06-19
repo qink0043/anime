@@ -18,7 +18,7 @@
         </div>
         <div class="main">
           <div class="main-left">
-            <img @click="goDetail(item.mal_id)" :src="item.images?.jpg.image_url" alt=""
+            <img @load="handleLoad" @click="goDetailByName(item.title_japanese)" :src="item.images?.jpg.image_url" alt=""
               :title="item.title_chinese || item.title_japanese" />
           </div>
           <div class="main-right"></div>
@@ -26,7 +26,7 @@
         <div class="info">信息</div>
       </div>
       <!-- 骨架，确保最后一行对齐 -->
-      <div class="card" v-for="i in 3 - filterAnimeList?.length % 3" v-if="tagMap[tags[selectedIndex]].hasMore">
+      <div class="card" v-for="i in 6 - filterAnimeList?.length % 3" v-if="tagMap[tags[selectedIndex]].hasMore">
         <el-skeleton class="loading" :rows="5" animated />
       </div>
       <div class="notHasMore" v-else>没有更多了~</div>
@@ -40,12 +40,16 @@ import BreadCrumb from '@/components/breadCrumb/index.vue'
 import { computed, onMounted, ref, reactive, watch, nextTick } from 'vue'
 import { useAnimeStore } from '@/store/anime'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
 
 const $router = useRouter()
 const animeStore = useAnimeStore()
-//点击跳转到详情页
-const goDetail = (id) => {
-  $router.push({ path: '/anime', query: { id } })
+const userStore = useUserStore()
+
+//图片加载完成后，设置高度
+const handleLoad = (e) => {
+  userStore.loading = false
+  e.target.style.opacity = 1
 }
 //控制tag标签高亮
 const tags = ['全部', 'TV', 'ONA', 'OVA', '剧场版', '其他']
@@ -68,6 +72,12 @@ const isLoading = ref(false)
 //判断当前高度是否能滚动
 const scrollable = () => {
   return document.documentElement.scrollHeight > window.innerHeight
+}
+const goDetailByName = async (keyword) => {
+  const res = await animeStore.getSearchAnime(keyword, 1, 2)
+  const id = res?.list[0].id
+  await animeStore.getAnimeDetail(id)
+  $router.push({ path: '/anime', query: { id } })
 }
 onMounted(() => {
   //从本地存储拿到高亮tag（如果有）
@@ -224,6 +234,8 @@ watch(selectedIndex, async () => {
           img {
             width: 100%;
             max-height: 100%;
+            opacity: 0;
+            transition: all 0.5s;
           }
         }
       }

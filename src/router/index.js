@@ -41,7 +41,10 @@ export default createRouter({
     },
     {
       path: '/season',
-      component: () => import('@/pages/season/index.vue')
+      component: () => import('@/pages/season/index.vue'),
+      meta: {
+        title: '季度动画'
+      }
     },
     {
       path: '/imageSearch',

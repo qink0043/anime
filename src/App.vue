@@ -1,10 +1,10 @@
 <template>
-  <template v-if="userStore.loading">
-    <el-skeleton :rows="5" animated />
-  </template>
-  <div v-show="!userStore.loading" class="container">
+  <div class="container">
     <Top />
-    <div class="content">
+    <template v-if="userStore.loading">
+      <el-skeleton :rows="5" animated />
+    </template>
+    <div v-show="!userStore.loading" class="content">
       <router-view></router-view>
     </div>
     <!-- <Bottom /> -->

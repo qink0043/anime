@@ -12,7 +12,8 @@ export function usePermission(router) {
   //前置守卫
   router.beforeEach((to, from, next) => {
     NProgress.start()
-    document.title = '动漫资讯-' + to.meta.title
+    let title = to.meta.title ? ` - ${to.meta.title}` : ''
+    document.title = '动漫资讯' + title
     //判断用户是否登录
     const token = userStore.token
     if (token) {
