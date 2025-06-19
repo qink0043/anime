@@ -152,13 +152,14 @@ import Menu from '@/components/menu/index.vue'
 import Icon from '@/components/icon/index.vue'
 import VideoPlayer from '@/components/videoPlayer/index.vue'
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store/user';
 
 const $router = useRouter()
 const navigation = ref({
   nextEl: ".swiper-button-next",
   prevEl: ".swiper-button-prev",
 });
-
+const userStore = useUserStore()
 const animeStore = useAnimeStore()
 //定义swpier模块
 const modules = [Navigation]
@@ -169,6 +170,9 @@ onMounted(async () => {
   animeStore.getTopAnimes('bypopularity', 1, 10)
   animeStore.getSeasonAnimes(2025, 'summer', 1, 7)
   animeStore.getCalendarAnime()
+  if (userStore.token) {
+    userStore.getUserInfo()
+  }
 })
 //控制播放器显示与隐藏
 const playerIsShow = ref(false)

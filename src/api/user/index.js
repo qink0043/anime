@@ -24,6 +24,16 @@ export const loginAPI = async (params) => {
   }
 }
 
+//获取用户信息
+export const getUserInfoAPI = async () => {
+  try {
+    const res = await ownInstance.get('/user/userInfo');
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+}
+
 //修改头像
 export const updateAvatarAPI = async (file) => {
   const formData = new FormData()

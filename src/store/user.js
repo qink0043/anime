@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import CookieUtil from "@/utils/cookie";
+import { getUserInfoAPI } from "@/api/user";
 
 export const useUserStore = defineStore('user', () => {
   const formVisible = ref(false)
@@ -21,6 +22,12 @@ export const useUserStore = defineStore('user', () => {
     localStorage.setItem("userInfo", JSON.stringify(userInfo))
   }
 
+  const getUserInfo = async () => {
+    await getUserInfoAPI().then(res => {
+      setUserInfo(res.data)
+    })
+  }
+
   return {
     formVisible,
     loading,
@@ -28,5 +35,6 @@ export const useUserStore = defineStore('user', () => {
     userInfo,
     setToken,
     setUserInfo,
+    getUserInfo,
   }
 })

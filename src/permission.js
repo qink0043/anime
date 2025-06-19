@@ -2,8 +2,11 @@
 import NProgress from 'nprogress'
 import pinia from '@/store/pinia'
 import { useUserStore } from './store/user'
+import { useRouter } from 'vue-router'
+
 
 const blackList = ['/user']
+const $router = useRouter()
 const userStore = useUserStore(pinia)
 export function usePermission(router) {
   //前置守卫
@@ -20,7 +23,12 @@ export function usePermission(router) {
       } else {
         //显示登录组件
         userStore.formVisible = true
-        next({ path: '/home' })
+        $router.replace({
+          path: '/home',
+          query: {
+            redirect: to.fullPath
+          }
+        })
       }
     }
   })
