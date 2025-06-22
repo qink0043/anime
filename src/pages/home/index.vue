@@ -49,8 +49,7 @@
         <div class="airing">
           <div class="airing-title">
             <div class="weekdays" :class="{ active: index == selected }" @click="changeSelected(index)"
-              v-for="(item, index) in animeStore.calendarAnimeList">{{
-                item.weekday.cn }}</div>
+              v-for="(item, index) in animeStore.calendarAnimeList">{{item.weekday.cn }}</div>
           </div>
           <div class="airing-info">
             <div class="info-item" v-for="item in animeStore.calendarAnimeList[selected]?.items" :key="item.id">
