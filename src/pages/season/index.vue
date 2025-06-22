@@ -46,7 +46,7 @@ const $router = useRouter()
 const animeStore = useAnimeStore()
 const userStore = useUserStore()
 
-//图片加载完成后，设置高度
+//图片加载完成后
 const handleLoad = (e) => {
   userStore.loading = false
   e.target.style.opacity = 1
@@ -96,6 +96,8 @@ const load = async () => {
   isLoading.value = false
   if (animeStore.newSeasonAnimeList?.length === 0) {
     tagData.hasMore = false
+  } else {
+    animeStore.newSeasonAnimeList = []
   }
 }
 //筛选后的数据

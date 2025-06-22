@@ -6,8 +6,10 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/store/user'
 import { ref } from 'vue'
 
+const userStore = useUserStore()
 const imgRef = ref(null)
 const props = defineProps({
   url: {
@@ -22,6 +24,7 @@ const props = defineProps({
 
 const handleLoad = () => {
   imgRef.value.style.opacity = 1
+  userStore.loading = false
 }
 </script>
 

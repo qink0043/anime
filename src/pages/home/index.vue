@@ -68,7 +68,7 @@
         <div class="hot topAiring">
           <div class="hot-title">
             <p>正在热播</p>
-            <p class="more">查看更多</p>
+            <p class="more" @click="goTopAnime('airing')">查看更多</p>
           </div>
           <div class="hot-content" v-for="(item, index) in animeStore.topAiringAnimeList?.slice(0, 5)"
             :key="item.mal_id">
@@ -91,7 +91,7 @@
         <div class="hot topupcoming">
           <div class="hot-title">
             <p>即将开播</p>
-            <p class="more">查看更多</p>
+            <p class="more" @click="goTopAnime('upcoming')">查看更多</p>
           </div>
           <div class="hot-content" v-for="(item, index) in animeStore.topUpcomingAnimeList.slice(0, 5)"
             :key="item.mal_id">
@@ -114,7 +114,7 @@
         <div class="hot popular">
           <div class="hot-title">
             <p>最受欢迎</p>
-            <p class="more">查看更多</p>
+            <p class="more" @click="goTopAnime('bypopularity')">查看更多</p>
           </div>
           <div class="hot-content" v-for="(item, index) in animeStore.topPopularAnimeList.slice(0, 10)"
             :key="item.mal_id">
@@ -210,6 +210,11 @@ const changeSelected = (index) => {
 
 const handleLoad = (e) => {
   e.target.style.opacity = 1
+}
+
+//点击右侧的三个查看更多
+const goTopAnime = (type) => {
+  $router.push({ path: '/topanime', query: { type } })
 }
 
 </script>

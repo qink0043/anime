@@ -1,8 +1,10 @@
 <template>
   <div class="container">
     <div class="video">
-      <iframe class="video-player" width="100%" height="100%" :scrolling="no"
-        :src="animeStore.videoUrl" :frameborder="no" marginwidth="0" marginheight="0">
+      <iframe class="video-player" allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+        width="100%" height="100%" :scrolling="no" :src="animeStore.videoUrl" :frameborder="no" marginwidth="0"
+        marginheight="0">
       </iframe>
     </div>
     <div class="episodes">
@@ -37,6 +39,31 @@ onMounted(async () => {
   .video {
     width: 100%;
     aspect-ratio: 16 / 9;
+  }
+
+  .episodes {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 22px;
+
+    button {
+      margin: 10px 10px;
+      width: 80px;
+      height: 30px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      color: #000;
+
+      &:hover {
+        background-color: #2E51A2;
+        color: #fff;
+      }
+    }
   }
 }
 </style>

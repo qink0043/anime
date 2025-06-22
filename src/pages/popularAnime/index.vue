@@ -35,10 +35,6 @@ const openVideoPlyer = (url) => {
 onMounted(() => {
   animeStore.getTopAnimes('bypopularity', 1, 10)
 })
-//点击某个动漫的回调
-const goDetail = (id) => {
-  console.log(id);
-}
 //是否有更多数据
 const hasMore = ref(true)
 //是否正在加载
@@ -53,9 +49,9 @@ const load = async () => {
   }
   isLoading.value = true
   page.value++
-  await animeStore.getNewTopAnimes('bypopularity', page.value, 10)
+  const newTopAnimeList = await animeStore.getNewTopAnimes('bypopularity', page.value, 10)
   isLoading.value = false
-  if (animeStore.newTopAnimeList?.length === 0) {
+  if (newTopAnimeList?.length === 0) {
     hasMore.value = false
   }
 }

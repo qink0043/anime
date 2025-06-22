@@ -7,11 +7,12 @@ export const useAnimeStore = defineStore('anime', () => {
   const searchAnimesList = ref([])
   //正在热播动漫列表
   const topAiringAnimeList = ref([])
-  const newTopAnimeList = ref([])
   //即将上映动漫列表
   const topUpcomingAnimeList = ref([])
   //热门动漫列表
   const topPopularAnimeList = ref([])
+  //新获取的动漫列表
+  const newTopAnimeList = ref([])
   //季节动漫列表和新获取的列表
   const seasonAnimeList = ref([])
   const newSeasonAnimeList = ref([])
@@ -136,10 +137,10 @@ export const useAnimeStore = defineStore('anime', () => {
 
   return {
     searchAnimesList,
-    newTopAnimeList,
     topAiringAnimeList,
     topUpcomingAnimeList,
     topPopularAnimeList,
+    newTopAnimeList,
     seasonAnimeList,
     newSeasonAnimeList,
     animeDetail,
