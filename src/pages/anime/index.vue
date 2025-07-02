@@ -48,7 +48,8 @@
           </div>
           <div class="score-right">
             <div class="barchart">
-              <BarChart v-if="animeStore.animeDetail.rating?.count" :count="animeStore.animeDetail.rating?.count || {}" />
+              <BarChart v-if="animeStore.animeDetail.rating?.count"
+                :count="animeStore.animeDetail.rating?.count || {}" />
             </div>
           </div>
         </div>
