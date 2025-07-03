@@ -29,7 +29,6 @@
 | 路由管理    | [Vue Router](https://router.vuejs.org/) |
 | 动画交互    | [Swiper.js](https://swiperjs.com/)     |
 | 数据来源    | [Bangumi API](https://bangumi.github.io/api/) |
-| 部署        | [Vercel](https://vercel.com/)          |
 
 ---
 
