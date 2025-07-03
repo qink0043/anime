@@ -32,7 +32,7 @@
 
 ---
 
-## 📦 本地开发
+## 📦 本地部署
 
 ```bash
 # 克隆仓库
@@ -40,7 +40,7 @@ git clone https://github.com/qink0043/anime.git
 cd anime
 
 # 安装依赖
-npm install
+pnpm install
 
 # 本地启动
-npm run dev
+pnpm run dev
