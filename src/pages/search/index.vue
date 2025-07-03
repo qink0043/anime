@@ -30,7 +30,7 @@
           </div>
           <div class="result-info">
             <span class="year">{{ item.air_date }}</span>
-            <span class="type">/{{ subjectMap[item.type] }}</span>
+            <span class="type">/{{ subjectMap[item.type].nav }}</span>
             <div class="summary">{{ item.summary }}</div>
           </div>
         </div>
@@ -53,12 +53,24 @@ const animeStore = useAnimeStore();
 const nav = ref(true)
 
 const subjectMap = {
-  0: '全部',
-  1: '书籍',
-  2: '动画',
-  3: '音乐',
-  4: '游戏',
-  6: '三次元',
+  0: {
+    nav: '全部',
+  },
+  1: {
+    nav: '书籍',
+  },
+  2: {
+    nav: '动画',
+  },
+  3: {
+    nav: '音乐',
+  },
+  4: {
+    nav: '游戏',
+  },
+  6: {
+    nav: '三次元',
+  }
 }
 const personMap = {
   0: '全部',

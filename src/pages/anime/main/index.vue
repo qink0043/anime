@@ -1,12 +1,10 @@
 <template>
   <div class="main">
-
-
     <div class="left">
       <img class="img" @load="loading = false" :src="animeStore.animeDetail?.images?.common" alt="" v-show="!loading">
       <el-skeleton :loading="loading" animated v-show="loading">
         <template #template>
-          <el-skeleton-item class="img" variant="image" />
+          <el-skeleton-item class="img skeleton" variant="image" />
         </template>
       </el-skeleton>
       <div class="infobox" v-for="item in animeStore.animeDetail.infobox">
@@ -74,7 +72,7 @@ import { useRouter } from 'vue-router'
 
 const $router = useRouter()
 const animeStore = useAnimeStore()
-const loading = ref(false)
+const loading = ref(true)
 //跳转到角色详情
 const toCharacter = (id) => {
   $router.push({ path: '/character', query: { id } })
@@ -92,6 +90,10 @@ const toCharacter = (id) => {
     .img {
       width: 100%;
       height: auto;
+    }
+
+    .skeleton {
+      min-height: 400px;
     }
 
     .infobox {

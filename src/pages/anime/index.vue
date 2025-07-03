@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { onBeforeUnmount, onMounted } from 'vue';
 import Menu from '@/components/menu/index.vue'
 import { useAnimeStore } from '@/store/anime';
 import { useRoute, useRouter } from 'vue-router';

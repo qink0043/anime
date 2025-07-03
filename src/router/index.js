@@ -13,6 +13,7 @@ export default createRouter({
     {
       path: '/anime',
       component: () => import('@/pages/anime/index.vue'),
+      redirect: '/anime/main',
       meta: {
         title: '动画'
       },
