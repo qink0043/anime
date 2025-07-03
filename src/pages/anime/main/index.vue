@@ -65,7 +65,7 @@
 <script setup>
 //引入柱状图组件
 import BarChart from '@/components/barChart/index.vue'
-//引入store
+import BreadCrumb from '@/components/breadCrumb/index.vue'
 import { useAnimeStore } from '@/store/anime'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

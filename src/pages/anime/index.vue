@@ -4,6 +4,7 @@
     <div class="big-title">{{ animeStore.animeDetail.name_cn || animeStore.animeDetail?.name }}</div>
     <div class="small-title">{{ animeStore.animeDetail.name_cn ? animeStore.animeDetail?.name : '' }}</div>
     <span class="title-type">{{ animeStore.animeDetail.platform }}</span>
+    <span class="goWatch" @click="searchVideoByName(animeStore.animeDetail.name_cn || animeStore.animeDetail?.name)">观看相关视频👉</span>
   </div>
   <Nav :subjectMap="subjectMap" :changeActive="changeActive" />
   <div class="content">
@@ -80,6 +81,12 @@ const changeActive = (index) => {
   $router.push({ path: `/anime/${subjectMap[index].path}`, query: { id: $route.query.id } })
 }
 
+//搜索相关视频并跳转
+const searchVideoByName = async (keyword) => {
+  await animeStore.getVideoList(keyword)
+  $router.push({ path: '/searchVideo', query: { keyword } })
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -102,6 +109,17 @@ const changeActive = (index) => {
   .title-type {
     font-size: 14px;
     color: #666666;
+  }
+
+  .goWatch {
+    font-size: 14px;
+    color: #56aae4;
+    margin-left: 20px;
+
+    &:hover {
+      color: #2E51A2;
+      transition: all 0.3s;
+    }
   }
 }
 

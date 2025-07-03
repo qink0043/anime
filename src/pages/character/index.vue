@@ -10,7 +10,7 @@
         v-show="!loading">
       <el-skeleton :loading="loading" animated v-show="loading">
         <template #template>
-          <el-skeleton-item class="img" variant="image" />
+          <el-skeleton-item class="img skeleton" variant="image" />
         </template>
       </el-skeleton>
       <div class="infobox" v-for="item in animeStore.characterDetail.infobox">
@@ -20,16 +20,6 @@
       </div>
     </div>
     <div class="right">
-      <div class="menu">
-        <span>概览</span>
-        <span>章节</span>
-        <span>角色</span>
-        <span>制作人员</span>
-        <span>吐槽</span>
-        <span>评论</span>
-        <span>讨论版</span>
-        <span>透视</span>
-      </div>
       <div class="bread-crumb">
         <BreadCrumb :title_chinese="animeStore.characterDetail.name" :title_japanese="''" />
       </div>
@@ -120,6 +110,10 @@ const goDetailById = async (id) => {
     .img {
       width: 100%;
       height: auto;
+    }
+
+    .skeleton {
+      min-height: 400px;
     }
 
     .infobox {
@@ -229,7 +223,7 @@ const goDetailById = async (id) => {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      
+
       .subject {
         width: 15%;
         margin: 0 10px;

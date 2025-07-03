@@ -59,6 +59,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   position: relative;
+  margin-bottom: 10px;
 
   .tag-container {
     display: flex;
@@ -66,7 +67,6 @@ onMounted(async () => {
 
     .tag {
       padding: 0 10px;
-
     }
   }
 
