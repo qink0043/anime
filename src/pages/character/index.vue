@@ -1,19 +1,19 @@
 <template>
   <Menu />
   <div class="title">
-    <div class="big-title">{{ animeStore.animeDetail.name_cn || animeStore.animeDetail?.name }}</div>
-    <div class="small-title">{{ animeStore.animeDetail.name_cn ? animeStore.animeDetail?.name : '' }}</div>
-    <span class="title-type">{{ animeStore.animeDetail.platform }}</span>
+    <div class="big-title">{{ animeStore.characterDetail.name_cn || animeStore.characterDetail?.name }}</div>
+    <span class="title-type">{{ animeStore.characterDetail.gender }}</span>
   </div>
   <div class="content">
     <div class="left">
-      <img class="img" @load="loading = false" :src="animeStore.animeDetail?.images?.common" alt="" v-show="!loading">
+      <img class="img" @load="loading = false" :src="animeStore.characterDetail?.images?.large" alt=""
+        v-show="!loading">
       <el-skeleton :loading="loading" animated v-show="loading">
         <template #template>
           <el-skeleton-item class="img" variant="image" />
         </template>
       </el-skeleton>
-      <div class="infobox" v-for="item in animeStore.animeDetail.infobox">
+      <div class="infobox" v-for="item in animeStore.characterDetail.infobox">
         <span class="infokey">{{ item.key }}：</span>
         <span class="infovalue">{{Array.isArray(item.value) ? item.value.map(i => i.v).join('/') : item.value
         }}</span>
@@ -31,47 +31,22 @@
         <span>透视</span>
       </div>
       <div class="bread-crumb">
-        <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn" :title_japanese="animeStore.animeDetail?.name" />
+        <BreadCrumb :title_chinese="animeStore.characterDetail.name" :title_japanese="''" />
       </div>
       <div class="info">
         <div class="score">
-          <div class="score-left">
-            <span class="pingfen">评分</span>
-            <span class="fenshu">{{ animeStore.animeDetail.rating?.score }}</span>
-            <span class="scored-by">{{ animeStore.animeDetail.rating?.total }}次评分</span>
-          </div>
           <div class="score-middle">
             <div class="intro">
-              {{ animeStore.animeDetail.summary }}
-            </div>
-          </div>
-          <div class="score-right">
-            <div class="barchart">
-              <BarChart v-if="animeStore.animeDetail.rating?.count"
-                :count="animeStore.animeDetail.rating?.count || {}" />
+              {{ animeStore.characterDetail.summary }}
             </div>
           </div>
         </div>
       </div>
-      <div class="charac-title">角色介绍</div>
-      <div class="character">
-        <div class="charac-info" v-for="item in animeStore.characters.slice(0, 12)">
-          <div class="info-left">
-            <img class="charac-img" :src="item?.images?.small" alt="" @click="toCharacter(item.id)">
-          </div>
-          <div class="info-middle">
-            <div class="name-info">
-              <div class="role">{{ item.relation }}</div>
-              <span class="charac-name" @click="toCharacter(item.id)">{{ item?.name }}</span>
-            </div>
-            <div class="cv-info">
-              <div class="cv">CV:</div>
-              <div class="cv-name">{{ item.actors[0]?.name }}</div>
-            </div>
-          </div>
-          <div class="info-right">
-            <img class="cv-img" :src="item.actors[0]?.images?.small" alt="">
-          </div>
+      <div class="subjects-title">出场作品</div>
+      <div class="subjects-container">
+        <div class="subject" v-for="item in animeStore.characterSubjects">
+          <Icon @click="goDetailById(item.id)" :url="item.image" :name="item.name_cn || item.name" />
+          <div class="staff">{{ item.staff }}</div>
         </div>
       </div>
     </div>
@@ -81,11 +56,10 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import Menu from '@/components/menu/index.vue'
+import Icon from '@/components/icon/index.vue'
 import { useAnimeStore } from '@/store/anime';
 import BreadCrumb from '@/components/breadCrumb/index.vue'
 import { useRoute, useRouter } from 'vue-router';
-//引入柱状图组件
-import BarChart from '@/components/barChart/index.vue'
 import { useUserStore } from '@/store/user';
 
 
@@ -97,29 +71,28 @@ const userStore = useUserStore()
 //如果没有数据，则请求数据
 onMounted(async () => {
   const id = $route.query.id
-  if (!animeStore.animeDetail.length) {
-    await animeStore.getAnimeDetail(id)
-    await animeStore.getCharacters(id)
+  if (!Object.keys(animeStore.characterDetail).length) {
+    await animeStore.getCharacterDetail(id)
+    await animeStore.getCharacterSubjects(id)
   }
   userStore.loading = false
 })
 
 onBeforeUnmount(() => {
-  animeStore.characters = []
-  animeStore.animeDetailList = []
+  animeStore.characterDetail = {}
+  animeStore.characterSubjects = []
 })
 
 const loading = ref(true)
 
-
-//跳转到角色详情
-const toCharacter = (id) => {
-  $router.push({ path: '/character', query: { id } })
+const goDetailById = async (id) => {
+  await animeStore.getAnimeDetail(id)
+  $router.push({ path: '/anime', query: { id } })
 }
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .title {
   background-color: #E1E7F5;
   border-bottom: 1px solid #2E51A2;
@@ -129,12 +102,6 @@ const toCharacter = (id) => {
     font-weight: 500;
     font-size: 20px;
     line-height: 25px;
-  }
-
-  .small-title {
-    line-height: 24px;
-    display: inline-block;
-    margin-right: 15px;
   }
 
   .title-type {
@@ -179,16 +146,6 @@ const toCharacter = (id) => {
       padding: 5px 0;
       border-bottom: 1px solid #2E51A2;
       display: flex;
-
-      :last-child {
-        margin-left: auto;
-        vertical-align: text-top;
-
-        &:hover {
-          color: #2E51A2;
-          transition: all 0.3s ease;
-        }
-      }
 
       span {
         margin-right: 15px;
@@ -263,74 +220,22 @@ const toCharacter = (id) => {
       }
     }
 
-    .charac-title {
+    .subjects-title {
       font-size: 20px;
       margin: 20px 0;
     }
 
-    .character {
-      width: 100%;
+    .subjects-container {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
-
-      .charac-info {
+      gap: 10px;
+      
+      .subject {
+        width: 15%;
+        margin: 0 10px;
         display: flex;
-        margin-bottom: 20px;
-        height: 100px;
-        width: 45%;
-        background-color: white;
-        border-radius: 10px;
-        overflow: hidden;
-
-        .info-left,
-        .info-right {
-          position: relative;
-          overflow: hidden;
-          width: 20%;
-          display: flex;
-          justify-content: center;
-          object-fit: cover;
-
-          .charac-img,
-          .cv-img {
-            position: absolute;
-          }
-        }
-
-        .info-middle {
-          flex: 1;
-          padding: 10px;
-
-          .charac-name,
-          .cv-name {
-            color: #2E51A2;
-          }
-
-          .name-info {
-            display: flex;
-            margin-bottom: 20px;
-
-            .role {
-              border-radius: 3px;
-              color: #666;
-              margin-right: 5px;
-              width: 20%;
-              height: fit-content;
-            }
-          }
-
-          .cv-info {
-            display: flex;
-
-            .cv {
-              color: #666;
-              margin-right: 5px;
-              width: 20%;
-              height: fit-content;
-            }
-          }
-        }
+        flex-direction: column;
+        align-items: center;
       }
     }
   }

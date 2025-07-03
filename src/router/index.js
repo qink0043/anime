@@ -61,6 +61,13 @@ export default createRouter({
       }
     },
     {
+      path: '/character',
+      component: () => import('@/pages/character/index.vue'),
+      meta: {
+        title: '角色'
+      }
+    },
+    {
       path: '/user',
       component: () => import('@/pages/user/index.vue'),
       meta: {

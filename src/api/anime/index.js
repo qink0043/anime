@@ -15,7 +15,7 @@ export const getSeasonAnimesAPI = (year, season, page = 1, limit = 25, filter) =
 //根据id获取番剧详情
 export const getAnimeDetailAPI = (id) => bgmRequest.get(`/v0/subjects/${id}`)
 
-//根据id获取角色
+//根据动漫id获取角色
 export const getCharactersAPI = (id) => bgmRequest.get(`v0/subjects/${id}/characters`)
 
 export const getAnimeSearchAPI = (keyword, max_results, type = '', responseGroup = 'small') => {
@@ -32,6 +32,12 @@ export const getCharacterSearchAPI = (keyword) => {
     }
   })
 }
+
+//根据角色id获取角色详情
+export const getCharacterDetailAPI = (id) => bgmRequest.get(`/v0/characters/${id}`)
+
+//根据角色id获取角色出场作品
+export const getCharacterSubjectsAPI = (id) => bgmRequest.get(`/v0/characters/${id}/subjects`)
 
 export const getCalendarAnimeAPI = () => bgmRequest.get('/calendar')
 
