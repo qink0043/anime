@@ -1,9 +1,6 @@
 <template>
   <div class="container">
     <Top />
-    <!-- <template v-if="userStore.loading">
-      <el-skeleton :rows="5" animated />
-    </template> -->
     <div v-show="!userStore.loading" class="content">
       <router-view></router-view>
     </div>

@@ -87,11 +87,13 @@ import BreadCrumb from '@/components/breadCrumb/index.vue'
 import { useRoute, useRouter } from 'vue-router';
 //引入柱状图组件
 import BarChart from '@/components/barChart/index.vue'
+import { useUserStore } from '@/store/user';
 
 
 const $route = useRoute()
 const $router = useRouter()
 const animeStore = useAnimeStore()
+const userStore = useUserStore()
 
 //如果没有数据，则请求数据
 onMounted(async () => {
@@ -100,6 +102,7 @@ onMounted(async () => {
     await animeStore.getAnimeDetail(id)
     await animeStore.getCharacters(id)
   }
+  userStore.loading = false
 })
 
 onBeforeUnmount(() => {

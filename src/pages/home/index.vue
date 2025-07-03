@@ -1,4 +1,7 @@
 <template>
+  <template v-if="userStore.loading">
+    <el-skeleton :rows="5" animated />
+  </template>
   <div class="home">
     <div class="top">
       <img @load="handleLoad" loading="lazy" src='../../assets/img/top.png' alt="">
@@ -49,7 +52,7 @@
         <div class="airing">
           <div class="airing-title">
             <div class="weekdays" :class="{ active: index == selected }" @click="changeSelected(index)"
-              v-for="(item, index) in animeStore.calendarAnimeList">{{item.weekday.cn }}</div>
+              v-for="(item, index) in animeStore.calendarAnimeList">{{ item.weekday.cn }}</div>
           </div>
           <div class="airing-info">
             <div class="info-item" v-for="item in animeStore.calendarAnimeList[selected]?.items" :key="item.id">
@@ -323,7 +326,7 @@ const goTopAnime = (type) => {
           flex-wrap: wrap;
 
           .info-item {
-            margin-right: 20px;
+            margin-right: 19px;
             border: 1px solid #BEBEBE;
             margin-bottom: 20px;
 
