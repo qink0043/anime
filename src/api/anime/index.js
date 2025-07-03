@@ -39,6 +39,7 @@ export const getCharacterDetailAPI = (id) => bgmRequest.get(`/v0/characters/${id
 //根据角色id获取角色出场作品
 export const getCharacterSubjectsAPI = (id) => bgmRequest.get(`/v0/characters/${id}/subjects`)
 
+//获取每日放送
 export const getCalendarAnimeAPI = () => bgmRequest.get('/calendar')
 
 export const getVideoAPI = (url) => ownInstance.get(`/anime/video?url=${url}`)

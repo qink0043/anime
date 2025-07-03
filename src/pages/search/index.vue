@@ -5,16 +5,7 @@
       <span @click="nav = true" :class="{ active: nav }">条目</span>
       <!-- <span @click="nav = flase" :class="{ active: !nav }">人物</span> -->
     </div>
-    <div class="nav-2" v-if="nav">
-      <div class="tag-container">
-        <div class="tag" :class="{ active: activeIndex == index }" @mouseenter="activeIndex = index"
-          @mouseleave="activeIndex = selectedIndex" @click="changeActive(index)"
-          v-for="(type, index) in Object.values(subjectMap)">
-          {{ type }}
-        </div>
-      </div>
-      <div class="underline" :style="underlinStyle"></div>
-    </div>
+    <Nav v-if="nav" :subjectMap="subjectMap" :changeActive="typeSearch" />
     <div class="nav-2" v-else>
       <div class="tag-container">
         <div class="tag" :class="{ active: activeIndex == index }" @mouseenter="activeIndex = index"
@@ -53,32 +44,14 @@
 import { computed, onMounted, ref } from 'vue';
 import { useAnimeStore } from '@/store/anime';
 import Menu from '@/components/menu/index.vue'
+import Nav from '@/components/nav/index.vue'
 import { useRoute, useRouter } from 'vue-router';
 
 const $route = useRoute()
 const $router = useRouter()
 const animeStore = useAnimeStore();
 const nav = ref(true)
-const activeIndex = ref(0)
-const selectedIndex = ref(0) // 用于跟踪选中的索引，初始值为0，表示第一个元素被选中
 
-const changeActive = async (index) => {
-  selectedIndex.value = index
-  await typeSearch(Object.keys(subjectMap)[index])
-}
-
-//动态计算下划线的位置
-const underlinStyle = computed(() => {
-  if (activeIndex.value == 5) {
-    return {
-      left: `${activeIndex.value * 52}px`,
-      width: '68px'
-    }
-  }
-  return {
-    left: `${activeIndex.value * 52}px`
-  }
-})
 const subjectMap = {
   0: '全部',
   1: '书籍',

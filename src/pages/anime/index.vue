@@ -5,6 +5,7 @@
     <div class="small-title">{{ animeStore.animeDetail.name_cn ? animeStore.animeDetail?.name : '' }}</div>
     <span class="title-type">{{ animeStore.animeDetail.platform }}</span>
   </div>
+  <Nav :subjectMap="subjectMap" />
   <div class="content">
     <div class="left">
       <img class="img" @load="loading = false" :src="animeStore.animeDetail?.images?.common" alt="" v-show="!loading">
@@ -20,16 +21,6 @@
       </div>
     </div>
     <div class="right">
-      <div class="menu">
-        <span>概览</span>
-        <span>章节</span>
-        <span>角色</span>
-        <span>制作人员</span>
-        <span>吐槽</span>
-        <span>评论</span>
-        <span>讨论版</span>
-        <span>透视</span>
-      </div>
       <div class="bread-crumb">
         <BreadCrumb :title_chinese="animeStore.animeDetail.name_cn" :title_japanese="animeStore.animeDetail?.name" />
       </div>
@@ -87,13 +78,24 @@ import { useRoute, useRouter } from 'vue-router';
 //引入柱状图组件
 import BarChart from '@/components/barChart/index.vue'
 import { useUserStore } from '@/store/user';
-
+//引入导航标签组件
+import Nav from '@/components/nav/index.vue'
 
 const $route = useRoute()
 const $router = useRouter()
 const animeStore = useAnimeStore()
 const userStore = useUserStore()
 
+const subjectMap = {
+  0: '概览',
+  1: '章节',
+  2: '角色',
+  3: '制作人员',
+  4: '吐槽',
+  5: '评论',
+  6: '讨论版',
+  7: '透视',
+}
 //如果没有数据，则请求数据
 onMounted(async () => {
   const id = $route.query.id
@@ -119,11 +121,10 @@ const toCharacter = (id) => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .title {
   background-color: #E1E7F5;
   border-bottom: 1px solid #2E51A2;
-  margin-bottom: 10px;
 
   .big-title {
     font-weight: 500;
@@ -140,6 +141,25 @@ const toCharacter = (id) => {
   .title-type {
     font-size: 14px;
     color: #666666;
+  }
+}
+
+.menu {
+  padding: 5px 0;
+  display: flex;
+
+  :last-child {
+    margin-left: auto;
+    vertical-align: text-top;
+
+    &:hover {
+      color: #2E51A2;
+      transition: all 0.3s ease;
+    }
+  }
+
+  span {
+    margin-right: 15px;
   }
 }
 
@@ -174,26 +194,6 @@ const toCharacter = (id) => {
     padding: 0 5px;
     width: 75%;
     border-left: 1px solid #E1E7F5;
-
-    .menu {
-      padding: 5px 0;
-      border-bottom: 1px solid #2E51A2;
-      display: flex;
-
-      :last-child {
-        margin-left: auto;
-        vertical-align: text-top;
-
-        &:hover {
-          color: #2E51A2;
-          transition: all 0.3s ease;
-        }
-      }
-
-      span {
-        margin-right: 15px;
-      }
-    }
 
     .info {
       display: flex;
