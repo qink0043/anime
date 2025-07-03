@@ -12,7 +12,68 @@ export default createRouter({
     },
     {
       path: '/anime',
-      component: () => import('@/pages/anime/index.vue')
+      component: () => import('@/pages/anime/index.vue'),
+      meta: {
+        title: '动画'
+      },
+      children: [
+        {
+          path: 'main',
+          component: () => import('@/pages/anime/main/index.vue'),
+          meta: {
+            title: '动画'
+          }
+        },
+        {
+          path: 'board',
+          component: () => import('@/pages/anime/board/index.vue'),
+          meta: {
+            title: '讨论版'
+          }
+        },
+        {
+          path: 'ep', 
+          component: () => import('@/pages/anime/ep/index.vue'),
+          meta: {
+            title: '章节'
+          }
+        },
+        {
+          path: 'comments',
+          component: () => import('@/pages/anime/comments/index.vue'),
+          meta: {
+            title: '吐槽'
+          }
+        },
+        {
+          path: 'stats',
+          component: () => import('@/pages/anime/stats/index.vue'),
+          meta: {
+            title: '透视'
+          }
+        },
+        {
+          path: 'persons',
+          component: () => import('@/pages/anime/persons/index.vue'),
+          meta: {
+            title: '制作人员'
+          }
+        },
+        {
+          path: 'reviews',
+          component: () => import('@/pages/anime/reviews/index.vue'),
+          meta: {
+            title: '评论'
+          }
+        },
+        {
+          path: 'characters',
+          component: () => import('@/pages/anime/characters/index.vue'),
+          meta: {
+            title: '角色'
+          }
+        }
+      ]
     },
     {
       path: '/search',

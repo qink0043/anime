@@ -2,9 +2,9 @@
   <div class="nav">
     <div class="tag-container">
       <div class="tag" ref="tags" :class="{ active: activeIndex == index }" @mouseenter="activeIndex = index"
-        @mouseleave="activeIndex = selectedIndex" @click="changeActive(index)"
+        @mouseleave="activeIndex = selectedIndex" @click="changeActive(index), updateSelectedIndex()"
         v-for="(type, index) in Object.values(subjectMap)">
-        {{ type }}
+        {{ type.nav }}
       </div>
     </div>
     <div class="underline" :style="underlinStyle"></div>
@@ -28,6 +28,9 @@ const props = defineProps({
     }
   }
 })
+const updateSelectedIndex = () => {
+  selectedIndex.value = activeIndex.value
+}
 const tags = ref([])
 const widths = ref([])
 //动态计算下划线的位置
