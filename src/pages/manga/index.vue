@@ -8,8 +8,14 @@
       </el-carousel>
     </div>
     <div class="manga-search">
-      <el-form @submit="searchManga">
-        <el-input class="input" v-model="input" placeholder="输入漫画关键词" clearable></el-input>
+      <el-form @submit.prevent="searchManga">
+        <el-input class="input" v-model="input" placeholder="输入漫画关键词" clearable>
+          <template #prefix>
+            <el-icon style="vertical-align: middle">
+              <Search />
+            </el-icon>
+          </template>
+        </el-input>
       </el-form>
     </div>
   </div>
@@ -17,6 +23,7 @@
 <script setup>
 import { useMangaStore } from '@/store/manga';
 import { onMounted, ref } from 'vue';
+import { Search } from '@element-plus/icons-vue'
 
 const mangaStore = useMangaStore()
 const input = ref('')

@@ -10,7 +10,11 @@ export const useMangaStore = defineStore('manga', () => {
 
   //获取搜索结果
   const getSearchManga = async (keyWord, styleId) => {
-    searchMangaList.value = await getMangaSearchAPI(keyWord, styleId)
+    if(!keyWord) {
+      return
+    }
+    const res = await getMangaSearchAPI(keyWord, styleId)
+    searchMangaList.value = res.list
   }
   //获取banner
   const getBanner = async () => {
