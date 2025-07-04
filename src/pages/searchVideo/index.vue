@@ -8,6 +8,7 @@
         <div>{{ item.title }}</div>
       </div>
     </div>
+    <div class="tip">没有更多啦~</div>
   </div>
 </template>
 
@@ -79,5 +80,11 @@ const handleLoad = (index) => {
       white-space: nowrap;
     }
   }
+}
+.tip {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
 }
 </style>

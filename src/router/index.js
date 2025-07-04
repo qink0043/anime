@@ -77,6 +77,13 @@ export default createRouter({
       ]
     },
     {
+      path: '/manga',
+      component: () => import('@/pages/manga/index.vue'),
+      meta: {
+        title: '漫画'
+      }
+    },
+    {
       path: '/search',
       component: () => import('@/pages/search/index.vue'),
       meta: {

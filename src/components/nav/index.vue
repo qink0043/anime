@@ -2,7 +2,7 @@
   <div class="nav">
     <div class="tag-container">
       <div class="tag" ref="tags" :class="{ active: activeIndex == index }" @mouseenter="activeIndex = index"
-        @mouseleave="activeIndex = selectedIndex" @click="changeActive(index), updateSelectedIndex()"
+        @mouseleave="activeIndex = selectedIndex" @click="changeActive(Object.keys(subjectMap)[index]), updateSelectedIndex()"
         v-for="(type, index) in Object.values(subjectMap)">
         {{ type.nav }}
       </div>

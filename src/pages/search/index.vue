@@ -3,7 +3,7 @@
   <div class="nav">
     <div class="nav-1">
       <span @click="nav = true" :class="{ active: nav }">条目</span>
-      <!-- <span @click="nav = flase" :class="{ active: !nav }">人物</span> -->
+      <span @click="nav = false" :class="{ active: !nav }">人物</span>
     </div>
     <Nav v-if="nav" :subjectMap="subjectMap" :changeActive="typeSearch" />
     <div class="nav-2" v-else>
@@ -41,15 +41,17 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAnimeStore } from '@/store/anime';
 import Menu from '@/components/menu/index.vue'
 import Nav from '@/components/nav/index.vue'
 import { useRoute, useRouter } from 'vue-router';
+import { useMangaStore } from '@/store/manga';
 
 const $route = useRoute()
 const $router = useRouter()
 const animeStore = useAnimeStore();
+const mangaStore = useMangaStore()
 const nav = ref(true)
 
 const subjectMap = {
