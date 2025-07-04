@@ -78,7 +78,7 @@ onBeforeUnmount(() => {
 
 //切换标签
 const changeActive = (index) => {
-  $router.push({ path: `/anime/${subjectMap[index].path}`, query: { id: $route.query.id } })
+  $router.replace({ path: `/anime/${subjectMap[index].path}`, query: { id: $route.query.id } })
 }
 
 //搜索相关视频并跳转
@@ -122,23 +122,7 @@ const searchVideoByName = async (keyword) => {
     }
   }
 }
-
-.menu {
-  padding: 5px 0;
-  display: flex;
-
-  :last-child {
-    margin-left: auto;
-    vertical-align: text-top;
-
-    &:hover {
-      color: #2E51A2;
-      transition: all 0.3s ease;
-    }
-  }
-
-  span {
-    margin-right: 15px;
-  }
+.content {
+  padding: 10px 5px;
 }
 </style>

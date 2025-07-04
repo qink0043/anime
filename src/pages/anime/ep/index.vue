@@ -31,7 +31,6 @@ const eps = ref([])
 onMounted(async () => {
   const res = await getEpisodesAPI($route.query.id)
   eps.value = res.data
-  console.log(eps.value)
 })
 </script>
 

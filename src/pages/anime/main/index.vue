@@ -37,7 +37,10 @@
           </div>
         </div>
       </div>
-      <div class="charac-title">角色介绍</div>
+      <div class="charac-title">
+        <div class="title-left">角色介绍</div>
+        <div class="title-right" @click="goCharacters">更多→</div>
+      </div>
       <div class="character">
         <div class="charac-info" v-for="item in animeStore.characters.slice(0, 12)">
           <div class="info-left">
@@ -68,14 +71,19 @@ import BarChart from '@/components/barChart/index.vue'
 import BreadCrumb from '@/components/breadCrumb/index.vue'
 import { useAnimeStore } from '@/store/anime'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const $router = useRouter()
+const $route = useRoute()
 const animeStore = useAnimeStore()
 const loading = ref(true)
 //跳转到角色详情
 const toCharacter = (id) => {
   $router.push({ path: '/character', query: { id } })
+}
+//跳转到所有角色
+const goCharacters = () => {
+  $router.push({ path: '/anime/characters', query: { id: $route.query.id } })
 }
 </script>
 
@@ -187,6 +195,14 @@ const toCharacter = (id) => {
     .charac-title {
       font-size: 20px;
       margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+
+      .title-right {
+        font-size: 14px;
+        color: #2E51A2;
+      }
     }
 
     .character {

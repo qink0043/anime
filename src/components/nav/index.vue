@@ -23,9 +23,7 @@ const props = defineProps({
   },
   changeActive: {
     type: Function,
-    default: () => {
-      console.log('changeActive');
-    }
+    default: () => {}
   }
 })
 const updateSelectedIndex = () => {
@@ -50,7 +48,6 @@ const underlinStyle = computed(() => {
 onMounted(async () => {
   await nextTick()
   widths.value = tags.value.map(tag => tag.offsetWidth)
-  console.log(widths.value);
 })
 </script>
 
@@ -59,7 +56,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-bottom: 10px;
 
   .tag-container {
     display: flex;
