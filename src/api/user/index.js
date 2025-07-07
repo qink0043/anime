@@ -34,6 +34,7 @@ export const getUserInfoAPI = async () => {
   }
 }
 
+
 //修改头像
 export const updateAvatarAPI = async (file) => {
   const formData = new FormData()
