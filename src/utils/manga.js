@@ -2,7 +2,7 @@ import axios from "axios";
 import NProgress from "nprogress";
 
 const mangaRequest = axios.create({
-  baseURL: 'https://apis.netstart.cn/bcomic',
+  baseURL: 'http://124.71.198.227:8000',
   timeout: 5000
 })
 
@@ -16,7 +16,9 @@ mangaRequest.interceptors.request.use((config) => {
 
 mangaRequest.interceptors.response.use((response) => {
   NProgress.done()
-  return response.data.data
+  console.log(response.data);
+  
+  return response.data
 }, error => {
   NProgress.done()
   return Promise.reject(new Error(error.message))

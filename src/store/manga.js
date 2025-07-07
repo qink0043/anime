@@ -1,30 +1,34 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { getBannerAPI, getMangaSearchAPI } from "@/api/manga";
+import { getMangaDetailAPI, getEpDetailAPI, getSearchAPI } from "@/api/manga";
 
 export const useMangaStore = defineStore('manga', () => {
-  //搜索结果列表
-  const searchMangaList = ref([])
-  //banner
-  const bannerList = ref([])
-
-  //获取搜索结果
-  const getSearchManga = async (keyWord, styleId) => {
-    if(!keyWord) {
-      return
-    }
-    const res = await getMangaSearchAPI(keyWord, styleId)
-    searchMangaList.value = res.list
+  const mangaDetail = ref({})
+  const epList = ref([])
+  const epDetail = ref({})
+  const searchList = ref([])
+  const getMangaDetail = async (site, id) => {
+    await getMangaDetailAPI(site, id).then(res => {
+      mangaDetail.value = res
+      epList.value = res.chapters
+    })
   }
-  //获取banner
-  const getBanner = async () => {
-    bannerList.value = await getBannerAPI()
+  const getEpDetail = async (site, id, epid) => {
+    await getEpDetailAPI(site, id, epid).then(res => {
+      epDetail.value = res
+    })
   }
-
+  const getSearch = async (site, keyword, limit) => {
+    await getSearchAPI(site, keyword, limit).then(res => {
+      searchList.value = res.search_result
+    })
+  }
   return {
-    searchMangaList,
-    bannerList,
-    getBanner,
-    getSearchManga,
+    mangaDetail,
+    epList,
+    searchList,
+    getMangaDetail,
+    getEpDetail,
+    getSearch
   }
 })

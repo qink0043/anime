@@ -1,65 +1,116 @@
 <template>
   <div class="manga">
-    <div class="banner">
-      <el-carousel :interval="4000" type="card" height="400px" motion-blur cardScale="0.9">
-        <el-carousel-item v-for="item in mangaStore.bannerList" :key="item.id">
-          <img :src="item.img" alt="">
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-    <div class="manga-search">
-      <el-form @submit.prevent="searchManga">
-        <el-input class="input" v-model="input" placeholder="输入漫画关键词" clearable>
-          <template #prefix>
-            <el-icon style="vertical-align: middle">
-              <Search />
-            </el-icon>
+    <div class="top">
+      <div class="manga-search">
+        <el-form @submit.prevent="searchManga">
+          <el-input class="input" v-model="input" placeholder="输入漫画关键词" clearable>
+            <template #prefix>
+              <el-icon style="vertical-align: middle">
+                <Search />
+              </el-icon>
+            </template>
+          </el-input>
+        </el-form>
+      </div>
+      <div class="change-site">
+        <el-dropdown @command="changeSite" trigger="click">
+          <span class="el-dropdown-link">
+            切换站点<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="a">腾讯漫画</el-dropdown-item>
+            </el-dropdown-menu>
           </template>
-        </el-input>
-      </el-form>
+        </el-dropdown>
+      </div>
+    </div>
+    <div class="content">
+      <div class="search-result">
+        <div class="item" v-for="item in mangaStore.searchList" :key="item.comicid">
+          <div class="cover">
+            <img referrerpolicy="no-referrer" :src="item.cover_image_url" alt="">
+          </div>
+          <div class="info">
+            <div class="title">{{ item.name }}</div>
+            <div class="site">来源：{{ item.site }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { useMangaStore } from '@/store/manga';
 import { onMounted, ref } from 'vue';
-import { Search } from '@element-plus/icons-vue'
+import { Search, ArrowDown } from '@element-plus/icons-vue'
 
 const mangaStore = useMangaStore()
 const input = ref('')
 
 const searchManga = async () => {
-  if(!input.value) {
+  if (!input.value) {
     return
   }
-  await mangaStore.getSearchManga(input.value, -1)
+  await mangaStore.getSearch('qq', input.value, 20)
 }
-onMounted(async () => {
-  await mangaStore.getBanner()
+onMounted(() => {
+
 })
 
 </script>
 <style scoped lang="scss">
 .manga {
-  display: flex;
-  flex-direction: column;
+  .top {
+    display: flex;
+    align-items: center;
 
-  .banner {
-    height: 400px;
-
-    .el-carousel__item {
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .manga-search {
+      .input {
+        width: 300px;
       }
     }
   }
 
-  .manga-search {
-    .input {
-      width: 300px;
+  .content {
+    .search-result {
+      display: flex;
+      flex-wrap: wrap;
+
+      .item {
+        width: 18%;
+        margin: 10px;
+
+        .cover {
+          width: 200px;
+          min-height: 200px;
+          border-radius: 5px;
+          overflow: hidden;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .info {
+          .title {
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .site {
+            font-size: 12px;
+            color: #666;
+          }
+        }
+      }
     }
   }
+
 }
 </style>
