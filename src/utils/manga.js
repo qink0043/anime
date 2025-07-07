@@ -16,8 +16,6 @@ mangaRequest.interceptors.request.use((config) => {
 
 mangaRequest.interceptors.response.use((response) => {
   NProgress.done()
-  console.log(response.data);
-  
   return response.data
 }, error => {
   NProgress.done()

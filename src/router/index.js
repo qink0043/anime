@@ -84,6 +84,20 @@ export default createRouter({
       }
     },
     {
+      path: '/mangaDetail',
+      component: () => import('@/pages/mangaDetail/index.vue'),
+      meta: {
+        title: '漫画详情'
+      }
+    },
+    {
+      path: '/mangaRead',
+      component: () => import('@/pages/mangaRead/index.vue'),
+      meta: {
+        title: '漫画阅读'
+      }
+    },
+    {
       path: '/search',
       component: () => import('@/pages/search/index.vue'),
       meta: {

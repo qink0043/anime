@@ -28,7 +28,7 @@
     <div class="content">
       <div class="search-result">
         <div class="item" v-for="item in mangaStore.searchList" :key="item.comicid">
-          <div class="cover">
+          <div class="cover" @click="goDetail(item.comicid)">
             <img referrerpolicy="no-referrer" :src="item.cover_image_url" alt="">
           </div>
           <div class="info">
@@ -44,18 +44,31 @@
 import { useMangaStore } from '@/store/manga';
 import { onMounted, ref } from 'vue';
 import { Search, ArrowDown } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router';
 
 const mangaStore = useMangaStore()
 const input = ref('')
-
+const $router = useRouter()
 const searchManga = async () => {
   if (!input.value) {
     return
   }
   await mangaStore.getSearch('qq', input.value, 20)
 }
-onMounted(() => {
 
+//跳转到漫画详情
+const goDetail = async (comicid) => {
+  await mangaStore.getMangaDetail('qq', comicid)
+  $router.push({
+    path: '/mangaDetail',
+    query: {
+      comicid
+    }
+  })
+}
+
+onMounted(() => {
+  
 })
 
 </script>
@@ -87,6 +100,10 @@ onMounted(() => {
           border-radius: 5px;
           overflow: hidden;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+          &:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+          }
 
           img {
             width: 100%;
