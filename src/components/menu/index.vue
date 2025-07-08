@@ -32,9 +32,9 @@ const menus = [
   {
     title: '漫画',
     items: [{ name: '兴趣推荐', path: '/manga' },
-    { name: '论坛', path: '/topanime' },
-    { name: '博客', path: '/watch/esicope' },
-    { name: '用户', path: '/reviews' }]
+    { name: '论坛', path: '/manga' },
+    { name: '博客', path: '/manga' },
+    { name: '用户', path: '/manga' }]
   },
   {
     title: '社区',
