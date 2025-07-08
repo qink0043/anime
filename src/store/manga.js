@@ -3,35 +3,34 @@ import { ref } from "vue";
 import { getMangaDetailAPI, getEpDetailAPI, getSearchAPI } from "@/api/manga";
 
 export const useMangaStore = defineStore('manga', () => {
-  const mangaDetail = ref({})
+  const epList = ref({})
   const epDetail = ref({})
   const searchList = ref([])
-  const getMangaDetail = async (site, id) => {
-    await getMangaDetailAPI(site, id).then(res => {
-      mangaDetail.value = res
+  const getEpList = async (url) => {
+    await getMangaDetailAPI(url).then(res => {
+      epList.value = res.data
     })
   }
-  const getEpDetail = async (site, id, epid) => {
-    await getEpDetailAPI(site, id, epid).then(res => {
-      epDetail.value = res
+  const getEpDetail = async (chapterUrl) => {
+    await getEpDetailAPI(chapterUrl).then(res => {
+      epDetail.value = res.data
     })
   }
-  const getSearch = async (site, keyword, limit) => {
-    await getSearchAPI(site, keyword, limit).then(res => {
-      if(res.search_result.length === 0) {
-        ElMessage({
-          message: '没有搜索到结果',
-          type: 'warning'
-        })
-      }
-      searchList.value = res.search_result
+  const getSearch = async (keyword) => {
+    await getSearchAPI(keyword).then(res => {
+      searchList.value = res.data
+    }).catch(err => {
+      ElMessage({
+        message: err.message,
+        type: 'error'
+      })
     })
   }
   return {
-    mangaDetail,
+    epList,
     searchList,
     epDetail,
-    getMangaDetail,
+    getEpList,
     getEpDetail,
     getSearch
   }

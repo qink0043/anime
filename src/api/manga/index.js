@@ -1,7 +1,7 @@
 import mangaRequest from "@/utils/manga";
 
-export const getMangaDetailAPI = (site, id) => mangaRequest.get(`/comic/${site}/${id}`)
+export const getMangaDetailAPI = (url) => mangaRequest.get(`/chapters/?comicUrl=${url}`)
 
-export const getEpDetailAPI = (site, id, epid) => mangaRequest.get(`/comic/${site}/${id}/${epid}`)
+export const getEpDetailAPI = (chapterUrl) => mangaRequest.get(`/images?chapterUrl=${chapterUrl}`)
 
-export const getSearchAPI = (site, keyword, limit) => mangaRequest.get(`/search/${site}?name=${keyword}&limit=${limit}`)
+export const getSearchAPI = (keyword) => mangaRequest.get(`/search?keyword=${keyword}`)

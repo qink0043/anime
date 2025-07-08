@@ -2,7 +2,7 @@ import axios from "axios";
 import NProgress from "nprogress";
 
 const mangaRequest = axios.create({
-  baseURL: 'http://124.71.198.227:8000',
+  baseURL: 'http://124.71.198.227:3000/api/manga',
   timeout: 5000
 })
 

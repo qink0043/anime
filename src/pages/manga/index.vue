@@ -12,29 +12,16 @@
           </el-input>
         </el-form>
       </div>
-      <div class="change-site">
-        <el-dropdown @command="changeSite" trigger="click">
-          <span class="el-dropdown-link">
-            切换站点<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="a">腾讯漫画</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
     </div>
     <div class="content">
       <div class="search-result">
-        <div class="item" v-for="item in mangaStore.searchList" :key="item.comicid">
-          <div class="cover" @click="goDetail(item.comicid)">
-            <img referrerpolicy="no-referrer" :src="item.cover_image_url" alt="">
+        <div class="item" v-for="item in mangaStore.searchList" :key="item.url">
+          <div class="cover" @click="goDetail(item.url)">
+            <img referrerpolicy="no-referrer" :src="item.cover" alt="">
           </div>
           <div class="info">
             <div class="title">{{ item.name }}</div>
-            <div class="site">来源：{{ item.site }}</div>
-          </div>
+          </div>  
         </div>
       </div>
     </div>
@@ -43,7 +30,7 @@
 <script setup>
 import { useMangaStore } from '@/store/manga';
 import { onMounted, ref } from 'vue';
-import { Search, ArrowDown } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 
 const mangaStore = useMangaStore()
@@ -53,16 +40,16 @@ const searchManga = async () => {
   if (!input.value) {
     return
   }
-  await mangaStore.getSearch('qq', input.value, 20)
+  await mangaStore.getSearch(input.value)
 }
 
 //跳转到漫画详情
-const goDetail = async (comicid) => {
-  await mangaStore.getMangaDetail('qq', comicid)
+const goDetail = async (url) => {
+  await mangaStore.getEpList(url)
   $router.push({
     path: '/mangaDetail',
     query: {
-      comicid
+      url
     }
   })
 }
@@ -95,8 +82,8 @@ onMounted(() => {
         margin: 10px;
 
         .cover {
-          width: 200px;
-          min-height: 200px;
+          width: 100%;
+          aspect-ratio: 9/16;
           border-radius: 5px;
           overflow: hidden;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -118,11 +105,6 @@ onMounted(() => {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-          }
-
-          .site {
-            font-size: 12px;
-            color: #666;
           }
         }
       }

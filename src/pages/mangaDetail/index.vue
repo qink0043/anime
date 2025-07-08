@@ -2,21 +2,16 @@
   <div class="manga-detail">
     <div class="left">
       <div class="cover">
-        <img referrerpolicy="no-referrer" :src="mangaStore.mangaDetail.cover_image_url" alt="">
+        <img referrerpolicy="no-referrer" src="" alt="">
       </div>
-      <div class="title">{{ mangaStore.mangaDetail.name }}</div>
-      <div class="author">作者：{{ mangaStore.mangaDetail.author }}</div>
-      <div class="site">来源：{{ mangaStore.mangaDetail.source_name }}</div>
-      <div class="desc">简介：{{ mangaStore.mangaDetail.desc }}</div>
-      <div class="crawl">更新时间：{{ mangaStore.mangaDetail.crawl_time }}</div>
-      <div class="tag">标签：{{ mangaStore.mangaDetail.tag }}</div>
+      <div class="title">名字</div>
     </div>
     <div class="right">
       <div class="chapter">
         <div class="chapter-title">章节列表</div>
         <div class="chapter-list">
-          <div class="chapter-item" v-for="item in mangaStore.mangaDetail.chapters" :key="item.chapter_number" @click="goRead(item.chapter_number)">
-            <div class="chapter-name">{{ item.title }}</div>
+          <div class="chapter-item" v-for="item in mangaStore.epList" :key="item.name" @click="goRead(item.url)">
+            <div class="chapter-name">{{ item.name }}</div>
           </div>
         </div>
       </div>
@@ -32,20 +27,19 @@ const $route = useRoute();
 const $router = useRouter();
 
 //跳转阅读
-const goRead = async (chapter_number) => {
-  await mangaStore.getEpDetail('qq', $route.query.comicid, chapter_number);
+const goRead = async (url) => {
+  await mangaStore.getEpDetail(url);
   $router.push({
     path: '/mangaRead',
     query: {
-      comicid: $route.query.comicid,
-      chapter_number: chapter_number
+      url: url
     }
   })
 }
 onMounted(() => {
   //如果没有数据则加载数据
-  if (Object.keys(mangaStore.mangaDetail).length === 0) {
-    mangaStore.getMangaDetail('qq', $route.query.comicid);
+  if (mangaStore.epList.length === 0) {
+    mangaStore.getEpList($route.query.url);
   }
 })
 </script>

@@ -2,7 +2,7 @@
   <div class="manga-read-container">
     <div class="title">{{ mangaStore.epDetail.title }}</div>
     <div class="content" ref="contentRef">
-      <div class="item" v-for="(url, index) in mangaStore.epDetail.image_urls" :key="index"
+      <div class="item" v-for="(url, index) in mangaStore.epDetail" :key="index"
         :ref="el => { if (el) imageRefs[index] = el }">
         <img referrerpolicy="no-referrer" :src="url" alt="">
       </div>
