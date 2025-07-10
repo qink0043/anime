@@ -1,7 +1,7 @@
 import novelRequest from "@/utils/novel";
 
 //搜索书籍
-export const getSearchAPI = (keyword) => novelRequest.get(`/search?keyword=${keyword}`)
+export const getSearchAPI = (keyword) => novelRequest.get(`/search?key=${keyword}`)
 
 //获取书籍详情
 export const getNovelDetailAPI = (url) => novelRequest.get(`/book?url=${url}`)

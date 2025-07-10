@@ -105,6 +105,13 @@ export default createRouter({
       }
     },
     {
+      path: '/novelDetail',
+      component: () => import('@/pages/novelDetail/index.vue'),
+      meta: {
+        title: '小说详情'
+      }
+    },
+    {
       path: '/search',
       component: () => import('@/pages/search/index.vue'),
       meta: {

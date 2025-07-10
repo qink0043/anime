@@ -9,22 +9,22 @@ export const useNovelStore = defineStore('novel', () => {
   const content = ref('')
   const getSearch = async (keyword) => {
     await getSearchAPI(keyword).then(res => {
-      searchResult.value = res.data
+      searchResult.value = res
     })
   }
   const getDetail = async (url) => {
     await getNovelDetailAPI(url).then(res => {
-      detail.value = res.data
+      detail.value = res
     })
   }
   const getTocList = async (url) => {
     await getNovelTocAPI(url).then(res => {
-      tocList.value = res.data
+      tocList.value = res
     })
   }
   const getContent = async (url) => {
     await getNovelContentAPI(url).then(res => {
-      content.value = res.data
+      content.value = res
     })
   }
   return {

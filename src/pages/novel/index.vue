@@ -21,7 +21,10 @@
           </div>
           <div class="info">
             <div class="title">{{ item.name }}</div>
-          </div>  
+            <div class="author">作者：{{ item.author }}</div>
+            <div class="type">类型：{{ item.kind }}</div>
+            <div class="lastChapter">最新章：{{ item.lastChapter }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -45,18 +48,21 @@ const searchNovel = async () => {
 
 //跳转到小说详情
 const goDetail = async (url) => {
+  await novelStore.getDetail(url)
   await novelStore.getTocList(url)
   $router.push({
     path: '/novelDetail',
     query: {
-      url
+      url: url
     }
   })
 }
 
-onMounted(() => {
-  
-})
+/* onMounted(() => {
+  if (novelStore.searchResult.length === 0) {
+    novelStore.getSearch('');
+  }
+}) */
 
 </script>
 <style scoped lang="scss">

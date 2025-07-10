@@ -1,5 +1,6 @@
 import axios from "axios";
 import NProgress from "nprogress";
+import { ElMessage } from 'element-plus';
 
 const novelRequest = axios.create({
   baseURL: 'http://124.71.198.227:3000/api/novel',
@@ -11,6 +12,10 @@ novelRequest.interceptors.request.use((config) => {
   return config
 }, error => {
   NProgress.done()
+  ElMessage({
+    message: error.message,
+    type: 'error'
+  })
   return Promise.reject(new Error(error.message))
 })
 
@@ -19,6 +24,10 @@ novelRequest.interceptors.response.use((response) => {
   return response.data
 }, error => {
   NProgress.done()
+  ElMessage({
+    message: error.message,
+    type: 'error'
+  })
   return Promise.reject(new Error(error.message))
 })
 
