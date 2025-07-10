@@ -112,6 +112,13 @@ export default createRouter({
       }
     },
     {
+      path: '/novelRead',
+      component: () => import('@/pages/novelRead/index.vue'),
+      meta: {
+        title: '小说阅读'
+      }
+    },
+    {
       path: '/search',
       component: () => import('@/pages/search/index.vue'),
       meta: {

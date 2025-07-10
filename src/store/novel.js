@@ -7,6 +7,7 @@ export const useNovelStore = defineStore('novel', () => {
   const detail = ref({})
   const tocList = ref([])
   const content = ref('')
+  const currentTocIndex = ref(0)
   const getSearch = async (keyword) => {
     await getSearchAPI(keyword).then(res => {
       searchResult.value = res
@@ -27,14 +28,22 @@ export const useNovelStore = defineStore('novel', () => {
       content.value = res
     })
   }
+  const getMore = async (url) => {
+    await getNovelContentAPI(url).then(res => {
+      content.value.content += res.content
+      content.value.nextUrl = res.nextUrl
+    })
+  }
   return {
     searchResult,
     detail,
     tocList,
     content,
+    currentTocIndex,
     getSearch,
     getDetail,
     getTocList,
-    getContent
+    getContent,
+    getMore
   }
 })
