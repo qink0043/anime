@@ -98,6 +98,13 @@ export default createRouter({
       }
     },
     {
+      path: '/novel',
+      component: () => import('@/pages/novel/index.vue'),
+      meta: {
+        title: '小说'
+      }
+    },
+    {
       path: '/search',
       component: () => import('@/pages/search/index.vue'),
       meta: {

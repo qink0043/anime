@@ -37,11 +37,11 @@ const menus = [
     { name: '用户', path: '/manga' }]
   },
   {
-    title: '社区',
-    items: [{ name: '动漫搜索', path: '/anime/search' },
-    { name: '热门动漫', path: '/topanime' },
-    { name: '视频', path: '/watch/esicope' },
-    { name: '评论', path: '/reviews' }]
+    title: '小说',
+    items: [{ name: '小说', path: '/novel' },
+    { name: '小说', path: '/novel' },
+    { name: '小说', path: '/novel' },
+    { name: '小说', path: '/novel' }]
   },
   {
     title: '帮助',
