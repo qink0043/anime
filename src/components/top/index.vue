@@ -92,7 +92,7 @@ onMounted(() => {
   token.value = localStorage.getItem('token')
   if (token.value) {
     userStore.token = token.value
-    userStore.getMe()
+    userStore.getUserInfo()
     token.value = userStore.token
   }
 })

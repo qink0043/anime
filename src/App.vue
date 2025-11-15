@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <Top />
-    <div v-show="!userStore.loading" class="content">
       <router-view></router-view>
-    </div>
     <!-- <Bottom /> -->
     <Form v-if="userStore.formVisible" />
     <imageUpload v-if="animeStore.imageUploadVisible" />
